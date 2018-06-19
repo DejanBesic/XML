@@ -59,7 +59,9 @@ export const onLogoutFailure = () =>
 export const onLogout = () => (dispatch, getState) => {
     if(getState().authentication.user) {
         dispatch(onLogoutStart());
-        fetchLogout()
+
+        const token = getState().authentication.token.accessToken;
+        fetchLogout(token)
         .then((response) => {
             if(response.data){
                 setAuthorizationToken();

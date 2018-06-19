@@ -1,7 +1,8 @@
 import {
     GetAppointmentsStart,
     GetAppointmentsSuccess,
-    GetAppointmentsFailure
+    GetAppointmentsFailure,
+    ReservationSuccess
 } from '../actions/facility';
 
 export const initialState = {
@@ -33,6 +34,12 @@ export default function(state = initialState, action) {
                 isLoading: false,
                 error: action.payload,
             };
+
+        case ReservationSuccess:
+            return {
+                ...state,
+                appointments: action.payload,
+            }
 
         default: 
             return state;

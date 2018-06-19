@@ -32,16 +32,22 @@ export const onReservationStart = () =>
     ({ type: ReservationStart })
 
 export const ReservationSuccess = "ReservationSuccess";
-export const onReservationSuccess = () => 
-    ({ type: ReservationSuccess })
+export const onReservationSuccess = (facilities) => 
+    ({ payload: facilities, type: ReservationSuccess })
 
 export const ReservationFailure = "ReservationFailure";
 export const onReservationFailure = () => 
     ({ type: ReservationFailure })
 
-export const onReservation = (reservation) => (dispatch) => {
+export const onReservation = (reservation) => (dispatch, getState) => {
     dispatch(onReservationStart());
-    fetchReservation(reservation)
-        .then(response => dispatch(onReservationSuccess(response)))
-        .catch(error => dispatch(onReservationFailure(error)));
+
+    const token = getState().authentication.token.accessToken;
+    fetchReservation(reservation, token)
+        .then(() => {
+            const appointments = getState().appointments.appointments;
+            dispatch(onReservationSuccess(appointments.filter((facility) => reservation.facilityId !== facility.facility.id)))
+            alert('Successfully reserved.')
+        })
+        .catch(() => alert('Failed to reserve.'));
 }

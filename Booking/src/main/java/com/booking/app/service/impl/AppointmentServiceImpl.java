@@ -69,40 +69,40 @@ public class AppointmentServiceImpl implements AppointmentService{
 			
 			int startDate = start.compareTo(a.getFromDate()); 
 			int endDate = end.compareTo(a.getToDate());
-			int startEndDate = start.compareTo(a.getToDate());
+//			int startEndDate = start.compareTo(a.getToDate());
 			
 			//ako se nalazi unutar jednog termina
 			if (startDate >= 0 && endDate <= 0) {
 				price = (int) (a.getPrice() * ((int)((end.getTime()/dayMili) - (start.getTime()/dayMili))));
-				searchList.add(new SearchDTO(a.getFacility(), price, start, end));
-				
-			//ako se pocetak nalazi unutar jednog termina a kraj unutar drugog
-			} else if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {
-				//oduzimam od tekuceg appointmenta - datum pocetka requesta
-				price += (int) (a.getPrice() * ((int)((a.getToDate().getTime()/dayMili) - (start.getTime()/dayMili))));
-				Date newStartDate = new Date(a.getToDate().getTime() + dayMili);
-				
-				for (Appointment app : appointments) {
-					if (a.getFacility() == app.getFacility() && !searchList.stream().anyMatch(search -> search.getFacility() == app.getFacility()) && a != app){
-						
-						endDate = end.compareTo(app.getToDate());
-						startDate = newStartDate.compareTo(app.getFromDate());
-						startEndDate = newStartDate.compareTo(app.getToDate());
-						
-						//kraj pretrage kada udje ovde, ako ne udje nece biti dodat u listu i nece biti prikazan
-						if (startDate >=0 && endDate <= 0) {
-							price += (int) (app.getPrice() * ((int)(((end.getTime()+dayMili)/dayMili) - (newStartDate.getTime()/dayMili))));
-							searchList.add(new SearchDTO(app.getFacility(), price, start, end));
-						}
-						
-						//nastavlja pretragu
-						if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {
-							price += (int) (app.getPrice() * ((int)(((app.getToDate().getTime()+dayMili)/dayMili) - (newStartDate.getTime()/dayMili))));
-							newStartDate = new Date(app.getToDate().getTime() + dayMili);
-						}
-					}
-				}
+				searchList.add(new SearchDTO(a.getFacility(), price, start, end));				
 			}
+			//ako se pocetak nalazi unutar jednog termina a kraj unutar drugog
+//			else if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {
+//				//oduzimam od tekuceg appointmenta - datum pocetka requesta
+//				price += (int) (a.getPrice() * ((int)((a.getToDate().getTime()/dayMili) - (start.getTime()/dayMili))));
+//				Date newStartDate = new Date(a.getToDate().getTime() + dayMili);
+//				
+//				for (Appointment app : appointments) {
+//					if (a.getFacility() == app.getFacility() && !searchList.stream().anyMatch(search -> search.getFacility() == app.getFacility()) && a != app){
+//						
+//						endDate = end.compareTo(app.getToDate());
+//						startDate = newStartDate.compareTo(app.getFromDate());
+//						startEndDate = newStartDate.compareTo(app.getToDate());
+//						
+//						//kraj pretrage kada udje ovde, ako ne udje nece biti dodat u listu i nece biti prikazan
+//						if (startDate >=0 && endDate <= 0) {
+//							price += (int) (app.getPrice() * ((int)(((end.getTime()+dayMili)/dayMili) - (newStartDate.getTime()/dayMili))));
+//							searchList.add(new SearchDTO(app.getFacility(), price, start, end));
+//						}
+//						
+//						//nastavlja pretragu
+//						if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {
+//							price += (int) (app.getPrice() * ((int)(((app.getToDate().getTime()+dayMili)/dayMili) - (newStartDate.getTime()/dayMili))));
+//							newStartDate = new Date(app.getToDate().getTime() + dayMili);
+//						}
+//					}
+//				}
+//			}
 		}
 		
 		return searchList;
