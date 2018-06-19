@@ -1,7 +1,9 @@
 package com.booking.app.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,12 +26,28 @@ public class Reservation implements Serializable {
 	private User guest;
 	
 	@ManyToOne(optional = false)
-	private Appointment appointment;
+	private Facility facility;
+	
+	@Column(nullable = false)
+	private Date fromDate;
+	
+	@Column(nullable = false)
+	private Date toDate;
+	
+	@Column(nullable = false)
+	private int price;
 
-	public Reservation(User guest, Appointment appointment) {
+	public Reservation() {
+		
+	}
+	
+	public Reservation(User guest, Facility facility, Date fromDate, Date toDate, int price) {
 		super();
 		this.guest = guest;
-		this.appointment = appointment;
+		this.facility = facility;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+		this.price = price;
 	}
 
 	public Long getId() {
@@ -48,13 +66,39 @@ public class Reservation implements Serializable {
 		this.guest = guest;
 	}
 
-	public Appointment getAppointment() {
-		return appointment;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
+	public void setPrice(int price) {
+		this.price = price;
 	}
+
+	public Facility getFacility() {
+		return facility;
+	}
+
+	public void setFacility(Facility facility) {
+		this.facility = facility;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}	
 	
+	
+
 	
 }

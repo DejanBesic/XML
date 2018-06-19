@@ -19,3 +19,6 @@ export const fetchAppointments = () =>
 
 export const fetchSearch = (form) => 
     (axios.post(`${baseUrl}/api/facility/search`, form))
+
+export const fetchReservation = (reservation) =>
+    (axios.post(`${baseUrl}/reservation`, reservation))

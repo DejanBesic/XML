@@ -14,7 +14,7 @@ export class Appointment extends Component {
         return(
             <div className="appointment row" >
                 <div className="header" style={{fontSize: 20}}>
-                    {`${this.props.appointment.appointment.facility.name} - from 
+                    {`${this.props.appointment.facility.name} - from 
                     ${this.formatDate(this.props.appointment.startDate)} to
                     ${this.formatDate(this.props.appointment.endDate)}`}
                 </div>
@@ -22,62 +22,68 @@ export class Appointment extends Component {
                 <div className="col-6">
                     <ul className="ul">
                         <li>
-                            {`Location: ${this.props.appointment.appointment.facility.location.name}`}
+                            {`Location: ${this.props.appointment.facility.location.name}`}
                         </li>
                         <li>
-                            {`Address: ${this.props.appointment.appointment.facility.address}`}
+                            {`Address: ${this.props.appointment.facility.address}`}
                         </li>
                         <li>
-                            {`Beds available: ${this.props.appointment.appointment.facility.numberOfPeople}`}
+                            {`Beds available: ${this.props.appointment.facility.numberOfPeople}`}
                         </li>
                         <li>
-                            {`Type: ${this.props.appointment.appointment.facility.type.name}`}
+                            {`Type: ${this.props.appointment.facility.type.name}`}
                         </li>
                         <li>
-                            {`Stars: ${this.props.appointment.appointment.facility.category}`}
+                            {`Stars: ${this.props.appointment.facility.category}`}
                         </li>
                         <li>
-                            {`Price: ${this.props.appointment.appointment.price}`}
+                            {`Price: ${this.props.appointment.price}`}
+                        </li>
+                        <li>
+                            {`Description: ${this.props.appointment.facility.description}`}
                         </li>
                     </ul>
                 </div>
-                <div className="col-3">
+                <div className="col-2">
                 {'Additional services: '}
                     <ul>
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.parkingLot} 
+                            service={this.props.appointment.facility.parkingLot} 
                             name="Parking Lot" 
                         />
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.wifi} 
+                            service={this.props.appointment.facility.wifi} 
                             name="Wi-Fi" 
                         />
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.breakfast}
+                            service={this.props.appointment.facility.breakfast}
                             name="Breakfast" 
                         />
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.halfBoard} 
+                            service={this.props.appointment.facility.halfBoard} 
                             name="Half board" 
                         />
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.fullBoard}
+                            service={this.props.appointment.facility.fullBoard}
                             name="Full board"     
                         />
                             
                         <AdditionalService 
-                            service={this.props.appointment.appointment.facility.tv} 
+                            service={this.props.appointment.facility.tv} 
                             name="TV" 
                         />
                         <AdditionalService
-                            service={this.props.appointment.appointment.facility.kitchen} 
+                            service={this.props.appointment.facility.kitchen} 
                             name="Kitchen" 
                         />
                         <AdditionalService
-                            service={this.props.appointment.appointment.facility.bathroom}
+                            service={this.props.appointment.facility.bathroom}
                             name="Private bathroom" 
                         />
                     </ul>
+                </div>
+                <div className="col-1">
+                    <button className="reserve-button" onClick={() => this.props.onClick()}>Reserve</button>
                 </div>
             </div>
         );

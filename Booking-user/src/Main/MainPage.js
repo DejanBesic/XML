@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-// import { getFacilities } from '../store/actions/facility';
+import { onReservation } from '../store/actions/facility';
 import Appointment from './Appointment';
 import SearchForm from './SearchForm';
 
@@ -18,9 +17,19 @@ class MainPage extends Component {
                         <h3 style={{margin: 20}}>Search results: </h3> : null
                     }
                 
-                    {this.props.appointment ?
+                    {this.props.appointments ?
                         this.props.appointments.map(appointment =>
-                            <Appointment key={appointment.appointment.id} appointment={appointment} />
+                            <Appointment 
+                                key={appointment.facility.id} 
+                                appointment={appointment} 
+                                onClick={() => this.props.reserve(
+                                                                {   facilityId: appointment.facility.id,
+                                                                    endDate: appointment.endDate,
+                                                                    startDate: appointment.startDate,
+                                                                    price: appointment.price
+                                                                })
+                                        }
+                            />
                         )
                     : null }
                 </div>
@@ -29,11 +38,8 @@ class MainPage extends Component {
     }
 }
 
-MainPage.propTypes = {
-}
-
 const mapDispatch = dispatch => ({
-   
+   reserve: (facilityId) => dispatch(onReservation(facilityId))
 });
 
 const mapState = (state) => ({

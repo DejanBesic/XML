@@ -1,4 +1,4 @@
-import { fetchSearch, fetchAppointments } from '../../api';
+import { fetchSearch, fetchAppointments, fetchReservation } from '../../api';
 
 export const GetAppointmentsStart = "GetAppointmentsStart";
 export const onGetFacilitesStart = () => 
@@ -25,4 +25,23 @@ export const search = (form) => (dispatch) => {
     fetchSearch(form)
         .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));
+}
+
+export const ReservationStart = "ReservationStart";
+export const onReservationStart = () => 
+    ({ type: ReservationStart })
+
+export const ReservationSuccess = "ReservationSuccess";
+export const onReservationSuccess = () => 
+    ({ type: ReservationSuccess })
+
+export const ReservationFailure = "ReservationFailure";
+export const onReservationFailure = () => 
+    ({ type: ReservationFailure })
+
+export const onReservation = (reservation) => (dispatch) => {
+    dispatch(onReservationStart());
+    fetchReservation(reservation)
+        .then(response => dispatch(onReservationSuccess(response)))
+        .catch(error => dispatch(onReservationFailure(error)));
 }

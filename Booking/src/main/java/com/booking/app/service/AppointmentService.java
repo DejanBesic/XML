@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.booking.app.DTOs.SearchDTO;
 import com.booking.app.DTOs.SearchRequest;
-import com.booking.app.DTOs.SearchResponse;
 import com.booking.app.model.Appointment;
 
 public interface AppointmentService {
