@@ -32,7 +32,7 @@ class SearchForm extends Component {
             endDate: null,
             people: 0,
             location: "",
-            type: "",
+            type: "-1",
             category: "-1",
             parking: false,
             wifi: false,

@@ -20,8 +20,13 @@ export const getAppointments = () => (dispatch) => {
         .catch((error) => dispatch(onGetFacilitesFailure(error)));
 }
 
+export const SaveForm = "SaveForm";
+export const onSaveForm = (form) => 
+    ({ payload: form, type: SaveForm})
+
 export const search = (form) => (dispatch) => {
     dispatch(onGetFacilitesStart());
+    dispatch(onSaveForm(form));
     fetchSearch(form)
         .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));

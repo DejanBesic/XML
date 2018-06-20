@@ -12,6 +12,7 @@ import com.booking.app.DTOs.SearchDTO;
 import com.booking.app.DTOs.SearchRequest;
 import com.booking.app.model.Appointment;
 import com.booking.app.model.Facility;
+import com.booking.app.model.Reservation;
 import com.booking.app.repository.AppointmentRepository;
 import com.booking.app.service.AppointmentService;
 
@@ -20,6 +21,9 @@ public class AppointmentServiceImpl implements AppointmentService{
 
 	@Autowired
 	AppointmentRepository appointmentRepository;
+	
+	@Autowired
+	ReservationServiceImpl reservationService;
 	
 	@Autowired
 	FacilityServiceImpl facilityService;
@@ -69,10 +73,26 @@ public class AppointmentServiceImpl implements AppointmentService{
 			
 			int startDate = start.compareTo(a.getFromDate()); 
 			int endDate = end.compareTo(a.getToDate());
+			
+			List<Reservation> reservations = reservationService.findByFacility(a.getFacility());
+			boolean permission = true;
+			for (Reservation r : reservations) {
+				int fromDate1 = r.getFromDate().compareTo(start);
+				int fromDate2 = r.getFromDate().compareTo(end);
+				
+				int toDate1 = r.getToDate().compareTo(start);
+				int toDate2 = r.getToDate().compareTo(end);
+				
+				if ((fromDate1 >= 0 && fromDate2 <= 0 ) || (toDate1 >= 0 && toDate2 <= 0)) {
+					permission = false;
+				}
+			}
+			
+			
 //			int startEndDate = start.compareTo(a.getToDate());
 			
 			//ako se nalazi unutar jednog termina
-			if (startDate >= 0 && endDate <= 0) {
+			if (startDate >= 0 && endDate <= 0 && permission) {
 				price = (int) (a.getPrice() * ((int)((end.getTime()/dayMili) - (start.getTime()/dayMili))));
 				searchList.add(new SearchDTO(a.getFacility(), price, start, end));				
 			}

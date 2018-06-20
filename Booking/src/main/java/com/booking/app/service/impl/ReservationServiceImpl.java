@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booking.app.model.Facility;
 import com.booking.app.model.Reservation;
 import com.booking.app.repository.ReservationRepository;
 import com.booking.app.service.ReservationService;
@@ -33,6 +34,11 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public void delete(Long id) {
 		reservationRepository.delete(id);
+	}
+
+	@Override
+	public List<Reservation> findByFacility(Facility facility) {
+		return reservationRepository.findByFacility(facility);
 	}
 	
 }

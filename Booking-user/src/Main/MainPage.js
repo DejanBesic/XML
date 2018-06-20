@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { onReservation } from '../store/actions/facility';
+import { onReservation, search } from '../store/actions/facility';
 import Appointment from './Appointment';
 import SearchForm from './SearchForm';
 
 
 class MainPage extends Component {
+    componentWillMount() {
+        if (this.props.form.form) {
+            this.props.search(this.props.form.form);
+        }
+    }
+
     render() {
         return (
             <div className="row">
@@ -39,11 +45,13 @@ class MainPage extends Component {
 }
 
 const mapDispatch = dispatch => ({
-   reserve: (facilityId) => dispatch(onReservation(facilityId))
+   reserve: (facilityId) => dispatch(onReservation(facilityId)),
+   search: (form) => dispatch(search(form))
 });
 
 const mapState = (state) => ({
     appointments: state.appointments.appointments,
+    form: state.searchForm,
 });
 
 export default connect(mapState, mapDispatch)(MainPage);
