@@ -8,6 +8,7 @@ import Header from './Shared/Header';
 import LoginPage from './Authentication/LoginPage';
 import MainPage from './Main/MainPage';
 import RegistrationPage from './Authentication/RegistrationPage'
+import ReservationsPage from './Reservations/ReservationsPage';
 
 
 class App extends Component {  
@@ -22,6 +23,7 @@ class App extends Component {
                 <Route path="/main" component={MainPage}/>
                 <Route path="/login" component={LoginPage}/>
                 <Route path="/register" component={RegistrationPage}/>
+                <Route path="/reservations" component={ReservationsPage}/>
               </div>
             </Router>
           </PersistGate>

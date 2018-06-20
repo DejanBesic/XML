@@ -32,8 +32,8 @@ class SearchForm extends Component {
             endDate: null,
             people: 0,
             location: "",
-            type: "",
-            category: "",
+            type: "-1",
+            category: "-1",
             parking: false,
             wifi: false,
             breakfast: false,
@@ -80,7 +80,7 @@ class SearchForm extends Component {
             focused, ...form
         } = this.state;
         return(
-            <div className="col-9" style={{paddingTop: 50}}  >
+            <div className="col-11" style={{paddingTop: 50}}  >
                  <Form
                     style={{textAlign: 'center'}}
                     className="demoForm container"
@@ -183,7 +183,7 @@ class SearchForm extends Component {
 
                     { /* HALFBOARD */ }
                     <div className="form-group" style={{textAlign: 'left'}}>
-                        <label className="checkbox-container">Halfboard
+                        <label className="checkbox-container">Half board
                             <input type="checkbox" value={this.state.halfBoard} onChange={this.onHalfBoardChange}/>
                             <span className="checkmark"></span>
                         </label>
@@ -191,7 +191,7 @@ class SearchForm extends Component {
 
                     { /* FULLBOARD */ }
                     <div className="form-group" style={{textAlign: 'left'}}>
-                        <label className="checkbox-container">Fullboard
+                        <label className="checkbox-container">Full board
                             <input type="checkbox" value={this.state.fullBoard} onChange={this.onFullBoardChange}/>
                             <span className="checkmark"></span>
                         </label>

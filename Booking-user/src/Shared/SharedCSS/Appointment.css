@@ -1,5 +1,32 @@
 .appointment {
     width: 100%;
     border: solid 1px black;
-    margin-top: 80px;
+    margin-top: 30px;
+    border-radius: 7px;
+}
+
+.header {
+    width: 100%;
+    background-color: #428bca;
+    color: black;
+    text-align: center;
+    font-size: 22;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.ul {
+    list-style-type: none;
+}
+
+.reserve-button {
+    border: 1px solid black;
+    background-color: #428bca;
+    width: 100%;
+    right: 0;
+    position: absolute;
+}
+
+.reserve-button:hover {
+    background-color: rgb(93, 183, 243);
 }

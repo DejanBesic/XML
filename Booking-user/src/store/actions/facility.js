@@ -1,4 +1,4 @@
-import { fetchSearch, fetchAppointments } from '../../api';
+import { fetchSearch, fetchAppointments, fetchReservation } from '../../api';
 
 export const GetAppointmentsStart = "GetAppointmentsStart";
 export const onGetFacilitesStart = () => 
@@ -20,9 +20,39 @@ export const getAppointments = () => (dispatch) => {
         .catch((error) => dispatch(onGetFacilitesFailure(error)));
 }
 
+export const SaveForm = "SaveForm";
+export const onSaveForm = (form) => 
+    ({ payload: form, type: SaveForm})
+
 export const search = (form) => (dispatch) => {
     dispatch(onGetFacilitesStart());
+    dispatch(onSaveForm(form));
     fetchSearch(form)
         .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
         .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));
+}
+
+export const ReservationStart = "ReservationStart";
+export const onReservationStart = () => 
+    ({ type: ReservationStart })
+
+export const ReservationSuccess = "ReservationSuccess";
+export const onReservationSuccess = (facilities) => 
+    ({ payload: facilities, type: ReservationSuccess })
+
+export const ReservationFailure = "ReservationFailure";
+export const onReservationFailure = () => 
+    ({ type: ReservationFailure })
+
+export const onReservation = (reservation) => (dispatch, getState) => {
+    dispatch(onReservationStart());
+
+    const token = getState().authentication.token.accessToken;
+    fetchReservation(reservation, token)
+        .then(() => {
+            const appointments = getState().appointments.appointments;
+            dispatch(onReservationSuccess(appointments.filter((facility) => reservation.facilityId !== facility.facility.id)))
+            alert('Successfully reserved.')
+        })
+        .catch(() => alert('Failed to reserve.'));
 }
