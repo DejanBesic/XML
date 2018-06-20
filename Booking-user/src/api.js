@@ -21,4 +21,10 @@ export const fetchSearch = (form) =>
     (axios.post(`${baseUrl}/api/facility/search`, form))
 
 export const fetchReservation = (reservation, token) =>
-    (axios.post(`${baseUrl}/reservation`, reservation, {headers: { Authorization: `Bearer ${token}` }}))
+    (axios.post(`${baseUrl}/reservation`, reservation, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchReservations = (token) =>
+    (axios.get(`${baseUrl}/reservation`, {headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchDeleteReservation = (reservationId, token) =>
+    (axios.delete(`${baseUrl}/reservation/delete/${reservationId}`, { headers: { Authorization: `Bearer ${token}` }}))

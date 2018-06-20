@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.booking.app.model.Facility;
 import com.booking.app.model.Reservation;
+import com.booking.app.model.User;
 
 public interface ReservationService {
 
@@ -16,5 +17,7 @@ public interface ReservationService {
 	void delete(Long id);
 	
 	List<Reservation> findByFacility(Facility facility);
+	
+	List<Reservation> findByGuest(User guest);
 	
 }

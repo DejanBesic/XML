@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.booking.app.model.Facility;
 import com.booking.app.model.Reservation;
+import com.booking.app.model.User;
 import com.booking.app.repository.ReservationRepository;
 import com.booking.app.service.ReservationService;
 
@@ -39,6 +40,11 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public List<Reservation> findByFacility(Facility facility) {
 		return reservationRepository.findByFacility(facility);
+	}
+
+	@Override
+	public List<Reservation> findByGuest(User guest) {
+		return reservationRepository.findByGuest(guest);
 	}
 	
 }

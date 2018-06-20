@@ -16,7 +16,7 @@ const li = {
 class Header extends Component {
 
     loginAndRegister = () => 
-        <ul style={{listStyleType: 'none', display: 'inline-block', float: 'right'}}>
+        <ul style={{listStyleType: 'none', display: 'inline-block', float: 'left'}}>
             <li style={li}>
                 <Link to="/login">Login</Link>
             </li>
@@ -34,6 +34,7 @@ class Header extends Component {
                         <div className="dropdown-content">
                            <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
                            <Link to="/settings">Settings</Link>
+                           <Link to="/reservations">My reservations</Link>
                         </div>
                     </div>
                     :

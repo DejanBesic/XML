@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { fetchAuth, fetchLogout, fetchSignUp } from '../../api';
+import { ResetReservations } from './reservations';
 
 
 export const AuthenticationStart = "AuthenticationStart";
@@ -65,6 +66,7 @@ export const onLogout = () => (dispatch, getState) => {
         .then((response) => {
             if(response.data){
                 setAuthorizationToken();
+                dispatch(ResetReservations());
                 dispatch(onLogoutSuccess());
             } else {
                 dispatch(onLogoutFailure());
