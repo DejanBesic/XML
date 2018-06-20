@@ -42,6 +42,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
+                <xs:element name="username" type="xs:string" />
                 <xs:element name="name" type="xs:string" />
                 <xs:element name="lastName" type="xs:string"/>
                 <xs:element name="address" type="xs:string"/>
@@ -51,7 +52,6 @@
                 <xs:element name="email" type="xs:string"/>
                 <xs:element name="token" type="xs:string"/>
                 <xs:element name="active" type="xs:boolean"/>
-                <xs:element name="role" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -79,6 +79,59 @@
             </xs:sequence>
         </xs:complexType>
 </xs:element>
+
+<xs:element name="newFacilityRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="category" type="xs:int"/>
+                <xs:element name="owner" type="xs:string"/>
+                <xs:element name="type" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="address" type="xs:string"/>
+                <xs:element name="location" type="xs:string"/>
+                <xs:element name="parkingLot" type="xs:boolean"/>
+                <xs:element name="wifi" type="xs:boolean"/>
+                <xs:element name="breakfast" type="xs:boolean"/>
+                <xs:element name="halfBoard" type="xs:boolean"/>
+                <xs:element name="fullBoard" type="xs:boolean"/>
+                <xs:element name="tv" type="xs:boolean"/>
+                <xs:element name="kitchen" type="xs:boolean"/>
+                <xs:element name="bathroom" type="xs:boolean"/>
+                <xs:element name="numberOfPeople" type="xs:int"/>
+                <xs:element ref="appointmentWS" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="messageResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="message" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="userRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="username" type="xs:string"/>
+			<xs:element name="password" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="userFromIdRequest">
+	<xs:complexType>
+		<xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+			<xs:element name="username" type="xs:string"/>
+			<xs:element name="password" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+
 
 <xs:element name="appointmentWS">
         <xs:complexType>
@@ -114,7 +167,16 @@
         </xs:complexType>
 </xs:element>
 
-<xs:element name="agentFacilitiesWS">
+<xs:element name="agentFacilitiesRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="userId" type="xs:long"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+
+<xs:element name="agentFacilitiesResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="facilityWS" minOccurs="0" maxOccurs="unbounded"/>

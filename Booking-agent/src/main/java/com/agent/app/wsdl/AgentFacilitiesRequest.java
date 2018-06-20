@@ -10,7 +10,6 @@ package com.agent.app.wsdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,8 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="userId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -37,54 +35,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "id",
-    "name"
+    "userId"
 })
-@XmlRootElement(name = "roleWS")
-public class RoleWS {
+@XmlRootElement(name = "agentFacilitiesRequest")
+public class AgentFacilitiesRequest {
 
-    protected long id;
-    @XmlElement(required = true)
-    protected String name;
+    protected long userId;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the userId property.
      * 
      */
-    public long getId() {
-        return id;
+    public long getUserId() {
+        return userId;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the userId property.
      * 
      */
-    public void setId(long value) {
-        this.id = value;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
+    public void setUserId(long value) {
+        this.userId = value;
     }
 
 }

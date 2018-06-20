@@ -24,4 +24,13 @@ public class WSConfig {
 		client.setUnmarshaller(marshaller);
 		return client;
 	}
+	
+	@Bean
+	public WSUserClient backendUserClient(Jaxb2Marshaller marshaller) {
+		WSUserClient client = new WSUserClient();
+		client.setDefaultUri("http://localhost:1312/ws");
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
 }
