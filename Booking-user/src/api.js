@@ -27,4 +27,4 @@ export const fetchReservations = (token) =>
     (axios.get(`${baseUrl}/reservation`, {headers: { Authorization: `Bearer ${token}` }}))
 
 export const fetchDeleteReservation = (reservationId, token) =>
-    (axios.delete(`${baseUrl}/reservation/delete/${reservationId}`, { headers: { Authorization: `Bearer ${token}` }}))
+    (axios.delete(`${baseUrl}/reservation/delete?id=${reservationId}`, { headers: { Authorization: `Bearer ${token}` }}))

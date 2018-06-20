@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.ReservationRequest;
@@ -31,7 +34,7 @@ public class ReservationController {
 		UserServiceImpl userService;
 	
 	  	@PostMapping()
-	    public ResponseEntity<?> authenticateUser(@RequestBody ReservationRequest request) {
+	    public ResponseEntity<?> reserve(@RequestBody ReservationRequest request) {
 	        
 	  		Facility facility = facilityService.findById(request.getFacilityId());
 	  		
@@ -45,5 +48,30 @@ public class ReservationController {
 	  		
 	  		return new ResponseEntity<>(reservation, HttpStatus.OK);
 	    }
+	  	
+	  	@GetMapping()
+	  	public ResponseEntity<?> getReservations() {
+	  		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+	  		
+	  		if (user == null) {
+	  			new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	  		}
+	  		
+	  		return new ResponseEntity<>(reservationService.findByGuest(user), HttpStatus.OK);
+	  	}
+	  	
+	  	@RequestMapping(value= "/delete", method=RequestMethod.DELETE)
+	  	public ResponseEntity<?> delete(@RequestParam Long id){
+	  		Reservation reservation = reservationService.findOne(id);
+	  		
+	  		if (reservation == null || !SecurityContextHolder.getContext().getAuthentication().getName().equals(reservation.getGuest().getUsername())) {
+	  			
+	  			return new ResponseEntity<>(reservation, HttpStatus.UNAUTHORIZED);
+	  		}
+	  		
+	  		reservationService.delete(id);
+	  		
+	  		return new ResponseEntity<>(reservation, HttpStatus.OK);
+	  	}
 
 }
