@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import StarRatings from 'react-star-ratings';
+import Popup from "reactjs-popup";
+import { connect } from 'react-redux';
+import { rate } from "../store/actions/rating";
+
+import "../Shared/SharedCSS/Rating.css";
 
 class Reservation extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rating: 0,
+            comment: "",
+            id: props.reservation.id,
         }
     }
 
@@ -16,9 +23,19 @@ class Reservation extends Component {
 
     changeRating = (newRating) => {
         this.setState({
-          rating: newRating
+          rating: newRating,
         });
-      }
+    }
+
+    changeComment = (evt) => {
+        this.setState({
+            comment: evt.target.value,
+        });
+    }
+
+    confirmRating = () => {
+
+    }
 
     render() {
         return(
@@ -43,15 +60,55 @@ class Reservation extends Component {
                 </td>
 
                 <td>
-                    <StarRatings
-                        rating={this.state.rating}
-                        starRatedColor="gold"
-                        changeRating={this.changeRating}
-                        numberOfStars={5}
-                        name='rating'
-                        starDimension="30px"
-                        starSpacing="10px"
-                    />
+                    <Popup 
+                        trigger={<button className="btn btn-info btn-sm">Rate</button>} 
+                        modal
+                        contentStyle={{ width: 400 }}
+                    >
+                        {close => (
+                            <div className="modalContainer">
+                                <a className="modalClose" onClick={close}>
+                                    &times;
+                                </a>
+                                <div className="modalHeader">Rate and comment</div>
+                                <div className="modalContent">
+                                    <div className="row" style={{textAlign: 'center', alignItems: 'center'}}>
+                                        <div className="col-1"></div>
+                                        <div className="col-10">
+                                        <StarRatings
+                                                rating={this.state.rating}
+                                                starRatedColor="gold"
+                                                changeRating={this.changeRating}
+                                                numberOfStars={5}
+                                                name='rating'
+                                                starDimension="30px"
+                                                starSpacing="10px"
+                                        />
+                                        <textarea 
+                                            style={{marginTop: 10, marginBottom: 10}}
+                                            className="form-control textArea"
+                                            rows="4"
+                                            cols="3"
+                                            type="textarea"
+                                            value={this.state.comment}
+                                            onChange={this.changeComment}
+                                            >
+                                        </textarea>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <button className="btn cancelButton" onClick={close}>Cancel</button>
+                                        <button 
+                                            className="btn btn-success confirmButton" 
+                                            onClick={() => {close(); alert('asdas')}}
+                                        >
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 </td>
                 <td>
                     <button className="btn btn-sm btn-danger" onClick={() => this.props.onDelete()}>Delete</button>
@@ -62,4 +119,15 @@ class Reservation extends Component {
 }
 
 
-export default Reservation;
+const mapDispatch = (dispatch) => ({
+   rate: 
+
+});
+
+const mapState = (state) => ({
+    reservations: state.reservations.reservations,
+    user: state.authentication.user,
+});
+
+
+export default connect(mapState, mapDispatch)(Reservation);
