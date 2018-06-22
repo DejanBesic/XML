@@ -40,7 +40,7 @@ public class FacilityController {
     
 		AgentFacilitiesRequest user = new AgentFacilitiesRequest();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		
+		user.setUsername(username);
 		
 		AgentFacilitiesResponse response = client.getAgentFacilities(user);
 		if(response == null)

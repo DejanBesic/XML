@@ -101,7 +101,7 @@ public class WSFacilityEndpoint {
 	public AgentFacilitiesResponse getAgentFacilities(@RequestPayload AgentFacilitiesRequest user) {
 		AgentFacilitiesResponse response = new AgentFacilitiesResponse();
 		
-		List<Facility> facilities = facilityService.findByOwner(userService.findById(user.getUserId()));
+		List<Facility> facilities = facilityService.findByOwner(userService.findByUsername(user.getUsername()));
 		for(Facility f : facilities){
 			response.getFacilityWS().add(facility2WS(f));
 		}

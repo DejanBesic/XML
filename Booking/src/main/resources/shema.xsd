@@ -76,6 +76,7 @@
                 <xs:element name="kitchen" type="xs:boolean"/>
                 <xs:element name="bathroom" type="xs:boolean"/>
                 <xs:element name="numberOfPeople" type="xs:int"/>
+                <xs:element ref="imagesWS"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -100,6 +101,7 @@
                 <xs:element name="bathroom" type="xs:boolean"/>
                 <xs:element name="numberOfPeople" type="xs:int"/>
                 <xs:element ref="appointmentWS" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="imagesWS"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -108,6 +110,15 @@
 	<xs:complexType>
 		<xs:sequence>
 			<xs:element name="message" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+
+<xs:element name="imagesWS">
+	<xs:complexType>
+		<xs:sequence>
+                <xs:element name="images" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
@@ -171,6 +182,7 @@
 	<xs:complexType>
 		<xs:sequence>
 			<xs:element name="userId" type="xs:long"/>
+            <xs:element name="username" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
