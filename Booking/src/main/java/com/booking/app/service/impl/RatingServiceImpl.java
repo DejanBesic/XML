@@ -47,5 +47,10 @@ public class RatingServiceImpl implements RatingService{
 		return ratingRepository.findByFacilityAndUser(facility, user);
 	}
 	
+	@Override
+	public List<Rating> findAllUnreviewed(){
+		return ratingRepository.findAllUnreviewed();
+	}
+	
 
 }

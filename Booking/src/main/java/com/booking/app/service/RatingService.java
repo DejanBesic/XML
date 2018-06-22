@@ -19,4 +19,6 @@ public interface RatingService {
 	List<Rating> findByFacility(Facility facility);
 	
 	Rating findByFacilityAnduser(Facility facility, User user);
+	
+	List<Rating> findAllUnreviewed();
 }
