@@ -48,7 +48,7 @@ public class AdminLoginController {
     			ad = true;
     			break;
     		}
-    	}
+    	} 
     	if(!ad) {
     		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
     	}
