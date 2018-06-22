@@ -34,10 +34,10 @@ function addAgent(){
 			Authorization :"Bearer "+token
 		},
         success: function (data) {
-        	alert("asd");
+        	window.location.href = "../AddAgent.html?key="+token;
         },
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(thrownError);
+			$("#error").css("visibility", "visible");
 
 		}
 	}); 
