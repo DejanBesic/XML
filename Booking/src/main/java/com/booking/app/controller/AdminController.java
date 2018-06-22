@@ -50,7 +50,7 @@ public class AdminController {
 		rat.setReviewed(true);
 		rat.setApproved(true);
 		ratingService.save(rat);
-		return new ResponseEntity<>(rat, HttpStatus.OK);
+		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 	
 	@RequestMapping(value= "/block", method=RequestMethod.POST)

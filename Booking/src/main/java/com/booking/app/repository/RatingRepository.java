@@ -17,7 +17,7 @@ public interface RatingRepository extends JpaRepository<Rating, Long>{
 	
 	Rating findByFacilityAndUser(Facility facility, User user);
 	
-	@Query("SELECT r FROM Rating r where r.reviewed = false")
+	@Query("SELECT r FROM Rating r where r.reviewed = false") 
 	List<Rating> findAllUnreviewed();
 
 }

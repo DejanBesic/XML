@@ -21,5 +21,5 @@ public interface RatingService {
 	
 	Rating findByFacilityAnduser(Facility facility, User user);
 	
-	List<RatingReviewDTO> findAllUnreviewed();
+	List<RatingReviewDTO> findAllUnreviewed(); 
 }

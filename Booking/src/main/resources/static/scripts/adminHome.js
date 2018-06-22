@@ -68,7 +68,7 @@ function approve(id){
 			console.log(thrownError);
 
 		}
-	});
+	}); 
 }
 
 function block(id){

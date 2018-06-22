@@ -50,7 +50,7 @@ public class AdminLoginController {
     		}
     	} 
     	if(!ad) {
-    		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<>("Wrong username or password ", HttpStatus.BAD_REQUEST);
     	}
     	
         SecurityContextHolder.getContext().setAuthentication(authentication);
