@@ -1,5 +1,8 @@
 package com.booking.app.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.RateRequest;
+import com.booking.app.DTOs.RatingResponse;
 import com.booking.app.model.Facility;
 import com.booking.app.model.Rating;
 import com.booking.app.model.User;
@@ -20,7 +24,6 @@ import com.booking.app.service.impl.RatingServiceImpl;
 import com.booking.app.service.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/rating")
 public class RatingController {
 	
 	@Autowired
@@ -32,7 +35,7 @@ public class RatingController {
 	@Autowired
 	UserServiceImpl userService;
 	
-	@RequestMapping(value= "/rate", method=RequestMethod.PUT)
+	@RequestMapping(value= "/rating/rate", method=RequestMethod.PUT)
 	public ResponseEntity<?> rating(@RequestBody RateRequest rating) {
 		
 		if (rating == null) {
@@ -48,21 +51,28 @@ public class RatingController {
 			return new ResponseEntity<>("You have already rated this facility.", HttpStatus.BAD_REQUEST);
 		}
 		
-		Rating rate = ratingService.save(new Rating(rating.getRating(), rating.getComment(), user, facility, false, false));
+
+		ratingService.save(new Rating(rating.getRating(), rating.getComment(), user, facility, false,false));
+
 		
 		
-		return new ResponseEntity<>(rate, HttpStatus.OK);
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 
-	@GetMapping("/ratings")
+	@GetMapping("/api/rating/ratings")
 	public ResponseEntity<?> getRatings(@RequestParam Long id) {
 		
 		Facility facility = facilityService.findById(id);
-		if (facility != null) {
+		if (facility == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(ratingService.findByFacility(facility), HttpStatus.OK);
+		List<RatingResponse> ratings = new ArrayList<RatingResponse>();
+		for (Rating r : ratingService.findByFacility(facility)) {
+			ratings.add(new RatingResponse(r.getId(), r.getUser().getUsername(), r.getRating(), r.getComment(), r.getFacility().getId()));
+		}
+		
+		return new ResponseEntity<>(ratings, HttpStatus.OK);
 	}
-	
+
 }

@@ -1,5 +1,6 @@
 package com.agent.app.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -9,6 +10,7 @@ import javax.xml.datatype.DatatypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +39,8 @@ public class FacilityController {
     public ResponseEntity<?> getFacilities() {
     
 		AgentFacilitiesRequest user = new AgentFacilitiesRequest();
-		user.setUserId(1);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
 		
 		AgentFacilitiesResponse response = client.getAgentFacilities(user);
 		if(response == null)

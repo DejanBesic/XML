@@ -53,8 +53,6 @@ public class Rating implements Serializable {
 		this.approved = approved;
 	}
 	
-	
-
 	public boolean isApproved() {
 		return approved;
 	}

@@ -4,6 +4,7 @@ import types from './typesReducer';
 import appointments from './facilityReducer';
 import searchForm from './searchFormReducer';
 import reservations from './reservationReducer';
+import rating from './ratingReducer';
 
 
 export default combineReducers({
@@ -12,4 +13,5 @@ export default combineReducers({
     appointments,
     searchForm,
     reservations,
+    rating,
 });

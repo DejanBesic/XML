@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import AdditionalService from './AdditionalService';
 
 import '../Shared/SharedCSS/Appointment.css';
 
-export class Appointment extends Component {
 
+export class Appointment extends Component {
     formatDate = (date) => {
         const formatting = date.split('-');
         return `${formatting[2]}/${formatting[1]}/${formatting[0]}`;
     }
 
+    openFacility = () => {
+        this.setState({ redirect: true});
+    }
+
     render() {
         return(
             <div className="appointment row" >
-                <div className="header" style={{fontSize: 20}}>
+                <Link className="header" to={'/facility/'+this.props.appointment.facility.id} style={{fontSize: 20}} onClick={() => this.openFacility()}>
                     {`${this.props.appointment.facility.name} - from 
                     ${this.formatDate(this.props.appointment.startDate)} to
                     ${this.formatDate(this.props.appointment.endDate)}`}
-                </div>
+                </Link>
                 <div className="col-3"></div>
                 <div className="col-6">
                     <ul className="ul">
@@ -83,7 +88,7 @@ export class Appointment extends Component {
                     </ul>
                 </div>
                 <div className="col-1">
-                    <button className="reserve-button" onClick={() => this.props.onClick()}>Reserve</button>
+                    <button className="reserve-button" style={{ color: 'white'}} onClick={() => this.props.onClick()}>Reserve</button>
                 </div>
             </div>
         );

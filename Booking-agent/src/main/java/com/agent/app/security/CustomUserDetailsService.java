@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     	UserRequest request = new UserRequest();
     	request.setUsername(usernameOrEmail);
-    	
+    	request.setPassword("");
     	UserWS userWS = userClient.loginUser(request);
     	
         return UserPrincipal.create(ws2User(userWS));
@@ -61,6 +61,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     	user.setToken(ws.getToken());
     	user.setId(ws.getId());
     	user.setUsername(ws.getUsername());
+    	user.setPassword(ws.getPassword());
     	
     	return user;
     }

@@ -185,7 +185,7 @@ public class FacilityServiceImpl implements FacilityService{
 	@Override
 	public List<Facility> findByOwner(User user) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findByOwner(user);
+		return facilityRepository.findByOwnerAndDeletedFalse(user);
 	}
 	
 }

@@ -37,12 +37,8 @@ public class AuthController {
     JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser() {
+    public ResponseEntity<?> authenticateUser(@RequestBody UserRequest loginRequest) {
     	Authentication authentication = null;
-    	
-    	UserRequest loginRequest = new UserRequest();
-    	loginRequest.setUsername("twiste");
-    	loginRequest.setPassword("Bezlosmija43");
     	
     	try {
     		authentication = autoLogin(loginRequest.getUsername(), loginRequest.getPassword());
