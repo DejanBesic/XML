@@ -2,7 +2,9 @@ package com.booking.app.service;
 
 import java.util.List;
 
+import com.booking.app.model.Facility;
 import com.booking.app.model.Rating;
+import com.booking.app.model.User;
 
 public interface RatingService {
 
@@ -13,4 +15,8 @@ public interface RatingService {
 	Rating save(Rating rating);
 	
 	void delete(Long id);
+	
+	List<Rating> findByFacility(Facility facility);
+	
+	Rating findByFacilityAnduser(Facility facility, User user);
 }
