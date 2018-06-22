@@ -19,7 +19,7 @@ public interface RatingService {
 	
 	List<Rating> findByFacility(Facility facility);
 	
-	Rating findByFacilityAnduser(Facility facility, User user);
+	Rating findByFacilityAndUser(Facility facility, User user);
 	
 	List<RatingReviewDTO> findAllUnreviewed(); 
 }

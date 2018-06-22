@@ -8,9 +8,11 @@ import Comment from './Comment';
 
 
 class FacilityPage extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
         this.props.getRatings(this.props.match.params.id);
     }
+ 
     render(){
         if (!this.props.match.params.id) {
             return (<Redirect to="/main" />);
@@ -38,12 +40,14 @@ class FacilityPage extends Component {
                                                         })
                                 }
                     />
-                    {this.props.ratings.map(rating =>
+                    
+                    {
+                        this.props.ratings.map(rating =>
                         <Comment
                         rating={rating} 
                         key={rating.id} 
-                        />
-                    )
+                        />)
+                     
                     }
                 </div>
             </div>

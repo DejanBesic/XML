@@ -45,7 +45,7 @@ public class RatingServiceImpl implements RatingService{
 	}
 
 	@Override
-	public Rating findByFacilityAnduser(Facility facility, User user) {
+	public Rating findByFacilityAndUser(Facility facility, User user) {
 		return ratingRepository.findByFacilityAndUser(facility, user);
 	}
 	

@@ -19,5 +19,6 @@ public interface ReservationService {
 	List<Reservation> findByFacility(Facility facility);
 	
 	List<Reservation> findByGuest(User guest);
-	
+
+	List<Reservation> findByGuestAndFacility(User guest, Facility facility);
 }

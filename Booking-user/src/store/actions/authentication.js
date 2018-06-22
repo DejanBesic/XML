@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { fetchAuth, fetchLogout, fetchSignUp } from '../../api';
+import { fetchAuth, fetchLogout, fetchSignUp, fetchUser, fetchEditUser } from '../../api';
 import { onReset } from './reservations';
 
 
@@ -122,3 +122,47 @@ export const ResetRegistrated = "ResetRegistrated";
 export const onResetRegistrated = () => 
     ({ type: ResetRegistrated })
     
+export const GetUserStart = "GetUserStart";
+export const onGetUserStart = () => 
+    ({ type: GetUserStart })
+
+export const GetUserSuccess = "GetUserSuccess";
+export const onGetUserSuccess = (user) => 
+    ({ payload: user, type: GetUserSuccess })
+    
+export const GetUserFailure = "GetUserFailure";
+export const onGetUserFailure = (error) => 
+    ({ payload: error, type: GetUserFailure })
+
+export const getUser = () => (dispatch, getState) => {
+    dispatch(onGetUserStart());
+    const token = getState().authentication.token.accessToken;
+
+    fetchUser(token)
+    .then((response) => dispatch(onGetUserSuccess(response.data)))
+    .catch((error) => dispatch(onGetUserFailure(error)));
+}
+    
+export const EditUserStart = "EditUserStart";
+export const onEditUserStart = () =>
+    ({ type: EditUserStart })
+
+export const EditUserSuccess = "EditUserSuccess";
+export const onEditUserSuccess = (user) =>
+        ({ payload: user, type: EditUserSuccess })
+
+export const EditUserFailure = "EditUserFailure";
+export const onEditUserFailure = (error) =>
+    ({ payload: error, type: EditUserFailure })
+
+export const editUser = (user) => (dispatch, getState) => {
+    dispatch(onEditUserStart());
+    const token = getState().authentication.token.accessToken;
+    debugger
+    fetchEditUser(user, token)
+    .then(() => dispatch(onEditUserSuccess({email: user.email, name: user.name, lastName: user.lastName, address: user.address})))
+    .catch((error) => dispatch(onEditUserFailure()));
+
+}
+
+

@@ -38,9 +38,11 @@ export const deleteReservation = (reservationId) => (dispatch, getState) => {
     dispatch(onDeleteReservationStart());
 
     const token = getState().authentication.token.accessToken;
+    const reservations = getState().reservations.reservations;
     fetchDeleteReservation(reservationId, token)
-    .then((response) => {
-        dispatch(DeleteReservationSuccess(reservationId))
+    .then(() => {
+        const res = reservations.filter(reservation => reservation.id !== reservationId);
+        dispatch(onDeleteReservationSuccess(res))
     })
     .catch((error) => dispatch(onDeleteReservationFailure(error)))
 }

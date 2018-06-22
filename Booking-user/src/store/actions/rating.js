@@ -16,8 +16,14 @@ export const rate = (rating) => (dispatch, getState) => {
     dispatch(onRatingStart());
     const token = getState().authentication.token.accessToken;
     fetchRate(rating, token)
-        .then(() => dispatch(onRatingSuccess()))
-        .catch((error) => dispatch(onRatingFailure(error)))
+        .then(() => { 
+            dispatch(onRatingSuccess());
+            alert("Successfuly rated.");
+        })
+        .catch((error) => { 
+            dispatch(onRatingFailure(error));
+            alert("Failed to rate.");
+         })
 }
 
 export const GetRatingsStart = "GetRatingsStart";
