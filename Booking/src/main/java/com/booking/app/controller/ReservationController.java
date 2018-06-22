@@ -44,7 +44,13 @@ public class ReservationController {
 	  			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	  		}
 	  		
+	  		
+	  		
 	  		Reservation reservation = reservationService.save(new Reservation(user, facility, request.getStartDate(), request.getEndDate(), request.getPrice()));
+	  		
+	  		if (reservation == null) {
+	  			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	  		}
 	  		
 	  		return new ResponseEntity<>(reservation, HttpStatus.OK);
 	    }

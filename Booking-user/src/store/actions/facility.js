@@ -29,7 +29,7 @@ export const search = (form) => (dispatch) => {
     dispatch(onSaveForm(form));
     fetchSearch(form)
         .then((appointments) => dispatch(onGetFacilitesSuccess(appointments.data)))
-        .catch((error) => dispatch(onGetFacilitesFailure(error.response.data)));
+        .catch((error) => dispatch(onGetFacilitesFailure(error)));
 }
 
 export const ReservationStart = "ReservationStart";

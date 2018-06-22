@@ -29,6 +29,18 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public Reservation save(Reservation reservation) {
+		for (Reservation r : reservationRepository.findByFacility(reservation.getFacility())) {
+  			int startDate1 = reservation.getFromDate().compareTo(r.getFromDate());
+  			int startDate2 = reservation.getFromDate().compareTo(r.getToDate());
+  			
+  			int endDate1 = reservation.getToDate().compareTo(r.getFromDate());
+  			int endDate2 = reservation.getToDate().compareTo(r.getToDate());
+  			
+  			if ((startDate1 >= 0 && startDate2 <=0 ) || (endDate1 >= 0 && endDate2 <= 0)) {
+  				return null;
+  			}
+  		}
+		
 		return reservationRepository.save(reservation);
 	}
 
@@ -45,6 +57,11 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public List<Reservation> findByGuest(User guest) {
 		return reservationRepository.findByGuest(guest);
+	}
+	
+	@Override
+	public List<Reservation> findByGuestAndFacility(User guest, Facility facility) {
+		return reservationRepository.findByGuestAndFacility(guest, facility);
 	}
 	
 }

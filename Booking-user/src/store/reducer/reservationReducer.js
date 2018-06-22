@@ -3,6 +3,9 @@ import {
     GetReservationsSuccess,
     GetReservationsFailure,
     ResetReservations,
+    DeleteReservationSuccess,
+    DeleteReservationStart,
+    DeleteReservationFailure,
 } from '../actions/reservations';
 
 export const initialState = {
@@ -41,6 +44,27 @@ export default function(state = initialState, action) {
                 isLoading: false,
                 error: "",
             };
+        case DeleteReservationStart: 
+            return {
+                ...state,
+                isLoading: true,
+            }
+
+        case DeleteReservationSuccess:
+            return {
+                ...state,
+                reservations: action.payload,
+                isLoading: false,
+            };
+
+        case DeleteReservationFailure:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload
+            }
+        
+        
 
         default: 
             return state;

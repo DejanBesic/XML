@@ -32,6 +32,11 @@ export const fetchDeleteReservation = (reservationId, token) =>
 export const fetchRate = (rating, token) =>
     (axios.put(`${baseUrl}/rating/rate`, rating, { headers: { Authorization: `Bearer ${token}` }}))
 
-
 export const fetchRatings = (facilityId, token) =>
     (axios.get(`${baseUrl}/api/rating/ratings?id=${facilityId}`, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchUser = (token) =>
+    (axios.get(`${baseUrl}/user`, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchEditUser = (user, token) =>
+    (axios.post(`${baseUrl}/user`, user, { headers: { Authorization: `Bearer ${token}` }}))

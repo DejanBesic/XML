@@ -12,7 +12,7 @@ class Reservation extends Component {
         this.state = {
             rating: 0,
             comment: "",
-            id: props.reservation.id,
+            id: props.reservation.facility.id,
         }
     }
 
@@ -112,7 +112,7 @@ class Reservation extends Component {
                     </Popup>
                 </td>
                 <td>
-                    <button className="btn btn-sm btn-danger" onClick={() => this.props.onDelete()}>Delete</button>
+                    <button className="btn btn-sm btn-danger" onClick={this.props.onDelete}>Delete</button>
                 </td>
             </tr>
         );

@@ -42,6 +42,9 @@ export class Appointment extends Component {
                             {`Stars: ${this.props.appointment.facility.category}`}
                         </li>
                         <li>
+                            {`Rating: ${this.props.appointment.rating}`}
+                        </li>
+                        <li>
                             {`Price: ${this.props.appointment.price}`}
                         </li>
                         <li>

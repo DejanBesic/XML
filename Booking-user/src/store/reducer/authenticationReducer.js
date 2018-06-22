@@ -2,6 +2,9 @@ import {
     AuthenticationStart,
     AuthenticationSuccess,
     AuthenticationFailure,
+    GetUserStart,
+    GetUserSuccess,
+    GetUserFailure,
     LoginReset,
     LogoutStart,
     LogoutSuccess,
@@ -101,6 +104,23 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: "",
+            }
+
+        case GetUserStart: 
+            return {
+                ...state,
+            }
+
+        case GetUserSuccess:
+            return {
+                ...state,
+                user: action.payload,
+            }
+
+        case GetUserFailure:
+            return {
+                ...state,
+                error: action.payload,
             }
         
         default: 
