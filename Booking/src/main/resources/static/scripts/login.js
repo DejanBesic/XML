@@ -25,4 +25,4 @@ function login(){
         	window.location.href = "../AdminHome.html?key="+data.accessToken;	
         }	
         });
-}
+} 
