@@ -16,6 +16,6 @@ public final class MappRatingToRatingDTO {
 		for (Rating r : ratings) {
 			list.add(mappRating(r));
 		}
-		return list;
+		return list; 
 	}
 }
