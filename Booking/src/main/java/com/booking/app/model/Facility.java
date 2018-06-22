@@ -63,6 +63,9 @@ public class Facility {
 	@Column(nullable = false)
 	private int numberOfPeople;
 	
+	@Column(nullable = false)
+	private boolean deleted = false;
+	
 	public Facility() {
 		
 	}
@@ -291,6 +294,14 @@ public class Facility {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

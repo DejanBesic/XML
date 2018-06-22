@@ -11,5 +11,5 @@ import com.booking.app.model.User;
 @Repository
 public interface FacilityRepository extends JpaRepository<Facility, Long>{
 
-	List<Facility> findByOwner(User user);
+	List<Facility> findByOwnerAndDeletedFalse(User user);
 }
