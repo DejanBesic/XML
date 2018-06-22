@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/adminHome.css">
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+<script src="/stylesheets/bootstrap.min.js"></script>
+
+<meta charset="UTF-8">
+</head> 
+<body>
+	<div style="padding-left: 15px; padding-right: 15px;"> 
+	<div class="row" style="text-align: center">
+		<h1 id="header"></h1>		
+	</div>
+	<div class="row">
+		<div id="leftPart" class="col-sm-3" >
+			<div style=" padding-top: 10px; text-align: left;">
+			    <button class="button" type="button" style="margin-right: 10px;" onClick="manageCodebooks()">Manage CodeBooks</button>
+		    </div>
+		    <div style=" padding-top: 10px; text-align: left;">
+			    <button class="button" type="button" style="margin-right: 10px;" onClick="manageComments()">Manage Comments</button>
+		    </div>
+		    <div style=" padding-top: 10px; text-align: left;">
+			    <button type="button" class="button" style="margin-right: 10px;" onClick="addAgent()">Add Agent</button>
+		    </div>
+		</div>
+		<div  class="col-sm-6">
+			<h3>Users Review</h3>
+			<div ></div>
+			<table id="centralPart" style="width:100%"></table>
+		</div>
+	</div>
+</div>
+	
+	<script src="/scripts/manageUsers.js"></script> 
+</body>
+</html></html>
