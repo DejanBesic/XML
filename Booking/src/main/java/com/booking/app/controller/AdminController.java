@@ -62,6 +62,6 @@ public class AdminController {
 		rat.setReviewed(true);
 		rat.setApproved(false);
 		ratingService.save(rat);
-		return new ResponseEntity<>(rat, HttpStatus.OK);
+		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 }
