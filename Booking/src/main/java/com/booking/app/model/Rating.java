@@ -36,20 +36,30 @@ public class Rating implements Serializable {
 	@Column(nullable = false)
 	private boolean reviewed;
 	
+	@Column(nullable = false)
+	private boolean approved;
+	
 	public Rating() {
 		
 	}
 
-	public Rating(int rating, String comment, User user, Facility facility, boolean reviewed) {
+	public Rating(int rating, String comment, User user, Facility facility, boolean reviewed, boolean approved) {
 		super();
 		this.rating = rating;
 		this.comment = comment;
 		this.user = user;
 		this.facility = facility;
 		this.reviewed = reviewed;
+		this.approved = approved;
 	}
 	
-	
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
 
 	public boolean isReviewed() {
 		return reviewed;

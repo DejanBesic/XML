@@ -2,13 +2,15 @@ import {
     GetAppointmentsStart,
     GetAppointmentsSuccess,
     GetAppointmentsFailure,
-    ReservationSuccess
+    ReservationSuccess,
+    ReservationFailure
 } from '../actions/facility';
 
 export const initialState = {
     appointments: [],
     isLoading: false,
     error: "",
+    reservationError: "",
 };
 
 export default function(state = initialState, action) {
@@ -41,6 +43,11 @@ export default function(state = initialState, action) {
                 appointments: action.payload,
             }
 
+        case ReservationFailure:
+            return {
+                ...state,
+                reservationError: action.payload,
+            }
         default: 
             return state;
     }

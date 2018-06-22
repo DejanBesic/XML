@@ -8,7 +8,7 @@
 .header {
     width: 100%;
     background-color: #428bca;
-    color: black;
+    color: rgb(255, 255, 255);
     text-align: center;
     font-size: 22;
     border-top-left-radius: 7px;

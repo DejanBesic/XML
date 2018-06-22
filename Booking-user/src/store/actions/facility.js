@@ -41,8 +41,8 @@ export const onReservationSuccess = (facilities) =>
     ({ payload: facilities, type: ReservationSuccess })
 
 export const ReservationFailure = "ReservationFailure";
-export const onReservationFailure = () => 
-    ({ type: ReservationFailure })
+export const onReservationFailure = (error) => 
+    ({ payload: error, type: ReservationFailure })
 
 export const onReservation = (reservation) => (dispatch, getState) => {
     dispatch(onReservationStart());
@@ -54,5 +54,8 @@ export const onReservation = (reservation) => (dispatch, getState) => {
             dispatch(onReservationSuccess(appointments.filter((facility) => reservation.facilityId !== facility.facility.id)))
             alert('Successfully reserved.')
         })
-        .catch(() => alert('Failed to reserve.'));
+        .catch((error) => {
+            dispatch(onReservationFailure(error));
+            alert('Failed to reserve.');
+        });
 }
