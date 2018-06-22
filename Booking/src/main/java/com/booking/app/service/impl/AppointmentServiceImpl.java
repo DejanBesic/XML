@@ -12,6 +12,7 @@ import com.booking.app.DTOs.SearchDTO;
 import com.booking.app.DTOs.SearchRequest;
 import com.booking.app.model.Appointment;
 import com.booking.app.model.Facility;
+import com.booking.app.model.Rating;
 import com.booking.app.model.Reservation;
 import com.booking.app.repository.AppointmentRepository;
 import com.booking.app.service.AppointmentService;
@@ -27,6 +28,9 @@ public class AppointmentServiceImpl implements AppointmentService{
 	
 	@Autowired
 	FacilityServiceImpl facilityService;
+	
+	@Autowired
+	RatingServiceImpl ratingService;
 	
 	@Override
 	public Appointment findById(Long id) {
@@ -94,7 +98,13 @@ public class AppointmentServiceImpl implements AppointmentService{
 			//ako se nalazi unutar jednog termina
 			if (startDate >= 0 && endDate <= 0 && permission) {
 				price = (int) (a.getPrice() * ((int)((end.getTime()/dayMili) - (start.getTime()/dayMili))));
-				searchList.add(new SearchDTO(a.getFacility(), price, start, end));				
+				List<Rating> ratings = ratingService.findByFacility(a.getFacility());
+				double averageRating = 0;
+				for (Rating r : ratings) {
+					averageRating += r.getRating();
+				}
+				averageRating /= ratings.size();
+				searchList.add(new SearchDTO(a.getFacility(), price, start, end, averageRating));				
 			}
 			//ako se pocetak nalazi unutar jednog termina a kraj unutar drugog
 //			else if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {

@@ -28,3 +28,10 @@ export const fetchReservations = (token) =>
 
 export const fetchDeleteReservation = (reservationId, token) =>
     (axios.delete(`${baseUrl}/reservation/delete?id=${reservationId}`, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchRate = (rating, token) =>
+    (axios.put(`${baseUrl}/rating/rate`, rating, { headers: { Authorization: `Bearer ${token}` }}))
+
+
+export const fetchRatings = (facilityId, token) =>
+    (axios.get(`${baseUrl}/api/rating/ratings?id=${facilityId}`, { headers: { Authorization: `Bearer ${token}` }}))

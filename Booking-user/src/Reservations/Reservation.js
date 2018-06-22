@@ -23,18 +23,16 @@ class Reservation extends Component {
 
     changeRating = (newRating) => {
         this.setState({
-          rating: newRating,
+            ...this.state,
+            rating: newRating,
         });
     }
 
     changeComment = (evt) => {
         this.setState({
+            ...this.state,
             comment: evt.target.value,
         });
-    }
-
-    confirmRating = () => {
-
     }
 
     render() {
@@ -100,7 +98,10 @@ class Reservation extends Component {
                                         <button className="btn cancelButton" onClick={close}>Cancel</button>
                                         <button 
                                             className="btn btn-success confirmButton" 
-                                            onClick={() => {close(); alert('asdas')}}
+                                            onClick={() => {
+                                                close(); 
+                                                this.props.rate(this.state)
+                                            }}
                                         >
                                             Confirm
                                         </button>
@@ -120,8 +121,7 @@ class Reservation extends Component {
 
 
 const mapDispatch = (dispatch) => ({
-   rate: 
-
+   rate: (rating) => dispatch(rate(rating)),
 });
 
 const mapState = (state) => ({

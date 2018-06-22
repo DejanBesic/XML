@@ -9,6 +9,7 @@ import LoginPage from './Authentication/LoginPage';
 import MainPage from './Main/MainPage';
 import RegistrationPage from './Authentication/RegistrationPage'
 import ReservationsPage from './Reservations/ReservationsPage';
+import FacilityPage from './Main/FacilityPage';
 
 
 class App extends Component {  
@@ -24,6 +25,7 @@ class App extends Component {
                 <Route path="/login" component={LoginPage}/>
                 <Route path="/register" component={RegistrationPage}/>
                 <Route path="/reservations" component={ReservationsPage}/>
+                <Route path="/facility/:id" component={FacilityPage}/>
               </div>
             </Router>
           </PersistGate>
