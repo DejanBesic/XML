@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.model.Rating;
+import com.booking.app.model.User;
 import com.booking.app.security.JwtTokenProvider;
 import com.booking.app.service.impl.RatingServiceImpl;
 import com.booking.app.service.impl.UserServiceImpl;
@@ -63,5 +64,10 @@ public class AdminController {
 		rat.setApproved(false);
 		ratingService.save(rat);
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value= "/addAgent", method=RequestMethod.POST)
+	public ResponseEntity<?> addAgent(@RequestBody User user) {
+		return new ResponseEntity<>(null, HttpStatus.OK); 
 	}
 }

@@ -94,4 +94,8 @@ function block(id){
 		}
 	});
 }
+
+function addAgent(){
+	window.location.href = "../AddAgent.html?key="+token;
+}
  
