@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/adminHome.css">
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+<script src="/stylesheets/bootstrap.min.js"></script>
+
+<meta charset="UTF-8">
+</head>
+<body>
+	<div style="padding-left: 15px; padding-right: 15px;"> 
+	<div class="row" style="text-align: center">
+		<h1 id="header"></h1>		
+	</div>
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<form id="newAgent">
+				<span>
+					Name:
+					<input id="name" type="text" class="form-control" name="name"/>
+				</span>
+				<span>
+					Last Name:
+					<input id="lastName" type="text" class="form-control" name="lastName"/>
+				</span>
+				<span>
+					Address:
+					<input id="address" type="text" class="form-control" name="address"/>
+				</span>
+				<span>
+					Taxpayer Identification Number:
+					<input id="pmb" type="text" class="form-control" name="pmb"/>
+				</span>
+				<span>
+					Email:
+					<input id="email" type="text" class="form-control" name="email"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="addAgent()">Add</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+	</div>
+</div>
+	<script src="/scripts/addAdmin.js"></script> 
+</body>
+</html>
