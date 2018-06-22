@@ -24,12 +24,12 @@ insert into FACILITY values(6, 3, 'Address of Facility 6', true, false, 'Descrip
 insert into FACILITY values(7, 2, 'Address of Facility 7', true, true,  'Description of Facility 7',   true,   	true,   true,   'Facility 7',   5,	true,   true,   false, 	4, 2, 3);
 insert into FACILITY values(8, 2, 'Address of Facility 8', true, false, 'Description of Facility 8',   true,	true,   true,   'Facility 8',   6,  false,  true,   true, 	3, 3, 2);
 
-insert into RATING values(1, 'Comment 1', 5, 2, 1, false);
-insert into RATING values(2, 'Comment 1', 5, 3, 2, true);
-insert into RATING values(3, 'Comment 1', 5, 3, 1, false);
-insert into RATING values(4, 'Comment 1', 5, 2, 1, true);
-insert into RATING values(5, 'Comment 1', 5, 1, 2, true);
-insert into RATING values(6, 'Comment 1', 5, 2, 3, true);
+insert into RATING values(1, false,'Nije lose', 5,false, 2, 1);
+insert into RATING values(2, false,'Comment 1', 5,false, 3, 2);
+insert into RATING values(3, false,'Sranje zivo', 5, false, 3, 1);
+insert into RATING values(4, true,'Comment 1', 5,true, 2, 1);
+insert into RATING values(5, true,'Comment 1', 5,true, 1, 2);
+insert into RATING values(6, true,'Comment 1', 5,true, 2, 3);
 
 insert into APPOINTMENT values(1, '2018-04-14', 100, '2018-08-14', 5);
 insert into APPOINTMENT values(2, '2018-08-14', 100, '2018-08-20', 5);

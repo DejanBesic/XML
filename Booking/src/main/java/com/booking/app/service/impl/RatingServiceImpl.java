@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booking.app.DTOs.MappRatingToRatingDTO;
+import com.booking.app.DTOs.RatingReviewDTO;
 import com.booking.app.model.Facility;
 import com.booking.app.model.Rating;
 import com.booking.app.model.User;
@@ -48,9 +50,8 @@ public class RatingServiceImpl implements RatingService{
 	}
 	
 	@Override
-	public List<Rating> findAllUnreviewed(){
-		return ratingRepository.findAllUnreviewed();
+	public List<RatingReviewDTO> findAllUnreviewed(){
+		return MappRatingToRatingDTO.mappRatings(ratingRepository.findAllUnreviewed());
 	}
-	
 
 }

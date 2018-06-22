@@ -48,7 +48,7 @@ public class RatingController {
 			return new ResponseEntity<>("You have already rated this facility.", HttpStatus.BAD_REQUEST);
 		}
 		
-		Rating rate = ratingService.save(new Rating(rating.getRating(), rating.getComment(), user, facility, false));
+		Rating rate = ratingService.save(new Rating(rating.getRating(), rating.getComment(), user, facility, false, false));
 		
 		
 		return new ResponseEntity<>(rate, HttpStatus.OK);
