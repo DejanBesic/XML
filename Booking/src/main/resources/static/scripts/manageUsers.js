@@ -4,13 +4,7 @@ $(document).ready(function() {
 var token;
 
 function defaultElements(){
-	var url = window.location.href;
-	var str = url.split("key=");
-	if(str.length < 2){
-		window.location.href = "../AdminLogin.html";
-		return;
-	}
-	token = str[1];
+	token = localStorage.getItem("token");
 	var title = "Users";
 	document.title = title;
 	$('#header').html(title);
@@ -97,15 +91,15 @@ function blockUser(id){
 }
 
 function addAgent(){
-	window.location.href = "../AddAgent.html?key="+token;
+	window.location.href = "../AddAgent.html";
 }
  
 function manageComments(){
-	window.location.href = "../AdminHome.html?key="+token;
+	window.location.href = "../AdminHome.html";
 }
 
 function manageCodebooks(){
-	window.location.href = "../CodeBooks.html?key="+token;
+	window.location.href = "../CodeBooks.html";
 }
 
 function logout(){
@@ -113,6 +107,7 @@ function logout(){
     	url: "../api/admin/logout",
 		type: "GET",
         success: function (data) {
+        	localStorage.setItem("token", "");
         	window.location.href = "../AdminLogin.html";	
         }
 	});

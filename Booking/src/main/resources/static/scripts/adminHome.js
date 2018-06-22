@@ -4,13 +4,7 @@ $(document).ready(function() {
 var token;
 
 function defaultElements(){
-	var url = window.location.href;
-	var str = url.split("key=");
-	if(str.length < 2){
-		window.location.href = "../AdminLogin.html";
-		return;
-	}
-	token = str[1];
+	token = localStorage.getItem("token");
 	var title = "Home";
 	document.title = title;
 	$('#header').html(title);
@@ -29,7 +23,6 @@ function defaultElements(){
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			console.log(thrownError);
-
 		}
 	});
 }
@@ -124,15 +117,15 @@ function blockUser(id, userID){
 }
 
 function addAgent(){
-	window.location.href = "../AddAgent.html?key="+token;
+	window.location.href = "../AddAgent.html";
 }
  
 function manageUsers(){
-	window.location.href = "../ManageUsers.html?key="+token;
+	window.location.href = "../ManageUsers.html";
 }
 
 function manageCodebooks(){
-	window.location.href = "../CodeBooks.html?key="+token;
+	window.location.href = "../CodeBooks.html";
 }
 
 function logout(){
@@ -140,6 +133,7 @@ function logout(){
     	url: "../api/admin/logout",
 		type: "GET",
         success: function (data) {
+        	localStorage.setItem("token", "");
         	window.location.href = "../AdminLogin.html";	
         }
 	});

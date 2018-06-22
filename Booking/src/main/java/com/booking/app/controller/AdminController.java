@@ -54,7 +54,12 @@ public class AdminController {
     
     @Autowired
     JwtTokenProvider tokenProvider;
-
+    
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+    	return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+    
 	@GetMapping("/getUsers")
     public ResponseEntity<?> getUser() {
     	return new ResponseEntity<>(userService.findAllInactive(), HttpStatus.OK);
