@@ -35,4 +35,9 @@ public class AdminController {
     public ResponseEntity<?> getUser() {
     	return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
+	
+	@GetMapping("/getRating")
+	public ResponseEntity<?> getRating() {
+    	return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
 }
