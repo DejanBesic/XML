@@ -29,7 +29,7 @@ function addAgent(){
 		},
         success: function (data) {
         	window.location.href = "../AddAgent.html";
-        },
+        }, 
 		error: function(xhr, ajaxOptions, thrownError){
 			$("#error").css("visibility", "visible");
 
