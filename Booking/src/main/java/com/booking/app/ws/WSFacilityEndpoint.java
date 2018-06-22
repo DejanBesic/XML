@@ -25,6 +25,8 @@ import com.xml.booking.backendmain.ws_classes.MessageResponse;
 import com.xml.booking.backendmain.ws_classes.NewFacilityRequest;
 import com.xml.booking.backendmain.ws_classes.TestRequest;
 import com.xml.booking.backendmain.ws_classes.TestResponse;
+import com.xml.booking.backendmain.ws_classes.UserFromIdRequest;
+import com.xml.booking.backendmain.ws_classes.UserRequest;
 import com.xml.booking.backendmain.ws_classes.UserWS;
 
 @Endpoint
@@ -45,6 +47,46 @@ public class WSFacilityEndpoint {
 	
 	@Autowired
 	private UserService userService;
+	
+	
+//	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "userRequest")
+//	@ResponsePayload
+//	public UserWS getUserByUsername(@RequestPayload UserRequest userRequest) {
+//		
+//		User user = userService.findByUsername(userRequest.getUsername());
+//		if(user == null || !user.getRole().getName().equals("AGENT"))
+//			return null;
+//		
+//		
+//		return user2ws(user);
+//	}
+//	
+//	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "userFromIdRequest")
+//	@ResponsePayload
+//	public UserWS getUserByUsername(@RequestPayload UserFromIdRequest userRequest) {
+//		
+//		User user = userService.findById(userRequest.getId());
+//		if(user == null)
+//			return null;
+//		
+//		
+//		return user2ws(user);
+//	}
+	
+	private UserWS user2ws(User user){
+		UserWS res = new UserWS();
+		res.setActive(user.isActive());
+		res.setAddress(user.getAddress());
+		res.setEmail(user.getEmail());
+		res.setId(user.getId());
+		res.setName(user.getName());
+		res.setLastName(user.getLastName());
+		res.setPmb(user.getPmb());
+		res.setPassword(user.getPassword());
+		res.setUsername(user.getUsername());
+		
+		return res;
+	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "testRequest")
 	@ResponsePayload
