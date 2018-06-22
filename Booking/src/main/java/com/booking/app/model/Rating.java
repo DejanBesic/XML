@@ -33,16 +33,30 @@ public class Rating implements Serializable {
 	@ManyToOne(optional = false)
 	private Facility facility;
 	
+	@Column(nullable = false)
+	private boolean reviewed;
+	
 	public Rating() {
 		
 	}
 
-	public Rating(int rating, String comment, User user, Facility facility) {
+	public Rating(int rating, String comment, User user, Facility facility, boolean reviewed) {
 		super();
 		this.rating = rating;
 		this.comment = comment;
 		this.user = user;
 		this.facility = facility;
+		this.reviewed = reviewed;
+	}
+	
+	
+
+	public boolean isReviewed() {
+		return reviewed;
+	}
+
+	public void setReviewed(boolean reviewed) {
+		this.reviewed = reviewed;
 	}
 
 	public Long getId() {
