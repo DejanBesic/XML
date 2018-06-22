@@ -18,6 +18,9 @@ class Header extends Component {
     loginAndRegister = () => 
         <ul style={{listStyleType: 'none', display: 'inline-block', float: 'left'}}>
             <li style={li}>
+                <Link to="/">Main page</Link>
+            </li>
+            <li style={li}>
                 <Link to="/login">Login</Link>
             </li>
             <li style={li}>

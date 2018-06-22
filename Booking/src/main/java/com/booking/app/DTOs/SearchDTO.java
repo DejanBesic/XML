@@ -13,14 +13,31 @@ public class SearchDTO {
 	Date startDate;
 	
 	Date endDate;
+	
+	double rating;
 
-	public SearchDTO(Facility facility, int price, Date startDate, Date endDate) {
+	public SearchDTO(Facility facility, int price, Date startDate, Date endDate, double rating) {
 		super();
 		this.facility = facility;
 		this.price = price;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.rating = rating;
 	}
+
+	
+	
+	public double getRating() {
+		return rating;
+	}
+
+
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+
 
 	public Facility getFacility() {
 		return facility;
