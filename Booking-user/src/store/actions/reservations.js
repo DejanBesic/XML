@@ -14,10 +14,10 @@ export const onGetReservationsFailure = (error) =>
 
 export const getReservations = () => (dispatch, getState) => {
     dispatch(onGetReservationsStart());
-    debugger
+
     const token = getState().authentication.token.accessToken;
     fetchReservations(token)
-    .then((response) => dispatch(GetReservationsSuccess(response.data)))
+    .then((response) => dispatch(onGetReservationsSuccess(response.data)))
     .catch((error) => dispatch(onGetReservationsFailure(error)));
 }
 
@@ -39,7 +39,9 @@ export const deleteReservation = (reservationId) => (dispatch, getState) => {
 
     const token = getState().authentication.token.accessToken;
     fetchDeleteReservation(reservationId, token)
-    .then((response) => dispatch(DeleteReservationSuccess(response.data)))
+    .then((response) => {
+        dispatch(DeleteReservationSuccess(reservationId))
+    })
     .catch((error) => dispatch(onDeleteReservationFailure(error)))
 }
 

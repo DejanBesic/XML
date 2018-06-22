@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booking.app.model.Facility;
 import com.booking.app.model.Rating;
+import com.booking.app.model.User;
 import com.booking.app.repository.RatingRepository;
 import com.booking.app.service.RatingService;
 
@@ -34,6 +36,20 @@ public class RatingServiceImpl implements RatingService{
 	public void delete(Long id) {
 		ratingRepository.delete(id);
 		
+	}
+
+	public List<Rating> findByFacility(Facility facility) {
+		return ratingRepository.findByFacility(facility);
+	}
+
+	@Override
+	public Rating findByFacilityAnduser(Facility facility, User user) {
+		return ratingRepository.findByFacilityAndUser(facility, user);
+	}
+	
+	@Override
+	public List<Rating> findAllUnreviewed(){
+		return ratingRepository.findAllUnreviewed();
 	}
 	
 

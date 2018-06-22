@@ -17,7 +17,7 @@ class App extends Component {
         <Provider store={store}>
           <PersistGate persistor={persistor} loading={null} >
             <Router>
-            <div style={{paddingLeft: 15, paddingRight: 15}}>
+              <div style={{paddingLeft: 15, paddingRight: 15}}>
                 <Header />
                 <Route path="/" exact={true} component={MainPage}/>
                 <Route path="/main" component={MainPage}/>

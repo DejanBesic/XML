@@ -35,9 +35,11 @@ export default function(state = initialState, action) {
                 error: action.payload,
             };
         
-        case ResetReservations: 
+        case ResetReservations:
             return {
-                state: initialState,
+                reservations: [],
+                isLoading: false,
+                error: "",
             };
 
         default: 
