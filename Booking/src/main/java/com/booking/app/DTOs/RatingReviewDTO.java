@@ -11,7 +11,7 @@ public class RatingReviewDTO {
 		super();
 		this.id = id;
 		this.usersName = usersName;
-		this.facilityName = facilityName; 
+		this.facilityName = facilityName;
 		this.comment = comment;
 	}
 	public Long getId() {
