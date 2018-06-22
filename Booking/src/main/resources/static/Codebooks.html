@@ -17,7 +17,7 @@
 	<div class="row">
 		<div id="leftPart" class="col-sm-3" >
 			<div style=" padding-top: 10px; text-align: left;">
-			    <button class="button" type="button" style="margin-right: 10px;" onClick="manageCodebooks()">Manage CodeBooks</button>
+			    <button class="button" type="button" style="margin-right: 10px;" onClick="home()">Home</button>
 		    </div>
 		    <div style=" padding-top: 10px; text-align: left;">
 			    <button class="button" type="button" style="margin-right: 10px;" onClick="manageUsers()">Manage Users</button>
@@ -30,13 +30,14 @@
 		    </div>
 		</div>
 		<div  class="col-sm-6">
-			<h3>Comment Review</h3>
+			<h3>Facility Types</h3>
 			<div ></div>
+			<b id="error" style="color:red; visibility: collapse">Can not delete element that is in use.</b>
 			<table id="centralPart" style="width:100%"></table>
 		</div>
 	</div>
 </div>
 	
-	<script src="/scripts/adminHome.js"></script> 
+	<script src="/scripts/manageCodebooks.js"></script> 
 </body>
 </html>

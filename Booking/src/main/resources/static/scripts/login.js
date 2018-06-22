@@ -23,6 +23,11 @@ function login(){
 		dataType: "json",
         success: function (data) {
         	window.location.href = "../AdminHome.html?key="+data.accessToken;	
-        }	
+        },
+		error: function(xhr, ajaxOptions, thrownError){
+			$("#error").css("visibility", "visible");
+
+		}
+
         });
 } 

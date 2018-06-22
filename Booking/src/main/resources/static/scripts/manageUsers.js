@@ -103,3 +103,17 @@ function addAgent(){
 function manageComments(){
 	window.location.href = "../AdminHome.html?key="+token;
 }
+
+function manageCodebooks(){
+	window.location.href = "../CodeBooks.html?key="+token;
+}
+
+function logout(){
+	$.ajax({
+    	url: "../api/admin/logout",
+		type: "GET",
+        success: function (data) {
+        	window.location.href = "../AdminLogin.html";	
+        }
+	});
+}
