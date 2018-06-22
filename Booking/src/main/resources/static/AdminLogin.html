@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+<script src="/stylesheets/bootstrap.min.js"></script>
+
+<meta charset="UTF-8">
+</head>
+<body>
+	<div style="padding-left: 15px; padding-right: 15px;"> 
+	<div class="row" style="text-align: center">
+		<h1 id="header"></h1>		
+	</div>
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<form id="newForm">
+				<span>
+					Username or email:
+					<input id="usernameOrEmail" type="text" class="form-control" name="UsernameOrEmail"/>
+				</span>
+				<span>
+					Password:
+					<input id="password" type="password" class="form-control" name="Password"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="login()">Login</button>
+			    </div>
+			</form>
+		</div>
+	</div>
+</div>
+	
+	<script src="/scripts/login.js"></script>
+</body>
+</html>
