@@ -17,5 +17,7 @@ public interface UserService {
 	User findByEmail(String email);
 	
 	void delete(Long id);
+	
+	List<User> findAllInactive();
 
 }

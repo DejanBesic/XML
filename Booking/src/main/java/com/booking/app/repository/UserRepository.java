@@ -3,6 +3,7 @@ package com.booking.app.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.booking.app.model.User;
@@ -24,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+    
+    @Query("SELECT r FROM User r where r.active = false") 
+    List<User> findAllInactive();
 }

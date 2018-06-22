@@ -52,7 +52,7 @@ public class AdminController {
 
 	@GetMapping("/getUsers")
     public ResponseEntity<?> getUser() {
-    	return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    	return new ResponseEntity<>(userService.findAllInactive(), HttpStatus.OK);
     }
 	
 	@GetMapping("/getRatings")
@@ -70,6 +70,35 @@ public class AdminController {
 		rat.setApproved(true);
 		ratingService.save(rat);
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value= "/approveUser", method=RequestMethod.POST)
+	public ResponseEntity<?> approveUser(@RequestBody User user) {
+		User us = userService.findById(user.getId());
+		if (us==null) {
+			return new ResponseEntity<>("Failed to activate user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setActive(true);
+		userService.save(us);
+		return new ResponseEntity<>(us, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value= "/blockUser", method=RequestMethod.POST)
+	public ResponseEntity<?> blockUser(@RequestBody User user) {
+		User us = userService.findById(user.getId());
+		if (us==null) {
+			return new ResponseEntity<>("Failed to block user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setActive(true);
+		String subject = "You have been blocked";
+		String messageText = "You have been reported by admin and you can no longer continue"
+				+" to use our service.";
+		if(!emailService.sendCustomEmail(us.getEmail(), subject, messageText)) {
+			return new ResponseEntity<>("Failed to block user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setPassword("a");
+		userService.save(us);
+		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
 	@RequestMapping(value= "/block", method=RequestMethod.POST)

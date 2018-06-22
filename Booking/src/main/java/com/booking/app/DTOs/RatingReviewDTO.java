@@ -6,13 +6,21 @@ public class RatingReviewDTO {
 	private String usersName;
 	private String facilityName;
 	private String comment;
+	private Long userID;
 	
-	public RatingReviewDTO(Long id, String usersName, String facilityName, String comment) {
+	public RatingReviewDTO(Long id, String usersName, String facilityName, String comment, Long userID) {
 		super();
 		this.id = id;
 		this.usersName = usersName;
 		this.facilityName = facilityName;
 		this.comment = comment;
+		this.userID = userID;
+	}
+	public Long getUserID() {
+		return userID;
+	}
+	public void setUserID(Long userID) {
+		this.userID = userID;
 	}
 	public Long getId() {
 		return id;

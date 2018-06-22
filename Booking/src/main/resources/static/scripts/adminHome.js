@@ -37,12 +37,15 @@ function defaultElements(){
 function createCommentElement(data){
 	var str ="";
 	str +='<tr class="tr'+data.id+'"><td>'+ data.usersName + ' commented on ' + data.facilityName +'</td> </tr>'
-		+ '<tr class="tr'+data.id+'"><td>' + data.comment + '</td><td>'
-		+'<button class="button approve" onClick="approve(' + data.id + ')">Approve</button>'
-		+'</td>'
-		+'<td>'
-		+'<button class="button delete" onClick="block(' + data.id + ')">Block</button>'
-		+'</td></tr>';
+	+ '<tr class="tr'+data.id+'"><td>' + data.comment + '</td><td>'
+	+'<button class="button approve" onClick="approve(' + data.id + ')">Approve</button>'
+	+'</td>'
+	+'<td>'
+	+'<button class="button delete" onClick="block(' + data.id + ')">Delete</button>'
+	+'</td>'
+	+'<td>'
+	+'<button class="button delete" onClick="blockUser('+data.id+',' + data.userID + ')">Block user</button>'
+	+'</td></tr>';
 	
 	$('#centralPart').append(str);
 }
@@ -95,7 +98,35 @@ function block(id){
 	});
 }
 
+function blockUser(id, userID){
+	block(id);
+	var data = new Object();
+	data.id = userID;
+	
+	$.ajax({
+    	url: "../admin/blockUser",
+		data: JSON.stringify(data),
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		headers: {
+			Authorization :"Bearer "+token
+		},
+        success: function (data) {
+        	var del = '.tr'+id;
+        	$(del).remove();
+        },
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError);
+
+		}
+	});
+}
+
 function addAgent(){
 	window.location.href = "../AddAgent.html?key="+token;
 }
  
+function manageUsers(){
+	window.location.href = "../ManageUsers.html?key="+token;
+}
