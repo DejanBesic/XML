@@ -40,3 +40,6 @@ export const fetchUser = (token) =>
 
 export const fetchEditUser = (user, token) =>
     (axios.post(`${baseUrl}/user`, user, { headers: { Authorization: `Bearer ${token}` }}))
+
+// export const fetchSendMessage = (message, reservationId, token) =>
+//     (axios.)

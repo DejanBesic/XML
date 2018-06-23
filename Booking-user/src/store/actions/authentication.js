@@ -31,6 +31,7 @@ export const login = (user) => (dispatch, getState) => {
       const token = response.data;
         setAuthorizationToken(token);
         dispatch(onAuthenticationSuccess({ token: token, user: jwt.decode(token.accessToken) }));
+        dispatch(getUser());
     })
     .catch((err) => {
         dispatch(onAuthenticationFailure(err.response.data));

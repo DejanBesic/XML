@@ -12,6 +12,7 @@ import com.booking.app.DTOs.SearchDTO;
 import com.booking.app.DTOs.SearchRequest;
 import com.booking.app.model.Appointment;
 import com.booking.app.model.Facility;
+import com.booking.app.model.Image;
 import com.booking.app.model.Rating;
 import com.booking.app.model.Reservation;
 import com.booking.app.repository.AppointmentRepository;
@@ -31,6 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService{
 	
 	@Autowired
 	RatingServiceImpl ratingService;
+	
+	@Autowired
+	ImageServiceImpl imageService;
 	
 	@Override
 	public Appointment findById(Long id) {
@@ -107,7 +111,13 @@ public class AppointmentServiceImpl implements AppointmentService{
 					averageRating /= ratings.size();	
 				}
 				
-				searchList.add(new SearchDTO(a.getFacility(), price, start, end, averageRating));				
+				List<Image> images = imageService.findByFacility(a.getFacility());
+				List<byte[]> img = new ArrayList<byte[]>();
+				for (Image i : images) {
+					img.add(i.getImagesDB());
+				}
+				
+				searchList.add(new SearchDTO(a.getFacility(), price, start, end, averageRating, img));				
 			}
 			//ako se pocetak nalazi unutar jednog termina a kraj unutar drugog
 //			else if (startDate >= 0 && endDate > 0 && startEndDate <= 0) {

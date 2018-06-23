@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StarRatings from 'react-star-ratings';
 import Popup from "reactjs-popup";
 import { connect } from 'react-redux';
+import { sendMessage } from '../store/actions/message';
 import { rate } from "../store/actions/rating";
 
 import "../Shared/SharedCSS/Rating.css";
@@ -167,6 +168,7 @@ class Reservation extends Component {
 
 const mapDispatch = (dispatch) => ({
    rate: (rating) => dispatch(rate(rating)),
+   sendMessage: (message, reservationId) => dispatch(sendMessage(message, reservationId))
 });
 
 const mapState = (state) => ({

@@ -1,33 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUser, editUser } from '../store/actions/authentication';
+import { editUser } from '../store/actions/authentication';
 import Form from '../Shared/Form';
 
 class Settings extends Component {
     constructor(props) {
         super(props);
-        
-        this.props.getUser();
-
         this.state = {
-            email: "",
-            name: "",
-            lastName: "",
-            address: "",
+            email: this.props.user.email,
+            name: this.props.user.name,
+            lastName: this.props.user.lastName,
+            address: this.props.user.address,
             oldPassword: "",
             newPassword: "",
             confirmPassword: "",
         };
-    }
-
-    componentDidMount() {
-        this.setState({ email: this.props.user.email});
-
-
-
-        this.props.user.name
-        this.props.user.lastName
-        this.props.user.address
     }
 
     emailChange = (evt) => { this.setState({ email: evt.target.value } ); }
@@ -48,7 +35,6 @@ class Settings extends Component {
         
         return(
             <div className="row" >
-
                 <div className="col-4"></div>
                 <div className="col-4">
                 <Form
@@ -145,7 +131,6 @@ class Settings extends Component {
 }
 
 const mapDispatch = dispatch => ({
-    getUser: () => dispatch(getUser()),
     edit: (user) => dispatch(editUser(user))
 });
 

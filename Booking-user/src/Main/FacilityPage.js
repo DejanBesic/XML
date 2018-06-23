@@ -12,6 +12,17 @@ class FacilityPage extends Component {
         super(props);
         this.props.getRatings(this.props.match.params.id);
     }
+
+    getImages = (appointment) => {
+        let images = [];
+        if (appointment.images) {
+            let i = 0;
+            for (i = 0; i<appointment.images.length; i++) {
+                images.push(`data:image/png;base64, ${appointment.images[i]}`);
+            }
+        }
+        return images;
+    }
  
     render(){
         if (!this.props.match.params.id) {
@@ -31,7 +42,8 @@ class FacilityPage extends Component {
                 <div className="col-8">
                     <Appointment   
                         key={appointment.facility.id} 
-                        appointment={appointment} 
+                        appointment={appointment}
+                        images={this.getImages(appointment)}
                         onClick={() => this.props.reserve(
                                                         {   facilityId: appointment.facility.id,
                                                             endDate: appointment.endDate,
