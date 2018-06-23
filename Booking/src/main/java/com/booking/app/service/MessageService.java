@@ -2,6 +2,7 @@ package com.booking.app.service;
 
 import java.util.List;
 
+import com.booking.app.DTOs.MessageDTO;
 import com.booking.app.model.Message;
 import com.booking.app.model.User;
 
@@ -15,5 +16,5 @@ public interface MessageService {
 	
 	List<Message> findBySender(User sender);
 	
-	List<Message> findForUser(User user);
+	List<MessageDTO> findForUser(User user);
 }

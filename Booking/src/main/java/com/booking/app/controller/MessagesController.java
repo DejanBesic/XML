@@ -39,6 +39,13 @@ public class MessagesController {
     	User user = userService.findByUsername("twiste");
 		return new ResponseEntity<>(messageService.findForUser(user), HttpStatus.OK);
 	}
+    
+    @GetMapping("/getForUser")//TODO: sadadadasdas
+	public ResponseEntity<?> getForUser() {
+		//User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    	User user = userService.findByUsername("twiste");
+		return new ResponseEntity<>(messageService.findForUser(user), HttpStatus.OK);
+	}
 	
 	@RequestMapping(value= "/sendMessage", method=RequestMethod.POST)
 	public ResponseEntity<?> sendMessage(@RequestBody MessageRequest messageRequest) {
