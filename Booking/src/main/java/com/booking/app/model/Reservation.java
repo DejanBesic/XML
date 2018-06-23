@@ -36,18 +36,22 @@ public class Reservation implements Serializable {
 	
 	@Column(nullable = false)
 	private int price;
+	
+	@Column(nullable = false)
+	private boolean confirmed;
 
 	public Reservation() {
 		
 	}
 	
-	public Reservation(User guest, Facility facility, Date fromDate, Date toDate, int price) {
+	public Reservation(User guest, Facility facility, Date fromDate, Date toDate, int price, boolean confirmed) {
 		super();
 		this.guest = guest;
 		this.facility = facility;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.price = price;
+		this.confirmed = confirmed;
 	}
 
 	public Long getId() {
@@ -96,6 +100,14 @@ public class Reservation implements Serializable {
 
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}	
 	
 	

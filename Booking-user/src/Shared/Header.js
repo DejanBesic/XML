@@ -37,9 +37,10 @@ class Header extends Component {
                         <div className="dropdown">
                             <button className="dropbtn btn-primary">{this.props.user.username}</button>
                             <div className="dropdown-content">
-                            <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
-                            <Link to="/settings">Settings</Link>
-                            <Link to="/reservations">My reservations</Link>
+                                <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
+                                <Link to="/settings">Settings</Link>
+                                <Link to="/messages">My messages</Link>
+                                <Link to="/reservations">My reservations</Link>
                             </div>
                         </div>
 

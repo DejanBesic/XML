@@ -14,6 +14,7 @@ class Reservation extends Component {
             rating: 0,
             comment: "",
             id: props.reservation.facility.id,
+            message: "",
         }
     }
 
@@ -33,6 +34,13 @@ class Reservation extends Component {
         this.setState({
             ...this.state,
             comment: evt.target.value,
+        });
+    }
+
+    changeMessage = (evt) => {
+        this.setState({
+            ...this.state,
+            message: evt.target.value,
         });
     }
 
@@ -101,7 +109,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.rate(this.state)
+                                                this.props.rate({id: this.state.id, comment: this.state.comment, rating: this.state.rating })
                                             }}
                                         >
                                             Confirm
@@ -134,8 +142,8 @@ class Reservation extends Component {
                                             rows="4"
                                             cols="3"
                                             type="textarea"
-                                            value={this.state.comment}
-                                            onChange={this.changeComment}
+                                            value={this.state.message}
+                                            onChange={this.changeMessage}
                                             >
                                         </textarea>
                                         </div>
@@ -146,7 +154,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.sendMessage(this.state)
+                                                this.props.sendMessage({ reservationId: this.props.reservation.id, message: this.state.message })
                                             }}
                                         >
                                             Send

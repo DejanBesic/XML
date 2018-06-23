@@ -60,7 +60,7 @@ public class RatingController {
 		List<Reservation> reservations = reservationService.findByGuestAndFacility(user, facility);
 		for (Reservation r : reservations) {
 			int endDate = todaysDate.compareTo(r.getToDate());
-			if (endDate <= 0) {
+			if (endDate <= 0 || !r.isConfirmed()) {
 				return new ResponseEntity<>("You can't rate until reservation date is over", HttpStatus.BAD_REQUEST);
 			}
 		

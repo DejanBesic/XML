@@ -13,10 +13,10 @@ export const onSendMessageFailure = (error) =>
     ({ type: SendMessageFailure, payload: error })
 
 
-export const sendMessage = (message, reservationId) => (dispatch, getState) => {
+export const sendMessage = (message) => (dispatch, getState) => {
     dispatch(onSendMessageStart());
     const token = getState().authentication.token.accessToken;
-    fetchSendMessage(message, reservationId, token)
+    fetchSendMessage(message, token)
     .then(() => { 
         dispatch(onSendMessageSuccess()); 
         alert('Message sent.');
