@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,16 +36,18 @@ public class MessagesController {
 	
     @GetMapping("/getMessages")
 	public ResponseEntity<?> getMessages() {
-		//User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-    	User user = userService.findByUsername("twiste");
+		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    	//User user = userService.findByUsername("twiste");
 		return new ResponseEntity<>(messageService.findForUser(user), HttpStatus.OK);
 	}
     
-    @GetMapping("/getForUser")//TODO: sadadadasdas
-	public ResponseEntity<?> getForUser() {
-		//User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-    	User user = userService.findByUsername("twiste");
-		return new ResponseEntity<>(messageService.findForUser(user), HttpStatus.OK);
+    @GetMapping("/getForUser/{id}")//TODO: sadadadasdas
+	public ResponseEntity<?> getForUser(@PathVariable Long id) {
+		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    	//User user = userService.findByUsername("twiste");
+    	User other = userService.findById(id);
+    	//User other = userService.findByUsername("bei");
+		return new ResponseEntity<>(messageService.findConversation(user,other), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value= "/sendMessage", method=RequestMethod.POST)

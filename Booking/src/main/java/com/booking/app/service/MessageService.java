@@ -17,4 +17,6 @@ public interface MessageService {
 	List<Message> findBySender(User sender);
 	
 	List<MessageDTO> findForUser(User user);
+	
+	List<MessageDTO> findConversation(User user, User other);
 }
