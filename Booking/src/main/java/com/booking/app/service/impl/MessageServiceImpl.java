@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booking.app.DTOs.MappMessage;
+import com.booking.app.DTOs.MessageDTO;
 import com.booking.app.model.Message;
 import com.booking.app.model.User;
 import com.booking.app.repository.MessageRepository;
@@ -47,7 +49,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public List<Message> findForUser(User user) {
+	public List<MessageDTO> findForUser(User user) {
 		List<Message> all = messageRepository.findBySenderOrReciverOrderByDateDesc(user, user);
 		List<String> emails = new ArrayList<String>();
 		List<Message> forReturn = new ArrayList<Message>();
@@ -65,7 +67,7 @@ public class MessageServiceImpl implements MessageService{
 				}
 			}
 		}
-		return forReturn;
+		return MappMessage.mappMessages(forReturn);
 	}
 
 }
