@@ -1,14 +1,13 @@
 package com.agent.app.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.io.IOException;
-import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -19,24 +18,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agent.app.DTOs.FacilityDTO;
-import com.agent.app.model.Facility;
 import com.agent.app.ws.WSFacilityClient;
 import com.agent.app.wsdl.AgentFacilitiesRequest;
 import com.agent.app.wsdl.AgentFacilitiesResponse;
 import com.agent.app.wsdl.AppointmentWS;
-import com.agent.app.wsdl.FacilityWS;
 import com.agent.app.wsdl.ImagesWS;
 import com.agent.app.wsdl.MessageResponse;
 import com.agent.app.wsdl.NewFacilityRequest;
-import com.agent.app.wsdl.UserWS;
+import com.booking.app.DTOs.MessageDTO;
 
 
 @RestController
@@ -58,6 +53,20 @@ public class FacilityController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
     	return new ResponseEntity<>(response.getFacilityWS(), HttpStatus.OK);
+    }
+	
+	@GetMapping(value="/getMessages")
+    public ResponseEntity<?> getMessages() {
+    
+		MessageDTO msg = new MessageDTO(1L,1L,2L,"rec","sen","recn","senn","WAZZZA",new Date());
+		MessageDTO msg1 = new MessageDTO(2L,1L,2L,"rec","sen","recn","senn","WAZZZA2",new Date());
+		MessageDTO msg2 = new MessageDTO(3L,1L,2L,"rec","sen","recn","senn","WAZZZA3",new Date());
+		
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		list.add(msg);
+		list.add(msg1);
+		list.add(msg2);
+    	return new ResponseEntity<>(list, HttpStatus.OK);
     }
 	
 //	@RequestMapping(method=RequestMethod.POST, consumes="application/json")

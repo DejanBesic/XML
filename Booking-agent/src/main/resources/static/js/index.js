@@ -1,6 +1,7 @@
 $(document).ready(function(){
     
 	showMyFacilities();
+	showMessages();
 	
 	$(document).on('submit', '#newForm', function(e) {
 		e.preventDefault();
@@ -91,3 +92,46 @@ function createFacility(){
         });
     }
 }
+
+function showMessages(){
+	$.ajax({
+		url: '../api/facility/getMessages',
+		headers:{
+			"authorization": localStorage.getItem("token")
+		},
+    	success: function(data){
+    		$('#msgTable').html("");
+    		createMessageHead();
+    		for(var i =0; i< data.length; i++){
+    			createMessageElement(data[i]);
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError);
+
+		}
+	});
+
+return false;
+}
+
+function createMessageHead(){
+	var str ="";
+	str +='<tr><th>Message:</th><th>Username:</th></tr>'
+		+'<tr>';
+	
+	$('#msgTable').append(str);
+}
+
+function createMessageElement(data){
+	var str ="";
+	str +='<tr><td>'+data.message+'</td><td>'+ data.senderUsername +'</td></tr>'
+		+'<tr>'
+		+'<td><input id="in'+data.id+'" type="text" class="form-control"></td>'
+		+'<td><button class="button" onClick="sendResponse(' + data.id + ')">Send</button></td>'
+		+'</tr>';
+	
+	$('#msgTable').append(str);
+}
+
+
