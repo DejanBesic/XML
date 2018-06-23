@@ -8,7 +8,7 @@ import com.booking.app.model.Rating;
 public final class MappRatingToRatingDTO {
 
 	public static RatingReviewDTO mappRating(Rating rating) {
-		return new RatingReviewDTO(rating.getId(),rating.getUser().getName()+" "+rating.getUser().getLastName(),rating.getFacility().getName(),rating.getComment());
+		return new RatingReviewDTO(rating.getId(),rating.getUser().getName()+" "+rating.getUser().getLastName(),rating.getFacility().getName(),rating.getComment(),rating.getUser().getId());
 	}
 	
 	public static List<RatingReviewDTO> mappRatings(List<Rating> ratings){

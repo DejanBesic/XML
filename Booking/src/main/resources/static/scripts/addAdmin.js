@@ -4,13 +4,7 @@ $(document).ready(function() {
 var token;
 
 function defaultElements(){
-	var url = window.location.href;
-	var str = url.split("key=");
-	if(str.length < 2){
-		window.location.href = "../AdminLogin.html";
-		return;
-	}
-	token = str[1];
+	token = localStorage.getItem("token");
 	var title = "Add Agent";
 	document.title = title;
 	$('#header').html(title);
@@ -34,8 +28,8 @@ function addAgent(){
 			Authorization :"Bearer "+token
 		},
         success: function (data) {
-        	window.location.href = "../AddAgent.html?key="+token;
-        },
+        	window.location.href = "../AddAgent.html";
+        }, 
 		error: function(xhr, ajaxOptions, thrownError){
 			$("#error").css("visibility", "visible");
 
@@ -44,6 +38,6 @@ function addAgent(){
 }
 
 function returnt(){
-	window.location.href = "../AdminHome.html?key="+token;
+	window.location.href = "../AdminHome.html";
 }
 	

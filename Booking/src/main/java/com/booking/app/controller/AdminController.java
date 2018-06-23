@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.RegistrationResponse;
+import com.booking.app.model.FacilityType;
 import com.booking.app.model.Rating;
 import com.booking.app.model.Role;
 import com.booking.app.model.User;
 import com.booking.app.security.JwtTokenProvider;
 import com.booking.app.service.impl.EmailServiceImpl;
+import com.booking.app.service.impl.FacilityTypeServiceImpl;
 import com.booking.app.service.impl.RandomPasswordGeneratorImpl;
 import com.booking.app.service.impl.RatingServiceImpl;
 import com.booking.app.service.impl.RoleServiceImpl;
@@ -42,6 +44,9 @@ public class AdminController {
     EmailServiceImpl emailService;
     
     @Autowired
+    FacilityTypeServiceImpl facService;
+    
+    @Autowired
     RoleServiceImpl roleService;
     
     @Autowired
@@ -49,10 +54,20 @@ public class AdminController {
     
     @Autowired
     JwtTokenProvider tokenProvider;
-
+    
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+    	return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+    
 	@GetMapping("/getUsers")
     public ResponseEntity<?> getUser() {
-    	return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    	return new ResponseEntity<>(userService.findAllInactive(), HttpStatus.OK);
+    }
+	
+	@GetMapping("/getTypes")
+    public ResponseEntity<?> getTypes() {
+    	return new ResponseEntity<>(facService.findAll(), HttpStatus.OK);
     }
 	
 	@GetMapping("/getRatings")
@@ -70,6 +85,35 @@ public class AdminController {
 		rat.setApproved(true);
 		ratingService.save(rat);
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value= "/approveUser", method=RequestMethod.POST)
+	public ResponseEntity<?> approveUser(@RequestBody User user) {
+		User us = userService.findById(user.getId());
+		if (us==null) {
+			return new ResponseEntity<>("Failed to activate user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setActive(true);
+		userService.save(us);
+		return new ResponseEntity<>(us, HttpStatus.OK); 
+	}
+	
+	@RequestMapping(value= "/blockUser", method=RequestMethod.POST)
+	public ResponseEntity<?> blockUser(@RequestBody User user) {
+		User us = userService.findById(user.getId());
+		if (us==null) {
+			return new ResponseEntity<>("Failed to block user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setActive(true);
+		String subject = "You have been blocked";
+		String messageText = "You have been reported by admin and you can no longer continue"
+				+" to use our service.";
+		if(!emailService.sendCustomEmail(us.getEmail(), subject, messageText)) {
+			return new ResponseEntity<>("Failed to block user.", HttpStatus.BAD_REQUEST);
+		}
+		us.setPassword("a");
+		userService.save(us);
+		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
 	@RequestMapping(value= "/block", method=RequestMethod.POST)
@@ -110,7 +154,34 @@ public class AdminController {
 			userService.delete(result.getId());
 		}
         return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value= "/saveType", method=RequestMethod.POST)
+	public ResponseEntity<?> saveType(@RequestBody FacilityType fact) {
+		FacilityType ft = facService.findById(fact.getId());
+		if(ft == null) {
+			return new ResponseEntity<>("Failed to update.", HttpStatus.BAD_REQUEST);
+		}
+		ft.setName(fact.getName());
+		fact = facService.save(ft);
+		return new ResponseEntity<>(fact, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value= "/deleteType", method=RequestMethod.POST)
+	public ResponseEntity<?> deleteType(@RequestBody FacilityType fact) {
+		FacilityType ft = facService.findById(fact.getId());
+		if(ft == null) {
+			return new ResponseEntity<>("Failed to delete.", HttpStatus.BAD_REQUEST);
+		}
+		facService.delete(ft.getId());
+		return new ResponseEntity<>(ft, HttpStatus.OK);
 
-		
+	}
+	
+	@RequestMapping(value= "/addNewType", method=RequestMethod.POST)
+	public ResponseEntity<?> addNewType(@RequestBody FacilityType fact) {
+		FacilityType ft = new FacilityType(fact.getName());
+		fact = facService.save(ft);
+		return new ResponseEntity<>(fact, HttpStatus.OK);
 	}
 }

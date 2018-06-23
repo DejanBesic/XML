@@ -25,11 +25,11 @@ public class FacilityType  implements Serializable{
 	@Column(nullable = false)
 	private String name;
 
-	private FacilityType() {
+	public FacilityType() {
 		
 	}
 	
-	private FacilityType(String name) {
+	public FacilityType(String name) {
 		this.name = name;
 	}
 	

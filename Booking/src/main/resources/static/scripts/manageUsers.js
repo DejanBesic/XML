@@ -5,12 +5,12 @@ var token;
 
 function defaultElements(){
 	token = localStorage.getItem("token");
-	var title = "Home";
+	var title = "Users";
 	document.title = title;
 	$('#header').html(title);
 	
 	$.ajax({
-		url: "../admin/getRatings",
+		url: "../admin/getUsers",
 		headers: {
 			Authorization :"Bearer "+token
 		},
@@ -18,37 +18,36 @@ function defaultElements(){
 			$('#centralPart').html("");
 //			console.log(data);
 			for(var i =0; i< data.length; i++){
-				createCommentElement(data[i]);
+				createUserElement(data[i]);
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			console.log(thrownError);
+
 		}
 	});
 }
 
-function createCommentElement(data){
+function createUserElement(data){
 	var str ="";
-	str +='<tr class="tr'+data.id+'"><td>'+ data.usersName + ' commented on ' + data.facilityName +'</td> </tr>'
-	+ '<tr class="tr'+data.id+'"><td>' + data.comment + '</td><td>'
-	+'<button class="button approve" onClick="approve(' + data.id + ')">Approve</button>'
+
+	str += '<tr class="tr'+data.id+'"><td>' + data.name+' '+data.lastName + '</td><td>'
+	+data.email+'</td><td>'
+	+'<button class="button approve" onClick="approveUser(' + data.id + ')">Activate</button>'
 	+'</td>'
 	+'<td>'
-	+'<button class="button delete" onClick="block(' + data.id + ')">Delete</button>'
-	+'</td>'
-	+'<td>'
-	+'<button class="button logdelete" onClick="blockUser('+data.id+',' + data.userID + ')">Block user</button>'
+	+'<button class="button delete" onClick="blockUser(' + data.id + ')">Block</button>'
 	+'</td></tr>';
 	
 	$('#centralPart').append(str);
 }
 
-function approve(id){
+function approveUser(id){
 	var data = new Object();
 	data.id = id;
 	
 	$.ajax({
-    	url: "../admin/approve",
+    	url: "../admin/approveUser",
 		data: JSON.stringify(data),
 		type: "POST",
 		contentType: "application/json",
@@ -67,34 +66,9 @@ function approve(id){
 	}); 
 }
 
-function block(id){
+function blockUser(id){
 	var data = new Object();
 	data.id = id;
-	
-	$.ajax({
-    	url: "../admin/block",
-		data: JSON.stringify(data),
-		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		headers: {
-			Authorization :"Bearer "+token
-		},
-        success: function (data) {
-        	var del = '.tr'+id;
-        	$(del).remove();
-        },
-		error: function(xhr, ajaxOptions, thrownError){
-			console.log(thrownError);
-
-		}
-	});
-}
-
-function blockUser(id, userID){
-	block(id);
-	var data = new Object();
-	data.id = userID;
 	
 	$.ajax({
     	url: "../admin/blockUser",
@@ -120,8 +94,8 @@ function addAgent(){
 	window.location.href = "../AddAgent.html";
 }
  
-function manageUsers(){
-	window.location.href = "../ManageUsers.html";
+function manageComments(){
+	window.location.href = "../AdminHome.html";
 }
 
 function manageCodebooks(){

@@ -16,4 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 	
 	List<Reservation> findByGuest(User guest);
 
+	List<Reservation> findByGuestAndFacility(User guest, Facility facility);
+
 }

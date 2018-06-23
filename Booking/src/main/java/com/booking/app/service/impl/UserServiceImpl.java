@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService{
 		userRepository.delete(id);
 	}
 
+	@Override
+	public List<User> findAllInactive() {
+		return userRepository.findAllInactive();
+	}
+
 }

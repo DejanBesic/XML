@@ -22,7 +22,13 @@ function login(){
 		contentType: "application/json",
 		dataType: "json",
         success: function (data) {
-        	window.location.href = "../AdminHome.html?key="+data.accessToken;	
-        }	
+        	localStorage.setItem("token", data.accessToken);
+        	window.location.href = "../AdminHome.html";	
+        },
+		error: function(xhr, ajaxOptions, thrownError){
+			$("#error").css("visibility", "visible");
+
+		}
+
         });
 } 

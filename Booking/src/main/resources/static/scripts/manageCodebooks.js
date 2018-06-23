@@ -5,74 +5,65 @@ var token;
 
 function defaultElements(){
 	token = localStorage.getItem("token");
-	var title = "Home";
+	var title = "CodeBooks";
 	document.title = title;
 	$('#header').html(title);
 	
 	$.ajax({
-		url: "../admin/getRatings",
+		url: "../admin/getTypes",
 		headers: {
 			Authorization :"Bearer "+token
 		},
 		success: function(data){
 			$('#centralPart').html("");
 //			console.log(data);
+			createNewType();
 			for(var i =0; i< data.length; i++){
-				createCommentElement(data[i]);
+				createTypeElement(data[i]);
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			console.log(thrownError);
+
 		}
 	});
 }
 
-function createCommentElement(data){
+function createTypeElement(data){
 	var str ="";
-	str +='<tr class="tr'+data.id+'"><td>'+ data.usersName + ' commented on ' + data.facilityName +'</td> </tr>'
-	+ '<tr class="tr'+data.id+'"><td>' + data.comment + '</td><td>'
-	+'<button class="button approve" onClick="approve(' + data.id + ')">Approve</button>'
+
+	str += '<tr class="tr'+data.id+'"><td>' 
+	+'<input id="in'+data.id+'" type="text" class="form-control" value="'+data.name+'">'
+	+'</td><td>'
+	+'<button class="button approve" onClick="saveType(' + data.id + ')">Save</button>'
 	+'</td>'
 	+'<td>'
-	+'<button class="button delete" onClick="block(' + data.id + ')">Delete</button>'
-	+'</td>'
-	+'<td>'
-	+'<button class="button logdelete" onClick="blockUser('+data.id+',' + data.userID + ')">Block user</button>'
+	+'<button class="button delete" onClick="deleteType(' + data.id + ')">Delete</button>'
 	+'</td></tr>';
 	
 	$('#centralPart').append(str);
 }
 
-function approve(id){
-	var data = new Object();
-	data.id = id;
-	
-	$.ajax({
-    	url: "../admin/approve",
-		data: JSON.stringify(data),
-		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		headers: {
-			Authorization :"Bearer "+token
-		},
-        success: function (data) {
-        	var del = '.tr'+id;
-        	$(del).remove();
-        },
-		error: function(xhr, ajaxOptions, thrownError){
-			console.log(thrownError);
+function createNewType(){
+	var str ="";
 
-		}
-	}); 
+	str += '<tr><td>' 
+	+'<input id="newType" type="text" class="form-control">'
+	+'</td><td>'
+	+'<button class="button add" onClick="addNewType()">Add</button>'
+	+'</td></tr>';
+	
+	$('#centralPart').append(str);
 }
 
-function block(id){
+function saveType(id){
 	var data = new Object();
 	data.id = id;
+	var ss = '#in'+id;
+	data.name = $(ss).val();
 	
 	$.ajax({
-    	url: "../admin/block",
+    	url: "../admin/saveType",
 		data: JSON.stringify(data),
 		type: "POST",
 		contentType: "application/json",
@@ -81,8 +72,7 @@ function block(id){
 			Authorization :"Bearer "+token
 		},
         success: function (data) {
-        	var del = '.tr'+id;
-        	$(del).remove();
+        	$("#error").css("visibility", "collapse");
         },
 		error: function(xhr, ajaxOptions, thrownError){
 			console.log(thrownError);
@@ -91,13 +81,12 @@ function block(id){
 	});
 }
 
-function blockUser(id, userID){
-	block(id);
+function deleteType(id){
 	var data = new Object();
-	data.id = userID;
+	data.id = id;
 	
 	$.ajax({
-    	url: "../admin/blockUser",
+    	url: "../admin/deleteType",
 		data: JSON.stringify(data),
 		type: "POST",
 		contentType: "application/json",
@@ -108,6 +97,30 @@ function blockUser(id, userID){
         success: function (data) {
         	var del = '.tr'+id;
         	$(del).remove();
+        	$("#error").css("visibility", "collapse");
+        },
+		error: function(xhr, ajaxOptions, thrownError){
+			$("#error").css("visibility", "visible");
+
+		}
+	});
+}
+
+function addNewType(){
+	var data = new Object();
+	data.name = $('#newType').val();
+	
+	$.ajax({
+    	url: "../admin/addNewType",
+		data: JSON.stringify(data),
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		headers: {
+			Authorization :"Bearer "+token
+		},
+        success: function (data) {
+        	window.location.href = "../CodeBooks.html";
         },
 		error: function(xhr, ajaxOptions, thrownError){
 			console.log(thrownError);
@@ -120,12 +133,12 @@ function addAgent(){
 	window.location.href = "../AddAgent.html";
 }
  
-function manageUsers(){
-	window.location.href = "../ManageUsers.html";
+function home(){
+	window.location.href = "../AdminHome.html";
 }
 
-function manageCodebooks(){
-	window.location.href = "../CodeBooks.html";
+function manageUsers(){
+	window.location.href = "../ManageUsers.html";
 }
 
 function logout(){

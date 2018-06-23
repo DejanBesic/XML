@@ -8,8 +8,9 @@ import "./SharedCSS/Header.css";
 
 const li = {
     display: 'inline-block',
-    paddingRight: 30,
+    paddingRight: 15,
     paddingTop: 10,
+    paddingLeft: 15,
 }
 
 
@@ -32,13 +33,19 @@ class Header extends Component {
             <div className="row">
                 <div style={{background: 'black', flex: 1}}>
                 {this.props.user ? 
-                    <div className="dropdown">
-                        <button className="dropbtn btn-primary">{this.props.user.username}</button>
-                        <div className="dropdown-content">
-                           <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
-                           <Link to="/settings">Settings</Link>
-                           <Link to="/reservations">My reservations</Link>
+                    <div>
+                        <div className="dropdown">
+                            <button className="dropbtn btn-primary">{this.props.user.username}</button>
+                            <div className="dropdown-content">
+                            <a onClick={() => this.props.logout()} style={{cursor: 'pointer'}}>Logout</a>
+                            <Link to="/settings">Settings</Link>
+                            <Link to="/reservations">My reservations</Link>
+                            </div>
                         </div>
+
+                        <li style={li}>
+                            <Link to="/">Main page</Link>
+                        </li>
                     </div>
                     :
                         this.loginAndRegister()
