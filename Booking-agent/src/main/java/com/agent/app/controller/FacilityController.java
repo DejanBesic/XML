@@ -32,6 +32,7 @@ import com.agent.app.wsdl.ImagesWS;
 import com.agent.app.wsdl.MessageResponse;
 import com.agent.app.wsdl.NewFacilityRequest;
 import com.booking.app.DTOs.MessageDTO;
+import com.booking.app.DTOs.ReservationDTO;
 
 
 @RestController
@@ -63,6 +64,20 @@ public class FacilityController {
 		MessageDTO msg2 = new MessageDTO(3L,1L,2L,"rec","sen","recn","senn","WAZZZA3",new Date());
 		
 		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		list.add(msg);
+		list.add(msg1);
+		list.add(msg2);
+    	return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+	
+	@GetMapping(value="/getReservation")
+    public ResponseEntity<?> getReservation() {
+    
+		ReservationDTO msg = new ReservationDTO(1L,"asd","Guest","Horek",new Date(), new Date());
+		ReservationDTO msg1 = new ReservationDTO(2L,"asd","Guest","Horek",new Date(), new Date());
+		ReservationDTO msg2 = new ReservationDTO(3L,"asd","Guest","Horek",new Date(), new Date());
+		
+		List<ReservationDTO> list = new ArrayList<ReservationDTO>();
 		list.add(msg);
 		list.add(msg1);
 		list.add(msg2);

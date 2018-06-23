@@ -2,6 +2,7 @@ $(document).ready(function(){
     
 	showMyFacilities();
 	showMessages();
+	showReservation();
 	
 	$(document).on('submit', '#newForm', function(e) {
 		e.preventDefault();
@@ -115,6 +116,28 @@ function showMessages(){
 return false;
 }
 
+function showReservation(){
+	$.ajax({
+		url: '../api/facility/getReservation',
+		headers:{
+			"authorization": localStorage.getItem("token")
+		},
+    	success: function(data){
+    		$('#rTable').html("");
+    		createReservationHead();
+    		for(var i =0; i< data.length; i++){
+    			createReservationElement(data[i]);
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError);
+
+		}
+	});
+
+return false;
+}
+
 function createMessageHead(){
 	var str ="";
 	str +='<tr><th>Message:</th><th>Username:</th></tr>'
@@ -128,10 +151,40 @@ function createMessageElement(data){
 	str +='<tr><td>'+data.message+'</td><td>'+ data.senderUsername +'</td></tr>'
 		+'<tr>'
 		+'<td><input id="in'+data.id+'" type="text" class="form-control"></td>'
-		+'<td><button class="button" onClick="sendResponse(' + data.id + ')">Send</button></td>'
+		+'<td><button class="button" onClick="sendResponse(' + data.senderID + ')">Send</button></td>'
 		+'</tr>';
 	
 	$('#msgTable').append(str);
 }
 
 
+function createReservationHead(){
+	var str ="";
+	str +='<tr><th>Facility:</th><th>Username:</th><th>From:</th><th>To:</th></tr>'
+		+'<tr>';
+	
+	$('#rTable').append(str);
+}
+
+function createReservationElement(data){
+//	var fromDate = data.fromDate.split("T");
+//	var toDate = data.toDate.split("T");
+	
+	//mozda ce trebati ovi zakomentarisani umesto onih u 177. liniji (kad se bude radilo sa pravim podacima)
+	
+	var str ="";
+	str +='<tr><td>'+data.facility+'</td><td>'+ data.guestUsername +'</td>'
+		+'<td>'+ data.fromDate +'</td><td>'+data.toDate+'</td>'
+		+'<td><button class="button" onClick="confirm(' + data.id + ')">Confirm</button></td>'
+		+'<tr>';
+	
+	$('#rTable').append(str);
+}
+
+function confirm(id){
+	//potvrdi rezervaciju ID rezervacije
+}
+
+function sendResponse(id){
+	//posalji odgovor korisniku ID onog kome saljes poruku
+}
