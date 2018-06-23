@@ -8,15 +8,26 @@ class Settings extends Component {
         super(props);
         
         this.props.getUser();
+
         this.state = {
-            email: this.props.user.email,
-            name: this.props.user.name,
-            lastName: this.props.user.lastName,
-            address: this.props.user.address,
+            email: "",
+            name: "",
+            lastName: "",
+            address: "",
             oldPassword: "",
             newPassword: "",
             confirmPassword: "",
         };
+    }
+
+    componentDidMount() {
+        this.setState({ email: this.props.user.email});
+
+
+
+        this.props.user.name
+        this.props.user.lastName
+        this.props.user.address
     }
 
     emailChange = (evt) => { this.setState({ email: evt.target.value } ); }
@@ -34,7 +45,7 @@ class Settings extends Component {
     confirmPasswordChange = (evt) => { this.setState({ confirmPassword: evt.target.value } ); }
 
     render() {
-        console.log(this.state);
+        
         return(
             <div className="row" >
 

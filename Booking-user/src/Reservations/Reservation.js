@@ -112,7 +112,52 @@ class Reservation extends Component {
                     </Popup>
                 </td>
                 <td>
-                    <button className="btn btn-sm btn-danger" onClick={this.props.onDelete}>Delete</button>
+                    <Popup 
+                        trigger={<button className="btn btn-info btn-sm">Message</button>} 
+                        modal
+                        contentStyle={{ width: 400 }}
+                    >
+                        {close => (
+                            <div className="modalContainer">
+                                <a className="modalClose" onClick={close}>
+                                    &times;
+                                </a>
+                                <div className="modalHeader">Send message to owner</div>
+                                <div className="modalContent">
+                                    <div className="row" style={{textAlign: 'center', alignItems: 'center'}}>
+                                        <div className="col-1"></div>
+                                        <div className="col-10">
+                                        <textarea 
+                                            style={{marginTop: 10, marginBottom: 10}}
+                                            className="form-control textArea"
+                                            rows="4"
+                                            cols="3"
+                                            type="textarea"
+                                            value={this.state.comment}
+                                            onChange={this.changeComment}
+                                            >
+                                        </textarea>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <button className="btn cancelButton" onClick={close}>Cancel</button>
+                                        <button 
+                                            className="btn btn-success confirmButton" 
+                                            onClick={() => {
+                                                close(); 
+                                                this.props.sendMessage(this.state)
+                                            }}
+                                        >
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
+                </td>
+                <td>
+                    <button className="btn btn-sm btn-danger" onClick={this.props.onDelete}>Cancel</button>
                 </td>
             </tr>
         );

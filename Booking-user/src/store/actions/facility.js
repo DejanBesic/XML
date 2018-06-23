@@ -56,6 +56,6 @@ export const onReservation = (reservation) => (dispatch, getState) => {
         })
         .catch((error) => {
             dispatch(onReservationFailure(error));
-            alert('Failed to reserve.');
+            alert('Failed to reserve. Please log in first.');
         });
 }

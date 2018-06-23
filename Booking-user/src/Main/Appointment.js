@@ -42,7 +42,10 @@ export class Appointment extends Component {
                             {`Stars: ${this.props.appointment.facility.category}`}
                         </li>
                         <li>
-                            {`Rating: ${this.props.appointment.rating}`}
+                            {// eslint-disable-next-line
+                            isNaN(this.props.appointment.rating) || this.props.appointment.rating == 0 ? 
+                            'Rating: Have not been rated yet.' :
+                            `Rating: ${this.props.appointment.rating}`}
                         </li>
                         <li>
                             {`Price: ${this.props.appointment.price}`}

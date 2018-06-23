@@ -103,7 +103,10 @@ public class AppointmentServiceImpl implements AppointmentService{
 				for (Rating r : ratings) {
 					averageRating += r.getRating();
 				}
-				averageRating /= ratings.size();
+				if (averageRating != 0) {
+					averageRating /= ratings.size();	
+				}
+				
 				searchList.add(new SearchDTO(a.getFacility(), price, start, end, averageRating));				
 			}
 			//ako se pocetak nalazi unutar jednog termina a kraj unutar drugog
