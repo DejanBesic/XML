@@ -21,7 +21,7 @@ import com.booking.app.service.impl.ReservationServiceImpl;
 import com.booking.app.service.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("/api/messages")
 public class MessagesController {
 	
 	@Autowired
@@ -33,13 +33,14 @@ public class MessagesController {
 	@Autowired
 	ReservationServiceImpl reservationService;
 	
-	@GetMapping
+    @GetMapping("/getMessages")
 	public ResponseEntity<?> getMessages() {
-		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		return new ResponseEntity<>(messageService.findByReciver(user), HttpStatus.OK);
+		//User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    	User user = userService.findByUsername("twiste");
+		return new ResponseEntity<>(messageService.findForUser(user), HttpStatus.OK);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT)
+	@RequestMapping(value= "/sendMessage", method=RequestMethod.POST)
 	public ResponseEntity<?> sendMessage(@RequestBody MessageRequest messageRequest) {
 		Reservation reservation = reservationService.findOne(messageRequest.getReservationId());
 		User sender = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -56,6 +57,6 @@ public class MessagesController {
 		Message message = new Message(reciver, sender, messageRequest.getMessage(), date);
 		messageService.save(message);
 		
-		return new ResponseEntity<>("Sent successfuly", HttpStatus.OK);
+		return new ResponseEntity<>(date, HttpStatus.OK);
 	}
 }

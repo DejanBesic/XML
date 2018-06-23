@@ -3,6 +3,7 @@ package com.booking.app.service.impl;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,28 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public List<Message> findBySender(User sender) {
 		return messageRepository.findBySender(sender);
+	}
+
+	@Override
+	public List<Message> findForUser(User user) {
+		List<Message> all = messageRepository.findBySenderOrReciverOrderByDateDesc(user, user);
+		List<String> emails = new ArrayList<String>();
+		List<Message> forReturn = new ArrayList<Message>();
+		for(Message m : all) {
+			if(m.getSender().getEmail().equals(user.getEmail())) {
+				if(!emails.contains(m.getReciver().getEmail())) {
+					forReturn.add(m);
+					emails.add(m.getReciver().getEmail());
+				}
+			}
+			else {
+				if(!emails.contains(m.getSender().getEmail())) {
+					forReturn.add(m);
+					emails.add(m.getSender().getEmail());
+				}
+			}
+		}
+		return forReturn;
 	}
 
 }

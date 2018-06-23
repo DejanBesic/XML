@@ -15,5 +15,5 @@ public interface MessageService {
 	
 	List<Message> findBySender(User sender);
 	
-	
+	List<Message> findForUser(User user);
 }
