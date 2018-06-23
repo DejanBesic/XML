@@ -154,7 +154,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.sendMessage({ reservationId: this.props.reservation.id, message: this.state.message })
+                                                this.props.sendMessage(this.props.reservation.facility.owner.id, this.state.message)
                                             }}
                                         >
                                             Send
@@ -176,7 +176,7 @@ class Reservation extends Component {
 
 const mapDispatch = (dispatch) => ({
    rate: (rating) => dispatch(rate(rating)),
-   sendMessage: (message, reservationId) => dispatch(sendMessage(message, reservationId))
+   sendMessage: (message, reciverId) => dispatch(sendMessage(message, reciverId))
 });
 
 const mapState = (state) => ({

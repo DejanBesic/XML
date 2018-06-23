@@ -46,3 +46,6 @@ export const fetchRecivers = (token) =>
 
 export const fetchSendMessage = (message, token) =>
     (axios.post(`${baseUrl}/api/messages/sendMessage`, message, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchMessages = (senderId ,token) =>
+    (axios.get(`${baseUrl}/api/messages/getForUser/${senderId}`, { headers: { Authorization: `Bearer ${token}` }}))

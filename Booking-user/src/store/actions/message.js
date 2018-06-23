@@ -13,10 +13,12 @@ export const onSendMessageFailure = (error) =>
     ({ type: SendMessageFailure, payload: error })
 
 
-export const sendMessage = (message) => (dispatch, getState) => {
+export const sendMessage = (message, reciverId) => (dispatch, getState) => {
     dispatch(onSendMessageStart());
     const token = getState().authentication.token.accessToken;
-    fetchSendMessage(message, token)
+    const messageAndReciver = {message: message, reciverId: reciverId};
+    debugger
+    fetchSendMessage(messageAndReciver, token)
     .then(() => { 
         dispatch(onSendMessageSuccess()); 
         alert('Message sent.');
@@ -60,11 +62,11 @@ export const onGetMessagesFailure = (error) =>
     ({ type: GetMessagesFailure, payload: error })
 
 
-export const getMessages= (reciver) => (dispatch, getState) => {
+export const getMessages= (senderId) => (dispatch, getState) => {
     dispatch(onGetMessagesStart());
     const token = getState().authentication.token.accessToken;
 
-    fetchRecivers(reciver, token)
+    fetchMessages(senderId, token)
     .then(response => dispatch(onGetMessagesSuccess(response.data)))
     .catch(error => dispatch(onGetReciversFailure(error)));
 }

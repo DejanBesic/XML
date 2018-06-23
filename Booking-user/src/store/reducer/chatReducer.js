@@ -11,47 +11,55 @@ import {
 } from '../actions/message';
 
 export const initialState = {
-    appointments: [],
+    recivers: [],
     isLoading: false,
     error: "",
-    reservationError: "",
+    messages: "",
 };
 
 export default function(state = initialState, action) {
     switch(action.type){
 
-        case GetAppointmentsStart:
+        case GetMessagesStart:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        
+        case GetMessagesSuccess:
+            return {
+                ...state,
+                isLoading: false,
+                messages: action.payload,
+            };
+
+        case GetMessagesFailure:
+            return {
+                ...state,
+                isLoading:false,
+                error: action.payload,
+            }
+
+        case GetReciversStart:
             return {
                 ...state,
                 isLoading: true,
             };
 
-        case GetAppointmentsSuccess:
+        case GetReciversSuccess:
             return {
                 ...state,
                 isLoading: false,
-                appointments: action.payload,
+                recivers: action.payload,
                 error: "",
             };
 
-        case GetAppointmentsFailure:
+        case GetReciversFailure:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload,
             };
-
-        case ReservationSuccess:
-            return {
-                ...state,
-                appointments: action.payload,
-            }
-
-        case ReservationFailure:
-            return {
-                ...state,
-                reservationError: action.payload,
-            }
         default: 
             return state;
     }

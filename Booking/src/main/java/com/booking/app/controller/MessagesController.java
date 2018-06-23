@@ -52,16 +52,10 @@ public class MessagesController {
 	
 	@RequestMapping(value= "/sendMessage", method=RequestMethod.POST)
 	public ResponseEntity<?> sendMessage(@RequestBody MessageRequest messageRequest) {
-		Reservation reservation = reservationService.findOne(messageRequest.getReservationId());
 		User sender = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		
-		if (reservation == null) {
-			return new ResponseEntity<>("Wrong reservation id.", HttpStatus.BAD_REQUEST);
-		}
-		
-		User reciver = reservation.getFacility().getOwner();
-		
-		//GULA OVDE STAVITI TRENUTNO VREME, NISAM SIGURAN KAKO SE RADI TO 
+		User reciver = userService.findById(messageRequest.getReciverId());
+		 
 		Date date = new Date();
 		
 		Message message = new Message(reciver, sender, messageRequest.getMessage(), date);

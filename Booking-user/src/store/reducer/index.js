@@ -5,6 +5,7 @@ import appointments from './facilityReducer';
 import searchForm from './searchFormReducer';
 import reservations from './reservationReducer';
 import rating from './ratingReducer';
+import chat from './chatReducer';
 
 
 export default combineReducers({
@@ -14,4 +15,5 @@ export default combineReducers({
     searchForm,
     reservations,
     rating,
+    chat,
 });

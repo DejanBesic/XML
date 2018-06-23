@@ -4,7 +4,7 @@ public class MessageRequest {
 
 	private String message;
 	
-	private Long reservationId;
+	private Long reciverId;
 
 	public MessageRequest() {
 		
@@ -12,15 +12,15 @@ public class MessageRequest {
 	
 	public MessageRequest(String message, Long reservationId) {
 		this.message = message;
-		this.reservationId = reservationId;
+		this.reciverId = reservationId;
 	}
 	
-	public Long getReservationId() {
-		return reservationId;
+	public Long getReciverId() {
+		return reciverId;
 	}
 
-	public void setReservationId(Long reservationId) {
-		this.reservationId = reservationId;
+	public void setReciverId(Long reciverId) {
+		this.reciverId = reciverId;
 	}
 
 	public String getMessage() {
