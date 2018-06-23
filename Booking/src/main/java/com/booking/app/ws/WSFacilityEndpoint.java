@@ -10,10 +10,12 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.booking.app.model.Appointment;
 import com.booking.app.model.Facility;
+import com.booking.app.model.Image;
 import com.booking.app.model.User;
 import com.booking.app.service.AppointmentService;
 import com.booking.app.service.FacilityService;
 import com.booking.app.service.FacilityTypeService;
+import com.booking.app.service.ImageService;
 import com.booking.app.service.LocationService;
 import com.booking.app.service.UserService;
 import com.xml.booking.backendmain.ws_classes.AgentFacilitiesRequest;
@@ -47,6 +49,9 @@ public class WSFacilityEndpoint {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ImageService imageService;
 	
 	
 //	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "userRequest")
@@ -104,6 +109,7 @@ public class WSFacilityEndpoint {
 		List<Facility> facilities = facilityService.findByOwner(userService.findByUsername(user.getUsername()));
 		for(Facility f : facilities){
 			response.getFacilityWS().add(facility2WS(f));
+			
 		}
 		
 		return response;
@@ -114,6 +120,16 @@ public class WSFacilityEndpoint {
 	public MessageResponse addNewFacility(@RequestPayload NewFacilityRequest facilityRequest){
 		
 		Facility saved = facilityService.save(request2Facility(facilityRequest));
+		
+		if(facilityRequest.getImagesWS()!=null && facilityRequest.getImagesWS().getImages()!=null){
+			List<byte[]> lista = facilityRequest.getImagesWS().getImages();
+			for(int i=0; i<lista.size(); i++){
+				Image image = new Image();
+				image.setImagesDB(lista.get(i));
+				image.setFacility(saved);
+				imageService.save(image);
+			}
+		}
 		
 		MessageResponse response = new MessageResponse();
 		

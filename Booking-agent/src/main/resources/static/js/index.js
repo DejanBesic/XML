@@ -1,6 +1,11 @@
 $(document).ready(function(){
     
 	showMyFacilities();
+	
+	$(document).on('submit', '#newForm', function(e) {
+		e.preventDefault();
+		createFacility();
+	});
 });
 
 
@@ -31,4 +36,58 @@ function showFacilities(data){
 			+ '<p>Category: ' + data[i].category + '</p>'
 			+ '</div>';
 	}
+}
+
+function createFacility(){
+	if (document.getElementById('image').files[0]!= undefined){
+
+    	var data = new FormData();
+		var lista = [];
+		var i;
+		for(i=0; i<$('#image')[0].files.length; i++){
+			//lista.push($('#image')[0].files[i]);
+			data.append("images", $('#image')[0].files[i]);
+		}
+		
+        data.append("name", $("#newName").val());
+        data.append("description",$("#newDescription").val());
+        data.append("location",$("#newLocationSelect").find(":selected").val());
+        data.append("category",parseInt($("#newCategorySelect").find(":selected").val()));
+        data.append("address",$("#newAddress").val());
+        data.append("numberOfPeople",parseInt($("#newNumberOfPeople").val()));
+    	//data.append("images", lista);
+    	data.append("wifi", $("#newWifi").is(":checked"));
+    	data.append("bathroom", $("#newBathroom").is(":checked"));
+    	data.append("kitchen", $("#newKitchen").is(":checked"));
+    	data.append("tv", $("#newTv").is(":checked"));
+    	data.append("halfBoard", $("#newHalf").is(":checked"));
+    	data.append("fullBoard", $("#newFull").is(":checked"));
+    	data.append("breakfast", $("#newBreakfast").is(":checked"));
+    	data.append("parkingLot", $("#newParking").is(":checked"));
+
+    	data.append("app1", parseInt($("#newPrice1").val()));
+    	data.append("app2", parseInt($("#newPrice2").val()));
+    	data.append("app3", parseInt($("#newPrice3").val()));
+    	data.append("app4", parseInt($("#newPrice4").val()));
+    	
+    	$.ajax({
+        	url: "../api/facility/addNewFacility",
+        	 type: "POST",
+             enctype: 'multipart/form-data',
+             data: data,
+            processData: false, //prevent jQuery from automatically transforming the data into a query string
+            contentType: false,
+            cache: false,
+            headers:{
+				"authorization": localStorage.getItem("token")
+			},
+            success: function (data) {
+            	
+            },
+            error: function (e) {
+            	alert("Enter all fields properly.")
+                console.log(e);
+            }
+        });
+    }
 }

@@ -1,6 +1,12 @@
 package com.agent.app.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
+import java.io.IOException;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -12,17 +18,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.agent.app.DTOs.FacilityDTO;
 import com.agent.app.model.Facility;
 import com.agent.app.ws.WSFacilityClient;
 import com.agent.app.wsdl.AgentFacilitiesRequest;
 import com.agent.app.wsdl.AgentFacilitiesResponse;
 import com.agent.app.wsdl.AppointmentWS;
 import com.agent.app.wsdl.FacilityWS;
+import com.agent.app.wsdl.ImagesWS;
 import com.agent.app.wsdl.MessageResponse;
 import com.agent.app.wsdl.NewFacilityRequest;
 import com.agent.app.wsdl.UserWS;
@@ -56,47 +67,101 @@ public class FacilityController {
 //		return new ResponseEntity<>(response, HttpStatus.OK);
 //	}
 	
-	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<?> addFacility() throws DatatypeConfigurationException{
+	@RequestMapping(value="/addNewFacility", method=RequestMethod.POST)
+	public ResponseEntity<?> addFacility(@ModelAttribute FacilityDTO facility) throws DatatypeConfigurationException, ParseException, IOException{
 		
-		NewFacilityRequest res = new NewFacilityRequest();
-		res.setName("novii");
-		res.setCategory(1);
-		res.setOwner("twiste");
-		res.setType("House");
-		res.setDescription("opis novogg");
-		res.setAddress("adresa novig");
-		res.setLocation("Miami");
-		res.setParkingLot(true);
-		res.setBathroom(true);
-		res.setWifi(false);
-		res.setBreakfast(true);
-		res.setHalfBoard(true);
-		res.setFullBoard(false);
-		res.setKitchen(false);
-		res.setTv(true);
-		res.setNumberOfPeople(4);
+		GregorianCalendar date1start = new GregorianCalendar();
+		GregorianCalendar date1end = new GregorianCalendar();
+		GregorianCalendar date2start = new GregorianCalendar();
+		GregorianCalendar date2end = new GregorianCalendar();
+		GregorianCalendar date3start = new GregorianCalendar();
+		GregorianCalendar date3end = new GregorianCalendar();
+		GregorianCalendar date4start = new GregorianCalendar();
+		GregorianCalendar date4end = new GregorianCalendar();
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		date1start.setTime(sdf.parse("2018-01-01"));
+		date1end.setTime(sdf.parse("2018-03-31"));
+		date2start.setTime(sdf.parse("2018-04-01"));
+		date2end.setTime(sdf.parse("2018-06-30"));
+		date3start.setTime(sdf.parse("2018-07-01"));
+		date3end.setTime(sdf.parse("2018-09-30"));
+		date4start.setTime(sdf.parse("2018-10-01"));
+		date4end.setTime(sdf.parse("2018-12-31"));
 		
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(new Date());
+		NewFacilityRequest req = facilityDTO2WS(facility);
 		
-		AppointmentWS app = new AppointmentWS();
-		app.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
-		app.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
-		app.setPrice(100.0);
+		AppointmentWS app1 = req.getAppointmentWS().get(0);
+		app1.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date1start));
+		app1.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date1end));
+		app1.setFacility(facility.getName());
 		
-		AppointmentWS app2 = new AppointmentWS();
-		app2.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
-		app2.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(c));
-		app2.setPrice(200.0);
-		app2.setFacility("novii");
+		AppointmentWS app2 = req.getAppointmentWS().get(1);
+		app2.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date2start));
+		app2.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date2end));
+		app2.setFacility(facility.getName());
 		
+		AppointmentWS app3 = req.getAppointmentWS().get(2);
+		app3.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date3start));
+		app3.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date3end));
+		app3.setFacility(facility.getName());
+
+		AppointmentWS app4 = req.getAppointmentWS().get(3);
+		app4.setFromDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date4start));
+		app4.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date4end));
+		app4.setFacility(facility.getName());
 		
-		res.getAppointmentWS().add(app);
-		res.getAppointmentWS().add(app2);
+		MessageResponse response = client.addNewFacility(req);
 		
-		MessageResponse response = client.addNewFacility(res);
+		if(response==null)
+			return new ResponseEntity<>("Please fill every field", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	
+	private NewFacilityRequest facilityDTO2WS(FacilityDTO dto) throws IOException{
+		NewFacilityRequest res = new NewFacilityRequest();
+		
+		res.setName(dto.getName());
+		res.setAddress(dto.getAddress());
+		res.setDescription(dto.getDescription());
+		res.setLocation(dto.getLocation());
+		res.setNumberOfPeople(dto.getNumberOfPeople());
+		res.setCategory(dto.getCategory());
+		res.setBathroom(dto.isBathroom());
+		res.setBreakfast(dto.isBreakfast());
+		res.setFullBoard(dto.isFullBoard());
+		res.setHalfBoard(dto.isHalfBoard());
+		res.setKitchen(dto.isKitchen());
+		res.setOwner(SecurityContextHolder.getContext().getAuthentication().getName());
+		res.setParkingLot(dto.isParkingLot());
+		res.setTv(dto.isTv());
+		res.setType(dto.getType());
+		res.setWifi(dto.isWifi());
+		res.setImagesWS(new ImagesWS());
+		
+		
+		AppointmentWS app1 = new AppointmentWS();
+		AppointmentWS app2 = new AppointmentWS();
+		AppointmentWS app3 = new AppointmentWS();
+		AppointmentWS app4 = new AppointmentWS();
+		
+		app1.setPrice(dto.getApp1());
+		app2.setPrice(dto.getApp2());
+		app3.setPrice(dto.getApp3());
+		app4.setPrice(dto.getApp4());
+		
+		res.getAppointmentWS().add(app1);
+		res.getAppointmentWS().add(app2);
+		res.getAppointmentWS().add(app3);
+		res.getAppointmentWS().add(app4);
+		
+		for(MultipartFile img : dto.getImages()){
+			res.getImagesWS().getImages().add(img.getBytes());
+		}
+		
+		
+		return res;
 	}
 }
