@@ -70,4 +70,9 @@ public class MessageServiceImpl implements MessageService{
 		return MappMessage.mappMessages(forReturn);
 	}
 
+	@Override
+	public List<MessageDTO> findConversation(User user, User other) {
+		return MappMessage.mappMessages(messageRepository.findConversation(user, other));
+	}
+
 }
