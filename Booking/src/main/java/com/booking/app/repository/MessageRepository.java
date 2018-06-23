@@ -18,7 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 //	@Query("SELECT r FROM Message r where (r.SENDER_ID  = :userid or r.RECIVER_ID  = :userid) ORDER BY date DESC") 
 //	List<Message> findForUser(Long userid);
 	
-	List<Message> findBySenderOrReciverOrderByDateDesc(User sender, User reciver);
+	List<Message> findBySenderOrReciverOrderByDateDesc(User sender, User reciver); 
 	
 	@Query("SELECT r FROM Message r where ((r.sender  = :user and r.reciver  = :other) or (r.sender  = :other and r.reciver  = :user)) ORDER BY date ASC") 
 	List<Message> findConversation(@Param("user")User user,@Param("other") User other);
