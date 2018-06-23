@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StarRatings from 'react-star-ratings';
 import Popup from "reactjs-popup";
 import { connect } from 'react-redux';
+import { sendMessage } from '../store/actions/message';
 import { rate } from "../store/actions/rating";
 
 import "../Shared/SharedCSS/Rating.css";
@@ -13,6 +14,7 @@ class Reservation extends Component {
             rating: 0,
             comment: "",
             id: props.reservation.facility.id,
+            message: "",
         }
     }
 
@@ -32,6 +34,13 @@ class Reservation extends Component {
         this.setState({
             ...this.state,
             comment: evt.target.value,
+        });
+    }
+
+    changeMessage = (evt) => {
+        this.setState({
+            ...this.state,
+            message: evt.target.value,
         });
     }
 
@@ -100,7 +109,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.rate(this.state)
+                                                this.props.rate({id: this.state.id, comment: this.state.comment, rating: this.state.rating })
                                             }}
                                         >
                                             Confirm
@@ -133,8 +142,8 @@ class Reservation extends Component {
                                             rows="4"
                                             cols="3"
                                             type="textarea"
-                                            value={this.state.comment}
-                                            onChange={this.changeComment}
+                                            value={this.state.message}
+                                            onChange={this.changeMessage}
                                             >
                                         </textarea>
                                         </div>
@@ -145,7 +154,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.sendMessage(this.state)
+                                                this.props.sendMessage(this.props.reservation.facility.owner.id, this.state.message)
                                             }}
                                         >
                                             Send
@@ -167,6 +176,7 @@ class Reservation extends Component {
 
 const mapDispatch = (dispatch) => ({
    rate: (rating) => dispatch(rate(rating)),
+   sendMessage: (message, reciverId) => dispatch(sendMessage(message, reciverId))
 });
 
 const mapState = (state) => ({

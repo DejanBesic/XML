@@ -11,7 +11,7 @@ import RegistrationPage from './Authentication/RegistrationPage'
 import ReservationsPage from './Reservations/ReservationsPage';
 import FacilityPage from './Main/FacilityPage';
 import Settings from './Settings/Settings';
-
+import MessagesPage from './Messages/MessagesPage';
 
 class App extends Component {  
   render() {
@@ -28,6 +28,7 @@ class App extends Component {
                 <Route path="/reservations" component={ReservationsPage}/>
                 <Route path="/facility/:id" component={FacilityPage}/>
                 <Route path="/settings" component={Settings}/>
+                <Route path="/messages" component={MessagesPage}/>
               </div>
             </Router>
           </PersistGate>

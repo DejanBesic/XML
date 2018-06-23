@@ -33,7 +33,6 @@ public class ImageServiceImpl implements ImageService{
 
 	@Override
 	public List<Image> findByFacility(Facility facility) {
-		// TODO Auto-generated method stub
 		return imageRepository.findByFacility(facility);
 	}
 

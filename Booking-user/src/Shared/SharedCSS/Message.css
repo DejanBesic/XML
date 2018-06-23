@@ -1,0 +1,26 @@
+.message-list-item {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.message-text {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;  
+    width: 100%;
+}
+
+.table-limits {
+    table-layout: fixed;
+}
+
+.message-styles {
+    margin: 20px;
+}
+
+.background-message {
+    width: min-content;
+    background-color: #add8e6;
+    border-radius: 10px;
+}

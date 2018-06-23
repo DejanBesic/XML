@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AdditionalService from './AdditionalService';
+import SlideShow from 'react-image-show';
+import Popup from "reactjs-popup";
 
 import '../Shared/SharedCSS/Appointment.css';
 
 
 export class Appointment extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            images: [],
+        };
+    }
+
     formatDate = (date) => {
         const formatting = date.split('-');
         return `${formatting[2]}/${formatting[1]}/${formatting[0]}`;
@@ -15,6 +24,8 @@ export class Appointment extends Component {
         this.setState({ redirect: true});
     }
 
+
+
     render() {
         return(
             <div className="appointment row" >
@@ -23,8 +34,43 @@ export class Appointment extends Component {
                     ${this.formatDate(this.props.appointment.startDate)} to
                     ${this.formatDate(this.props.appointment.endDate)}`}
                 </Link>
-                <div className="col-3"></div>
-                <div className="col-6">
+                <div className="col-4">
+
+                    <Popup 
+                        trigger={<a href="#">
+                                    { this.props.images.length > 0 ?
+                                    <img 
+                                        className="imageLink"
+                                        alt="Click for more"
+                                        src={this.props.images[0]}
+                                    />
+                                    : null }
+                                </a>} 
+                        modal
+                        contentStyle={{ width: 1000, backgroundColor: 'transparent', border: 0 }}
+                    >
+                        {close => (
+                            <div className="modalContainer">
+                                <a className="modalClose" onClick={close}>
+                                    &times;
+                                </a>
+                                <div className="modalContent">
+                                    <SlideShow
+                                        images={this.props.images}
+                                        width="920px"
+                                        imagesWidth="800px"
+                                        imagesHeight="450px"
+                                        imagesHeightMobile="56vw"
+                                        thumbnailsWidth="920px"
+                                        thumbnailsHeight="12vw"
+                                        indicators thumbnails fixedImagesHeight
+                                    /> 
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
+                </div>
+                <div className="col-4">
                     <ul className="ul">
                         <li>
                             {`Location: ${this.props.appointment.facility.location.name}`}
@@ -93,7 +139,7 @@ export class Appointment extends Component {
                         />
                     </ul>
                 </div>
-                <div className="col-1">
+                <div className="col-2">
                     <button className="reserve-button" style={{ color: 'white'}} onClick={() => this.props.onClick()}>Reserve</button>
                 </div>
             </div>

@@ -80,10 +80,10 @@ class LoginPage extends Component {
                         <button type="button" onClick={() => this.props.login(this.state.user)} className="btn btn-primary">
                             Sign up
                         </button>
-                        { this.props.authentication.error ? 
+                        {/* { this.props.authentication.error ? 
                             <LoginError errorMessage={this.props.authentication.error} />
                         : null
-                        }
+                        } */}
                     </Form>
                 </div>
             </div>

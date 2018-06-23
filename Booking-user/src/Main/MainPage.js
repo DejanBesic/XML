@@ -55,6 +55,17 @@ class MainPage extends Component {
         }
     }
 
+    getImages = (appointment) => {
+        let images = [];
+        if (appointment.images) {
+            let i = 0;
+            for (i = 0; i<appointment.images.length; i++) {
+                images.push(`data:image/png;base64, ${appointment.images[i]}`);
+            }
+        }
+        return images;
+    }
+
     render() {
         return (
             <div className="row">
@@ -77,7 +88,8 @@ class MainPage extends Component {
                         this.props.appointments.map(appointment =>
                             <Appointment 
                                 key={appointment.facility.id} 
-                                appointment={appointment} 
+                                appointment={appointment}
+                                images={this.getImages(appointment)}
                                 onClick={() => this.props.reserve(
                                                                 {   facilityId: appointment.facility.id,
                                                                     endDate: appointment.endDate,
