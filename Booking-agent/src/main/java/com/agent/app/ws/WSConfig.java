@@ -33,4 +33,22 @@ public class WSConfig {
 		client.setUnmarshaller(marshaller);
 		return client;
 	}
+	
+	@Bean
+	public WSReservationClient backendRservationClient(Jaxb2Marshaller marshaller) {
+		WSReservationClient client = new WSReservationClient();
+		client.setDefaultUri("http://localhost:1312/ws");
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
+	
+	@Bean
+	public WSMessageClient backendMessageClient(Jaxb2Marshaller marshaller) {
+		WSMessageClient client = new WSMessageClient();
+		client.setDefaultUri("http://localhost:1312/ws");
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
 }

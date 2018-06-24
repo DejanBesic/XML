@@ -32,12 +32,40 @@ function showFacilities(data){
 	
 	var i;
 	for(i=0; i<data.length; i++){
-		el.innerHTML+='<div class="w3-panel w3-indigo w3-round-xlarge">' 
+		var d = '<div>';
+		var j;
+		for(j=0; j<data[i].images.length; j++){
+			d+='<img src=\"data:image/png;base64,' +data[i].images[j] +'\" alt="pic" style="width:200px;height:100px;">'
+		}
+		
+		
+		el.innerHTML+='<div class="w3-panel w3-indigo w3-round-xlarge">'
 			+ '<h3>' + data[i].name + '</h3>' 
 			+ '<p>' + data[i].description + '</p>'
 			+ '<p>Category: ' + data[i].category + '</p>'
+			+ '<button onclick="deleteFacility(' + data[i].id + ')">Delete</button>'
 			+ '</div>';
+		
+		document.getElementById("unavailableFacilitySelect").innerHTML+='<option value="' + data[i].id + '">' + data[i].name + '</option>';
 	}
+}
+
+function deleteFacility(id){
+	$.ajax({
+		url: '../api/facility/delete/' + id,
+		type: "DELETE",
+		headers:{
+			"authorization": localStorage.getItem("token")
+		},
+    	success: function(data){
+    		alert("Facility deleted!");
+    		location.reload();
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError);
+
+		}
+	});
 }
 
 function createFacility(){
@@ -54,6 +82,7 @@ function createFacility(){
         data.append("name", $("#newName").val());
         data.append("description",$("#newDescription").val());
         data.append("location",$("#newLocationSelect").find(":selected").val());
+        data.append("type",$("#newTypeSelect").find(":selected").val());
         data.append("category",parseInt($("#newCategorySelect").find(":selected").val()));
         data.append("address",$("#newAddress").val());
         data.append("numberOfPeople",parseInt($("#newNumberOfPeople").val()));
@@ -150,8 +179,8 @@ function createMessageElement(data){
 	var str ="";
 	str +='<tr><td>'+data.message+'</td><td>'+ data.senderUsername +'</td></tr>'
 		+'<tr>'
-		+'<td><input id="in'+data.id+'" type="text" class="form-control"></td>'
-		+'<td><button class="button" onClick="sendResponse(' + data.senderID + ')">Send</button></td>'
+		+'<td><input id="response'+data.id+'" type="text" class="form-control"></td>'
+		+'<td><button class="button" onClick="sendResponse(\'' + data.senderUsername + '\' , ' + data.id + ')">Send</button></td>'
 		+'</tr>';
 	
 	$('#msgTable').append(str);
@@ -172,19 +201,63 @@ function createReservationElement(data){
 	
 	//mozda ce trebati ovi zakomentarisani umesto onih u 177. liniji (kad se bude radilo sa pravim podacima)
 	
+	var d = new Date(data.fromDate);
+	var t = new Date(data.toDate);
+	
+	var trenutno = new Date();
+	
 	var str ="";
 	str +='<tr><td>'+data.facility+'</td><td>'+ data.guestUsername +'</td>'
-		+'<td>'+ data.fromDate +'</td><td>'+data.toDate+'</td>'
-		+'<td><button class="button" onClick="confirm(' + data.id + ')">Confirm</button></td>'
+		+'<td>'+ d.toDateString() +'</td><td>'+t.toDateString()+'</td>'
+		+'<td><button class="button" id="confirm' + data.id + '" onClick="confirm(' + data.id + ')">Confirm</button></td>'
 		+'<tr>';
 	
+	if(data.confirmed == true || d.getTime()>trenutno.getTime()){
+		document.getElementById("confirm" + data.id).style.visibility = "hidden";
+	}
+		
+		
 	$('#rTable').append(str);
 }
 
 function confirm(id){
 	//potvrdi rezervaciju ID rezervacije
+	$.ajax({
+		url: '../api/reservation/confirm/' + id,
+		type: "PUT",
+		headers:{
+			"authorization": localStorage.getItem("token")
+		},
+    	success: function(data){
+    		alert("Reservation confirmed!");
+    		location.reload();
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError);
+
+		}
+	});
 }
 
-function sendResponse(id){
-	//posalji odgovor korisniku ID onog kome saljes poruku
+function sendResponse(reciver, id){
+	var response = new Object();
+	response.reciverUsername = reciver;
+	response.message = document.getElementById("response" + id).value;
+	
+	$.ajax({
+		url: '../api/message/sendMessage',
+    	type: "POST",
+    	data: JSON.stringify(response),
+    	headers:{
+			"authorization": localStorage.getItem("token")
+		},
+    	contentType: "application/json",
+    	success: function(){
+    		alert("Message sent!");
+    	}
+	});
+	
+	
+	
+	
 }

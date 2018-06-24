@@ -76,7 +76,7 @@
                 <xs:element name="kitchen" type="xs:boolean"/>
                 <xs:element name="bathroom" type="xs:boolean"/>
                 <xs:element name="numberOfPeople" type="xs:int"/>
-                <xs:element ref="imagesWS"/>
+                <xs:element name="images" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -160,8 +160,24 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element name="user" type="xs:string"/>
-                <xs:element ref="appointmentWS"/>
+                <xs:element name="confirmed" type="xs:boolean"/>
+                <xs:element name="facility" type="xs:string"/>
+                <xs:element name="guest" type="xs:string"/>
+                <xs:element name="price" type="xs:double"/>
+                <xs:element name="fromDate" type="xs:date"/>
+                <xs:element name="toDate" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="messageWS">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="reciver" type="xs:string"/>
+                <xs:element name="sender" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
+                <xs:element name="date" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -196,6 +212,105 @@
         </xs:complexType>
 </xs:element>
 
+<xs:element name="reservationRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="username" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="reservationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="reservationWS" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="unavailableReservationRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="from" type="xs:date"/>
+			<xs:element name="to" type="xs:date"/>
+			<xs:element name="facilityId" type="xs:long"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="unavailableResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="unavailable" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="messagesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="messageWS" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="deleteFacilityRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="id" type="xs:long"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="deleteFacilityResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="deleted" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="confirmReservationRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="id" type="xs:long"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="confirmReservationResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="confirmed" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="sendMessageRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="sender" type="xs:string"/>
+			<xs:element name="reciver" type="xs:string"/>
+			<xs:element name="message" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="sendMessageResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="sent" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="messageRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
 
 <xs:element name="testResponse">
 	<xs:complexType>

@@ -22,6 +22,8 @@ import com.xml.booking.backendmain.ws_classes.AgentFacilitiesRequest;
 import com.xml.booking.backendmain.ws_classes.AgentFacilitiesResponse;
 import com.xml.booking.backendmain.ws_classes.AgentFacilitiesWS;
 import com.xml.booking.backendmain.ws_classes.AppointmentWS;
+import com.xml.booking.backendmain.ws_classes.DeleteFacilityRequest;
+import com.xml.booking.backendmain.ws_classes.DeleteFacilityResponse;
 import com.xml.booking.backendmain.ws_classes.FacilityWS;
 import com.xml.booking.backendmain.ws_classes.MessageResponse;
 import com.xml.booking.backendmain.ws_classes.NewFacilityRequest;
@@ -52,6 +54,7 @@ public class WSFacilityEndpoint {
 	
 	@Autowired
 	private ImageService imageService;
+	
 	
 	
 //	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "userRequest")
@@ -98,6 +101,24 @@ public class WSFacilityEndpoint {
 	public TestResponse testRequest(@RequestPayload TestRequest request) {
 		TestResponse response = new TestResponse();
 		response.setName(request.getName().toUpperCase());
+		return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteFacilityRequest")
+	@ResponsePayload
+	public DeleteFacilityResponse deleteFacility(@RequestPayload DeleteFacilityRequest request) {
+		DeleteFacilityResponse response = new DeleteFacilityResponse();
+		Facility fac = facilityService.findById(request.getId());
+		if(fac==null){
+			response.setDeleted(false);
+			return response;
+		}
+		
+		fac.setDeleted(true);
+		fac = facilityService.save(fac);
+		
+		response.setDeleted(fac.isDeleted());
+		
 		return response;
 	}
 	
@@ -170,6 +191,11 @@ public class WSFacilityEndpoint {
 		res.setKitchen(facility.isKitchen());
 		res.setTv(facility.isTv());
 		res.setNumberOfPeople(facility.getNumberOfPeople());
+		
+		List<Image> imgs = imageService.findByFacility(facility);
+		for(Image img : imgs){
+			res.getImages().add(img.getImagesDB());
+		}
 		
 		return res;
 	}

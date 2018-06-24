@@ -42,6 +42,14 @@
 		      <textarea class="form-control" rows="4" id="newDescription" name="description"></textarea>
 		    </div>
 		    <div class="form-group">
+			    <label>Type:</label>
+			    <select class="form-control" id="newTypeSelect">
+			   		<option value="Mansion">Mansion</option>
+			      <option value="House">House</option>
+			      <option value="Mansion">Mansion</option>
+			    </select>
+			</div>
+		    <div class="form-group">
 			    <label for="exampleFormControlSelect1">Location:</label>
 			    <select class="form-control" id="newLocationSelect">
 			      <option value="Hawaii">Hawaii</option>
@@ -110,6 +118,22 @@
     </div>
     <div id="messages"  class="tab-pane fade">
     	<table id="msgTable" style="width:100%"></table>
+    </div>
+    <div id="Availability"  class="tab-pane fade">
+    	<h3>Select dates to make your facility unavailable</h3>
+    	<div class="form-group">
+	      <label for="description">From:</label>
+			<input type="date" id="fromUnavailable">
+	    </div>
+	    <div class="form-group">
+	      <label for="description">To:</label>
+			<input type="date" id="toUnavailable">
+	    </div>
+	    <div class="form-group">
+	      <label for="description">Facility:</label>
+			<select class="form-control" id="unavailableFacilitySelect"></select>
+	    </div>
+	    <button>Confirm</button>
     </div>
   </div>
 </div>

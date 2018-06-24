@@ -18,22 +18,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agent.app.DTOs.FacilityDTO;
+import com.agent.app.DTOs.MessageDTO;
+import com.agent.app.DTOs.ReservationDTO;
 import com.agent.app.ws.WSFacilityClient;
+import com.agent.app.ws.WSMessageClient;
+import com.agent.app.ws.WSReservationClient;
 import com.agent.app.wsdl.AgentFacilitiesRequest;
 import com.agent.app.wsdl.AgentFacilitiesResponse;
 import com.agent.app.wsdl.AppointmentWS;
 import com.agent.app.wsdl.ImagesWS;
 import com.agent.app.wsdl.MessageResponse;
+import com.agent.app.wsdl.MessageWS;
+import com.agent.app.wsdl.MessagesResponse;
 import com.agent.app.wsdl.NewFacilityRequest;
-import com.booking.app.DTOs.MessageDTO;
-import com.booking.app.DTOs.ReservationDTO;
-
+import com.agent.app.wsdl.ReservationWS;
+import com.agent.app.wsdl.ReservationsResponse;
 
 @RestController
 @RequestMapping("/api/facility")
@@ -41,6 +47,13 @@ public class FacilityController {
 
 	@Autowired
 	WSFacilityClient client;
+	
+	@Autowired
+	private WSMessageClient messageClient;
+	
+	@Autowired
+	private WSReservationClient reservationClient;
+	
 	
 	@GetMapping(value="/getFacilities")
     public ResponseEntity<?> getFacilities() {
@@ -58,29 +71,45 @@ public class FacilityController {
 	
 	@GetMapping(value="/getMessages")
     public ResponseEntity<?> getMessages() {
-    
-		MessageDTO msg = new MessageDTO(1L,1L,2L,"rec","sen","recn","senn","WAZZZA",new Date());
-		MessageDTO msg1 = new MessageDTO(2L,1L,2L,"rec","sen","recn","senn","WAZZZA2",new Date());
-		MessageDTO msg2 = new MessageDTO(3L,1L,2L,"rec","sen","recn","senn","WAZZZA3",new Date());
-		
+
 		List<MessageDTO> list = new ArrayList<MessageDTO>();
-		list.add(msg);
-		list.add(msg1);
-		list.add(msg2);
+		
+		MessagesResponse response = messageClient.getMessages();
+		
+		if(response.getMessageWS().size()>0){
+			for(MessageWS m : response.getMessageWS()){
+				list.add(messageWS2DTO(m));
+			}
+		}
+		
+		
     	return new ResponseEntity<>(list, HttpStatus.OK);
     }
 	
+	private MessageDTO messageWS2DTO(MessageWS m) {
+		// TODO Auto-generated method stub
+		MessageDTO dto = new MessageDTO();
+		dto.setId(m.getId());
+		dto.setMessage(m.getMessage());
+		dto.setReciverUsername(m.getReciver());
+		dto.setSenderUsername(m.getSender());
+		dto.setDate(m.getDate().toGregorianCalendar().getTime());
+		
+		return dto;
+	}
+
 	@GetMapping(value="/getReservation")
     public ResponseEntity<?> getReservation() {
-    
-		ReservationDTO msg = new ReservationDTO(1L,"asd","Guest","Horek",new Date(), new Date());
-		ReservationDTO msg1 = new ReservationDTO(2L,"asd","Guest","Horek",new Date(), new Date());
-		ReservationDTO msg2 = new ReservationDTO(3L,"asd","Guest","Horek",new Date(), new Date());
-		
+    	
+		ReservationsResponse response = reservationClient.getReservations();
+	
 		List<ReservationDTO> list = new ArrayList<ReservationDTO>();
-		list.add(msg);
-		list.add(msg1);
-		list.add(msg2);
+		if(response.getReservationWS().size()>0){
+			for(ReservationWS r : response.getReservationWS()){
+				list.add(reservationWS2DTO(r));
+			}
+		}
+		
     	return new ResponseEntity<>(list, HttpStatus.OK);
     }
 	
@@ -91,6 +120,19 @@ public class FacilityController {
 //		return new ResponseEntity<>(response, HttpStatus.OK);
 //	}
 	
+	private ReservationDTO reservationWS2DTO(ReservationWS r) {
+		// TODO Auto-generated method stub
+		ReservationDTO res = new ReservationDTO();
+		res.setConfirmed(r.isConfirmed());
+		res.setFacility(r.getFacility());
+		res.setFromDate(r.getFromDate().toGregorianCalendar().getTime());
+		res.setToDate(r.getToDate().toGregorianCalendar().getTime());
+		res.setGuestUsername(r.getGuest());
+		res.setId(r.getId());
+		
+		return res;
+	}
+
 	@RequestMapping(value="/addNewFacility", method=RequestMethod.POST)
 	public ResponseEntity<?> addFacility(@ModelAttribute FacilityDTO facility) throws DatatypeConfigurationException, ParseException, IOException{
 		
@@ -141,6 +183,16 @@ public class FacilityController {
 			return new ResponseEntity<>("Please fill every field", HttpStatus.BAD_REQUEST);
 		
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> deleteFacility(@PathVariable Long id){
+		boolean deleted = client.deleteFacility(id);
+		
+		if(!deleted)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	
