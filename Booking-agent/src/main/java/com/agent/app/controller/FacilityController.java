@@ -127,7 +127,8 @@ public class FacilityController {
 		res.setFacility(r.getFacility());
 		res.setFromDate(r.getFromDate().toGregorianCalendar().getTime());
 		res.setToDate(r.getToDate().toGregorianCalendar().getTime());
-		res.setGuestUsername(r.getGuest());
+		if(r.getGuest()!=null)
+			res.setGuestUsername(r.getGuest());
 		res.setId(r.getId());
 		
 		return res;

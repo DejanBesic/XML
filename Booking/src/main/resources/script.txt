@@ -7,9 +7,9 @@ insert into LOCATION values(2, 'Belgrade');
 insert into LOCATION values(3, 'Hawai');
 insert into LOCATION values(4, 'Hong Kong');
 
-insert into user values(1, 'TRUE',	'Address of Stefan',	'a@a', 'Radanovic', 'Stefan', 	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Stefan', 'tkn1', 	'twiste', 1);
+insert into user values(1, 'TRUE',	'Address of Stefan',	'a@a', 'Radanovic', 'Stefan', 	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Stefan', 'tkn1', 	'twiste', 2);
 insert into user values(2, 'TRUE', 	'Address of Dejan', 	'b@b', 'Besic', 	'Dejan', 	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG', 'pmb of Dejan', 'tkn2', 	'bei', 3);
-insert into user values(3, 'TRUE', 	'Address of Mario', 	'c@c', 'Gula', 		'Mario',	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Mario', 'tkn3', 	'guxla', 2);
+insert into user values(3, 'TRUE', 	'Address of Mario', 	'c@c', 'Gula', 		'Mario',	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Mario', 'tkn3', 	'guxla', 1);
 insert into user values(11, 'FALSE',	'Address of Stefan',	'aa@a', 'Radanovic', 'Stefan', 	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Stefan', 'tkn1', 	'atwiste', 1);
 insert into user values(21, 'FALSE', 	'Address of Dejan', 	'ab@b', 'Besic', 	'Dejan', 	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG', 'pmb of Dejan', 'tkn2', 	'abei', 1);
 insert into user values(31, 'FALSE', 	'Address of Mario', 	'ac@c', 'Gula', 		'Mario',	'$2a$10$x9IJmUtQpWc/L0yFDcUQSuhHNpPBpW67zDialYFSQmurPs1isvyNG',	'pmb of Mario', 'tkn3', 	'gauxla', 1);
@@ -49,6 +49,9 @@ insert into message values(2,'2018-06-12 00:00:00.0','Druga',1,3);
 insert into message values(3,'2018-06-16 00:00:00.0','Peta',1,2);
 insert into message values(4,'2018-06-15 00:00:00.0','Cetvrta',1,2);
 insert into message values(5,'2018-06-14 00:00:00.0','Treca',2,1);	
+
+insert into reservation values(1, false, '2018-06-10', 120, '2018-06-30', 5, 2);
+
 //pass = Bezlosmija43
 
 // twiste regular, bei admin, guxla agent

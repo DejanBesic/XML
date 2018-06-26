@@ -12,7 +12,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -25,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="sender" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="reciver" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="from" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *         &lt;element name="to" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *         &lt;element name="facilityId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -38,90 +40,83 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "sender",
-    "reciver",
-    "message"
+    "from",
+    "to",
+    "facilityId"
 })
-@XmlRootElement(name = "sendMessageRequest")
-public class SendMessageRequest {
+@XmlRootElement(name = "unavailableReservationRequest")
+public class UnavailableReservationRequest {
 
     @XmlElement(required = true)
-    protected String sender;
+    @XmlSchemaType(name = "date")
+    protected XMLGregorianCalendar from;
     @XmlElement(required = true)
-    protected String reciver;
-    @XmlElement(required = true)
-    protected String message;
+    @XmlSchemaType(name = "date")
+    protected XMLGregorianCalendar to;
+    protected long facilityId;
 
     /**
-     * Gets the value of the sender property.
+     * Gets the value of the from property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public String getSender() {
-        return sender;
+    public XMLGregorianCalendar getFrom() {
+        return from;
     }
 
     /**
-     * Sets the value of the sender property.
+     * Sets the value of the from property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setSender(String value) {
-        this.sender = value;
+    public void setFrom(XMLGregorianCalendar value) {
+        this.from = value;
     }
 
     /**
-     * Gets the value of the reciver property.
+     * Gets the value of the to property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public String getReciver() {
-        return reciver;
+    public XMLGregorianCalendar getTo() {
+        return to;
     }
 
     /**
-     * Sets the value of the reciver property.
+     * Sets the value of the to property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setReciver(String value) {
-        this.reciver = value;
+    public void setTo(XMLGregorianCalendar value) {
+        this.to = value;
     }
 
     /**
-     * Gets the value of the message property.
+     * Gets the value of the facilityId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getMessage() {
-        return message;
+    public long getFacilityId() {
+        return facilityId;
     }
 
     /**
-     * Sets the value of the message property.
+     * Sets the value of the facilityId property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setMessage(String value) {
-        this.message = value;
+    public void setFacilityId(long value) {
+        this.facilityId = value;
     }
 
 }

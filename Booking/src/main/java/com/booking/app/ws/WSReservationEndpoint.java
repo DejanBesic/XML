@@ -15,13 +15,16 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.booking.app.model.Reservation;
 import com.booking.app.model.User;
+import com.booking.app.service.FacilityService;
 import com.booking.app.service.ReservationService;
 import com.booking.app.service.UserService;
 import com.xml.booking.backendmain.ws_classes.ConfirmReservationRequest;
 import com.xml.booking.backendmain.ws_classes.ConfirmReservationResponse;
 import com.xml.booking.backendmain.ws_classes.ReservationRequest;
 import com.xml.booking.backendmain.ws_classes.ReservationWS;
-import com.xml.booking.backendmain.ws_classes.ReservationsResponse;;
+import com.xml.booking.backendmain.ws_classes.ReservationsResponse;
+import com.xml.booking.backendmain.ws_classes.UnavailableReservationRequest;
+import com.xml.booking.backendmain.ws_classes.UnavailableResponse;;
 
 @Endpoint
 public class WSReservationEndpoint {
@@ -34,6 +37,9 @@ public class WSReservationEndpoint {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private FacilityService facilityService;
+	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "confirmReservationRequest")
 	@ResponsePayload
 	public ConfirmReservationResponse testRequest(@RequestPayload ConfirmReservationRequest request) {
@@ -45,7 +51,7 @@ public class WSReservationEndpoint {
 			return response;
 		}
 		res.setConfirmed(true);
-		res = reservationService.save(res);
+		res = reservationService.update(res);
 		response.setConfirmed(res.isConfirmed());
 		
 		return response;
@@ -60,10 +66,32 @@ public class WSReservationEndpoint {
 		List<Reservation> sve = reservationService.findAll();
 		
 		for(Reservation r : sve){
-			if(r.getFacility().getOwner().getUsername().equals(request.getUsername())){
+			if(r.getFacility().getOwner().getUsername().equals(request.getUsername()) && r.getGuest().getId()!=11L){
 				response.getReservationWS().add(reservation2WS(r));
 			}
 		}
+		
+		return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "unavailableReservationRequest")
+	@ResponsePayload
+	public UnavailableResponse unavailableRes(@RequestPayload UnavailableReservationRequest request){
+		
+		UnavailableResponse response = new UnavailableResponse();
+		
+		Reservation res = new Reservation();
+		res.setFacility(facilityService.findById(request.getFacilityId()));
+		res.setFromDate(request.getFrom().toGregorianCalendar().getTime());
+		res.setToDate(request.getTo().toGregorianCalendar().getTime());
+		res.setGuest(userService.findById(11L));
+		
+		res = reservationService.save(res);
+		if(res==null){
+			response.setUnavailable(false);
+			return response;
+		}
+		response.setUnavailable(true);
 		
 		return response;
 	}

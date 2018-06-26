@@ -10,7 +10,11 @@ public class ReservationDTO {
 	private String facility;
 	private Date fromDate;
 	private Date toDate;
+	private String fromDateString;
+	private String toDateString;
 	private boolean confirmed;
+	
+	private long facilityId;
 	
 	public ReservationDTO(){
 		
@@ -68,6 +72,36 @@ public class ReservationDTO {
 	}
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
+	}
+
+
+	public long getFacilityId() {
+		return facilityId;
+	}
+
+
+	public void setFacilityId(long facilityId) {
+		this.facilityId = facilityId;
+	}
+
+
+	public String getFromDateString() {
+		return fromDateString;
+	}
+
+
+	public void setFromDateString(String fromDateString) {
+		this.fromDateString = fromDateString;
+	}
+
+
+	public String getToDateString() {
+		return toDateString;
+	}
+
+
+	public void setToDateString(String toDateString) {
+		this.toDateString = toDateString;
 	}
 	
 }

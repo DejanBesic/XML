@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="deleted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="unavailable" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -35,27 +35,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "deleted"
+    "unavailable"
 })
-@XmlRootElement(name = "deleteFacilityResponse")
-public class DeleteFacilityResponse {
+@XmlRootElement(name = "unavailableResponse")
+public class UnavailableResponse {
 
-    protected boolean deleted;
+    protected boolean unavailable;
 
     /**
-     * Gets the value of the deleted property.
+     * Gets the value of the unavailable property.
      * 
      */
-    public boolean isDeleted() {
-        return deleted;
+    public boolean isUnavailable() {
+        return unavailable;
     }
 
     /**
-     * Sets the value of the deleted property.
+     * Sets the value of the unavailable property.
      * 
      */
-    public void setDeleted(boolean value) {
-        this.deleted = value;
+    public void setUnavailable(boolean value) {
+        this.unavailable = value;
     }
 
 }

@@ -14,6 +14,8 @@ public interface ReservationService {
 	
 	Reservation save(Reservation reservation);
 	
+	Reservation update(Reservation reservation);
+	
 	void delete(Long id);
 	
 	List<Reservation> findByFacility(Facility facility);

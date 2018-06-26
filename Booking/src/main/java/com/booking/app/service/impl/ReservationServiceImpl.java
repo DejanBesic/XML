@@ -63,5 +63,11 @@ public class ReservationServiceImpl implements ReservationService{
 	public List<Reservation> findByGuestAndFacility(User guest, Facility facility) {
 		return reservationRepository.findByGuestAndFacility(guest, facility);
 	}
+
+	@Override
+	public Reservation update(Reservation reservation) {
+		// TODO Auto-generated method stub
+		return reservationRepository.save(reservation);
+	}
 	
 }

@@ -8,6 +8,8 @@ import com.agent.app.wsdl.ConfirmReservationRequest;
 import com.agent.app.wsdl.ConfirmReservationResponse;
 import com.agent.app.wsdl.ReservationRequest;
 import com.agent.app.wsdl.ReservationsResponse;
+import com.agent.app.wsdl.UnavailableReservationRequest;
+import com.agent.app.wsdl.UnavailableResponse;
 
 public class WSReservationClient extends WebServiceGatewaySupport{
 
@@ -31,6 +33,13 @@ public class WSReservationClient extends WebServiceGatewaySupport{
 		ReservationsResponse response = (ReservationsResponse) getWebServiceTemplate().marshalSendAndReceive(URI , request, new SoapActionCallback(URI + "/reservationRequest"));
  
 		return response;
+	}
+
+	public boolean setUnavailable(UnavailableReservationRequest request) {
+		// TODO Auto-generated method stub
+		UnavailableResponse response = (UnavailableResponse) getWebServiceTemplate().marshalSendAndReceive(URI , request, new SoapActionCallback(URI + "/unavailableReservationRequest"));
+		 
+		return response.isUnavailable();
 	}
 	
 	
