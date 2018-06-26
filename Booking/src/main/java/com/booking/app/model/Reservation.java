@@ -1,7 +1,7 @@
 package com.booking.app.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,10 +22,10 @@ public class Reservation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	private User guest;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	private Facility facility;
 	
 	@Column(nullable = false)

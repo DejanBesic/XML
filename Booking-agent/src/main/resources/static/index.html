@@ -9,9 +9,9 @@
     <meta name="author" content="">
 
     <title>Main Page</title>
-<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="vendor/index/bootstrap4.min.css">
   <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-  <script src="bootstrap.min.js"></script>
+  <script src="vendor/index/bootstrap4.min.js"></script>
 
 </head>
 
@@ -19,17 +19,18 @@
 	
 <div class="container">
   <h2>Booking App for Agents</h2>
-  <ul class="nav nav-pills nav-stacked">
-    <li class="active"><a data-toggle="pill" href="#facilitiesContainer">My Facilities</a></li>
-    <li><a data-toggle="pill" href="#newFacility">Create New Facility</a></li>
-    <li><a data-toggle="pill" href="#reservations">Reservations</a></li>
-    <li><a data-toggle="pill" href="#messages">Messages</a></li>
+  <ul class="nav nav-pills .flex-column" style="margin: 30px;">
+    <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#facilitiesContainer">My Facilities</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#newFacility">Create New Facility</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#reservations">Reservations</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#messages">Messages</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#availability">Availability</a></li>
   </ul>
   
   <div class="tab-content">
-    <div id="facilitiesContainer" class="tab-pane fade in active">
+    <div id="facilitiesContainer" class="tab-pane container active">
     </div>
-    <div id="newFacility" class="tab-pane fade">
+    <div id="newFacility" class="tab-pane container fade">
 	    <div class="container">
 		  <h2>Create New Facility</h2>
 		  <form id="newForm">
@@ -44,7 +45,7 @@
 		    <div class="form-group">
 			    <label>Type:</label>
 			    <select class="form-control" id="newTypeSelect">
-			   		<option value="Mansion">Mansion</option>
+			   		<option value="Hotel">Hotel</option>
 			      <option value="House">House</option>
 			      <option value="Mansion">Mansion</option>
 			    </select>
@@ -52,7 +53,7 @@
 		    <div class="form-group">
 			    <label for="exampleFormControlSelect1">Location:</label>
 			    <select class="form-control" id="newLocationSelect">
-			      <option value="Hawaii">Hawaii</option>
+			      <option value="Hawai">Hawai</option>
 			      <option value="Maimi">Maimi</option>
 			      <option value="Belgrade">Belgrade</option>
 			      <option value="Hong Kong">Hong Kong</option>
@@ -113,13 +114,13 @@
 		 </form>
 	</div>
     </div>
-    <div id="reservations" class="tab-pane fade">
+    <div id="reservations" class="tab-pane container fade">
     	<table id="rTable" style="width:100%"></table>
     </div>
-    <div id="messages"  class="tab-pane fade">
+    <div id="messages"  class="tab-pane container fade">
     	<table id="msgTable" style="width:100%"></table>
     </div>
-    <div id="Availability"  class="tab-pane fade">
+    <div id="availability"  class="tab-pane container fade">
     	<h3>Select dates to make your facility unavailable</h3>
     	<div class="form-group">
 	      <label for="description">From:</label>
@@ -133,7 +134,7 @@
 	      <label for="description">Facility:</label>
 			<select class="form-control" id="unavailableFacilitySelect"></select>
 	    </div>
-	    <button>Confirm</button>
+	    <button id="confirmBtn">Confirm</button>
     </div>
   </div>
 </div>

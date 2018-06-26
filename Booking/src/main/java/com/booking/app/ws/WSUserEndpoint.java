@@ -26,7 +26,7 @@ public class WSUserEndpoint {
 	public UserWS getUserByUsername(@RequestPayload UserRequest userRequest) {
 		
 		User user = userService.findByUsername(userRequest.getUsername());
-		if(user == null)
+		if(user == null || !user.getRole().getName().equals("AGENT"))
 			return null;
 		
 		

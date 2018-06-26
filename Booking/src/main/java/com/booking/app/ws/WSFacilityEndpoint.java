@@ -193,8 +193,11 @@ public class WSFacilityEndpoint {
 		res.setNumberOfPeople(facility.getNumberOfPeople());
 		
 		List<Image> imgs = imageService.findByFacility(facility);
-		for(Image img : imgs){
-			res.getImages().add(img.getImagesDB());
+		if(imgs!=null){
+			for(Image img : imgs){
+				if(img.getImagesDB() != null)
+					res.getImages().add(img.getImagesDB());
+			}
 		}
 		
 		return res;

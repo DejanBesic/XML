@@ -8,6 +8,34 @@ $(document).ready(function(){
 		e.preventDefault();
 		createFacility();
 	});
+	
+	document.getElementById("confirmBtn").onclick = function setUnavailable(){
+		var reservation = new Object();
+		reservation.fromDateString = document.getElementById("fromUnavailable").value;
+		reservation.toDateString = document.getElementById("toUnavailable").value;
+		reservation.facilityId = $("#unavailableFacilitySelect").find(":selected").val();
+		
+		$.ajax({
+			url: '../api/reservation/unavailable',
+	    	type: "POST",
+	    	data: JSON.stringify(reservation),
+	    	headers:{
+				"authorization": localStorage.getItem("token")
+			},
+	    	contentType: "application/json",
+	    	success: function(data){
+	    		if(data==true){
+	    			alert("Successfuly updated available dates");
+	    		}else{
+	    			alert("Someone already made a reservation for this dates");
+	    		}
+	    		location.reload();
+	    	},
+            error: function (e) {
+            	alert("Someone already made a reservation for this dates");
+            }
+		});
+	}
 });
 
 
@@ -32,19 +60,66 @@ function showFacilities(data){
 	
 	var i;
 	for(i=0; i<data.length; i++){
-		var d = '<div>';
+		var d = '<div id="slike' + data[i].id + '" class="carousel slide" data-ride="carousel" style="width:800px;height:400px;">'
+			+'<ul id="lista' + data[i].id + '" class="carousel-indicators">'
+			+'</ul>'
+			+'<div id="slikeInner' + data[i].id + '" class="carousel-inner">'
+			+'</div>'
+			+'<a class="carousel-control-prev" href="#slike' + data[i].id + '" data-slide="prev">'
+			+'<span class="carousel-control-prev-icon"></span>'
+			+'</a>'
+			+'<a class="carousel-control-next" href="#slike' + data[i].id + '" data-slide="next">'
+			+'<span class="carousel-control-next-icon"></span></a>'
+			+'</div>';
+		
+		
+		el.innerHTML+='<div class="card bg-info" style="width:850px; margin: 20px;">'
+			+'<div class="card-header">'
+			+ d
+			+'</div>'
+			+ '<div class="card-body"><h2>' + data[i].name + '</h2>' 
+			+ '<p>' + data[i].description + '</p>'
+			+ '<p><b>Category:</b> ' + data[i].category + '</p>'
+			+ '<p><b>Type:</b> ' + data[i].type + '</p>'
+			+'<div class="row" id="usluge' + data[i].id + '"></div>'
+			+ '<button type="button" class="btn btn-danger" style=" width: 100%; padding-left: 30px; padding-right: 30px;" onclick="deleteFacility(' + data[i].id + ')">Delete</button>'
+			+ '</div></div>';
+		
 		var j;
 		for(j=0; j<data[i].images.length; j++){
-			d+='<img src=\"data:image/png;base64,' +data[i].images[j] +'\" alt="pic" style="width:200px;height:100px;">'
+			if(j==0){
+				$("#lista" + data[i].id).append('<li data-target="#slike' + data[i].id + '" data-slide-to="0" class="active"></li>');
+				$("#slikeInner" + data[i].id).append('<div class="carousel-item active"><img src="data:image/png;base64,' +data[i].images[j] +'" alt="" style="width:800px;height:400px;"></div>');
+			}else{
+				$("#lista" + data[i].id).append('<li data-target="#slike' + data[i].id + '" data-slide-to="' + j + '"></li>');
+				$("#slikeInner" + data[i].id).append('<div class="carousel-item"><img src="data:image/png;base64,' +data[i].images[j] +'" alt="" style="width:800px;height:400px;"></div>');
+			}
 		}
 		
-		
-		el.innerHTML+='<div class="w3-panel w3-indigo w3-round-xlarge">'
-			+ '<h3>' + data[i].name + '</h3>' 
-			+ '<p>' + data[i].description + '</p>'
-			+ '<p>Category: ' + data[i].category + '</p>'
-			+ '<button onclick="deleteFacility(' + data[i].id + ')">Delete</button>'
-			+ '</div>';
+		if(data[i].wifi){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Wifi</span>');
+		}
+		if(data[i].bathroom){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Bathroom</span>');
+		}
+		if(data[i].kitchen){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Kitchen</span>');
+		}
+		if(data[i].halfBoard){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Half Board</span>');
+		}
+		if(data[i].fullBoard){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Full Board</span>');
+		}
+		if(data[i].tv){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">TV</span>');
+		}
+		if(data[i].parkingLot){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Parking Lot</span>');
+		}
+		if(data[i].breakfast){
+			$("#usluge" + data[i].id).append('<span class="badge badge-success" style="margin: 10px;">Breakfast</span>');
+		}
 		
 		document.getElementById("unavailableFacilitySelect").innerHTML+='<option value="' + data[i].id + '">' + data[i].name + '</option>';
 	}
@@ -211,13 +286,13 @@ function createReservationElement(data){
 		+'<td>'+ d.toDateString() +'</td><td>'+t.toDateString()+'</td>'
 		+'<td><button class="button" id="confirm' + data.id + '" onClick="confirm(' + data.id + ')">Confirm</button></td>'
 		+'<tr>';
-	
+
+	$('#rTable').append(str);
 	if(data.confirmed == true || d.getTime()>trenutno.getTime()){
 		document.getElementById("confirm" + data.id).style.visibility = "hidden";
 	}
 		
 		
-	$('#rTable').append(str);
 }
 
 function confirm(id){
@@ -257,6 +332,8 @@ function sendResponse(reciver, id){
     	}
 	});
 	
+	
+
 	
 	
 	
