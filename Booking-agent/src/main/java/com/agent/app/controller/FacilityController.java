@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.agent.app.DTOs.FacilityDTO;
 import com.agent.app.DTOs.MessageDTO;
 import com.agent.app.DTOs.ReservationDTO;
+import com.agent.app.service.FacilityWSService;
 import com.agent.app.ws.WSFacilityClient;
 import com.agent.app.ws.WSMessageClient;
 import com.agent.app.ws.WSReservationClient;
@@ -45,8 +46,11 @@ import com.agent.app.wsdl.ReservationsResponse;
 @RequestMapping("/api/facility")
 public class FacilityController {
 
+//	@Autowired
+//	WSFacilityClient client;
+	
 	@Autowired
-	WSFacilityClient client;
+	FacilityWSService facilityWSService;
 	
 	@Autowired
 	private WSMessageClient messageClient;
@@ -62,7 +66,7 @@ public class FacilityController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		user.setUsername(username);
 		
-		AgentFacilitiesResponse response = client.getAgentFacilities(user);
+		AgentFacilitiesResponse response = facilityWSService.getAgentFacilities(user);
 		if(response == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
@@ -178,7 +182,7 @@ public class FacilityController {
 		app4.setToDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(date4end));
 		app4.setFacility(facility.getName());
 		
-		MessageResponse response = client.addNewFacility(req);
+		MessageResponse response = facilityWSService.addNewFacility(req);
 		
 		if(response==null)
 			return new ResponseEntity<>("Please fill every field", HttpStatus.BAD_REQUEST);
@@ -188,7 +192,7 @@ public class FacilityController {
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<?> deleteFacility(@PathVariable Long id){
-		boolean deleted = client.deleteFacility(id);
+		boolean deleted = facilityWSService.deleteFacility(id);
 		
 		if(!deleted)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
