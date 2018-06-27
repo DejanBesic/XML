@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.booking.annotations.PermissionAnnotation;
 import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.model.FacilityType;
 import com.booking.app.model.Rating;
@@ -60,21 +62,32 @@ public class AdminController {
     	return new ResponseEntity<>(true, HttpStatus.OK);
     }
     
-	@GetMapping("/getUsers")
+    @PermissionAnnotation(name = "GET_REGULAR_USERS")
+    @CrossOrigin
+    @RequestMapping(
+            value = "getUsers",
+            method = RequestMethod.GET
+    )
     public ResponseEntity<?> getUser() {
     	return new ResponseEntity<>(userService.findAllInactive(), HttpStatus.OK);
     }
 	
+    @PermissionAnnotation(name = "GET_TYPES")
+    @CrossOrigin
 	@GetMapping("/getTypes")
     public ResponseEntity<?> getTypes() {
     	return new ResponseEntity<>(facService.findAll(), HttpStatus.OK);
     }
 	
+    @PermissionAnnotation(name = "GET_RATINGS")
+    @CrossOrigin
 	@GetMapping("/getRatings")
 	public ResponseEntity<?> getRating() {
 		return new ResponseEntity<>(ratingService.findAllUnreviewed(), HttpStatus.OK);
     }
 	
+    @PermissionAnnotation(name = "APPROVE_COMMENT")
+    @CrossOrigin
 	@RequestMapping(value= "/approve", method=RequestMethod.POST)
 	public ResponseEntity<?> approve(@RequestBody Rating rating) {
 		Rating rat = ratingService.findById(rating.getId());
@@ -87,6 +100,8 @@ public class AdminController {
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 	
+    @PermissionAnnotation(name = "APPROVE_USER")
+    @CrossOrigin
 	@RequestMapping(value= "/approveUser", method=RequestMethod.POST)
 	public ResponseEntity<?> approveUser(@RequestBody User user) {
 		User us = userService.findById(user.getId());
@@ -98,6 +113,8 @@ public class AdminController {
 		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
+    @PermissionAnnotation(name = "BLOCK_USER")
+    @CrossOrigin
 	@RequestMapping(value= "/blockUser", method=RequestMethod.POST)
 	public ResponseEntity<?> blockUser(@RequestBody User user) {
 		User us = userService.findById(user.getId());
@@ -116,6 +133,8 @@ public class AdminController {
 		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
+    @PermissionAnnotation(name = "DELETE_COMMENT")
+    @CrossOrigin
 	@RequestMapping(value= "/block", method=RequestMethod.POST)
 	public ResponseEntity<?> block(@RequestBody Rating rating) {
 		Rating rat = ratingService.findById(rating.getId());
@@ -128,6 +147,8 @@ public class AdminController {
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 	
+    @PermissionAnnotation(name = "ADD_AGENT")
+    @CrossOrigin
 	@RequestMapping(value= "/addAgent", method=RequestMethod.POST)
 	public ResponseEntity<?> addAgent(@RequestBody User user) {
 		if(userService.findByEmail(user.getEmail())!=null) {
@@ -156,6 +177,8 @@ public class AdminController {
         return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+    @PermissionAnnotation(name = "SAVE_TYPE")
+    @CrossOrigin
 	@RequestMapping(value= "/saveType", method=RequestMethod.POST)
 	public ResponseEntity<?> saveType(@RequestBody FacilityType fact) {
 		FacilityType ft = facService.findById(fact.getId());
@@ -167,6 +190,8 @@ public class AdminController {
 		return new ResponseEntity<>(fact, HttpStatus.OK);
 	}
 	
+    @PermissionAnnotation(name = "DELETE_TYPE")
+    @CrossOrigin
 	@RequestMapping(value= "/deleteType", method=RequestMethod.POST)
 	public ResponseEntity<?> deleteType(@RequestBody FacilityType fact) {
 		FacilityType ft = facService.findById(fact.getId());
@@ -178,6 +203,8 @@ public class AdminController {
 
 	}
 	
+    @PermissionAnnotation(name = "ADD_TYPE")
+    @CrossOrigin
 	@RequestMapping(value= "/addNewType", method=RequestMethod.POST)
 	public ResponseEntity<?> addNewType(@RequestBody FacilityType fact) {
 		FacilityType ft = new FacilityType(fact.getName());
