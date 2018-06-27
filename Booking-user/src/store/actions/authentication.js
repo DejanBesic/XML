@@ -1,6 +1,14 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { fetchAuth, fetchLogout, fetchSignUp, fetchUser, fetchEditUser } from '../../api';
+import { 
+    fetchAuth,
+    fetchLogout,
+    fetchSignUp,
+    fetchUser,
+    fetchEditUser,
+    fetchConfirmRegistration,
+    fetchResetPassword
+} from '../../api';
 import { onReset } from './reservations';
 
 
@@ -166,4 +174,40 @@ export const editUser = (user) => (dispatch, getState) => {
 
 }
 
+export const ConfirmRegistrationStart = "ConfirmRegistrationStart";
+export const onConfirmRegistrationStart = () =>
+    ({ type: ConfirmRegistrationStart })
 
+export const ConfirmRegistrationSuccess = "ConfirmRegistrationSuccess";
+export const onConfirmRegistrationSuccess = () =>
+    ({ type: ConfirmRegistrationSuccess })
+
+export const ConfirmRegistrationFailure = "ConfirmRegistrationFailure";
+export const onConfirmRegistrationFailure = (error) =>
+    ({ type: ConfirmRegistrationFailure, payload: error })
+
+export const confirmRegistration = (token) =>  (dispatch, getState) => {
+    dispatch(onConfirmRegistrationStart());
+    fetchConfirmRegistration(token)
+    .then(() => alert('asd'))
+    .catch((error) => dispatch(onConfirmRegistrationFailure(error)));
+}
+
+export const ResetPasswordStart = "ResetPasswordStart";
+export const onResetPasswordStart = () =>
+    ({ type: ResetPasswordStart })
+
+export const ResetPasswordSuccess = "ResetPasswordSuccess";
+export const onResetPasswordSuccess = () =>
+    ({ type: ResetPasswordSuccess })
+
+export const ResetPasswordFailure = "ResetPasswordFailure";
+export const onResetPasswordFailure = (error) =>
+    ({ type: ResetPasswordFailure, payload: error })
+
+export const resetPassword = (email) => (dispatch, getState) => {
+    dispatch(onResetPasswordStart());
+    fetchResetPassword(email)
+    .then(() => dispatch(onResetPasswordSuccess()))
+    .catch((error) => dispatch(onResetPasswordFailure(error)));
+}

@@ -51,4 +51,11 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findAllInactive();
 	}
 
+	@Override
+	public User findByToken(String token) {
+		return userRepository.findByToken(token);
+	}
+	
+	
+
 }

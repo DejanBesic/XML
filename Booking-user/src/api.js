@@ -49,3 +49,9 @@ export const fetchSendMessage = (message, token) =>
 
 export const fetchMessages = (senderId ,token) =>
     (axios.get(`${baseUrl}/api/messages/getForUser/${senderId}`, { headers: { Authorization: `Bearer ${token}` }}))
+
+export const fetchConfirmRegistration = (token) =>
+    axios.put(`${baseUrl}/api/auth/confirmRegistration?token=${token}`);
+
+export const fetchResetPassword = (email) =>
+    axios.post(`${baseUrl}/api/auth/resetPassword`, email);

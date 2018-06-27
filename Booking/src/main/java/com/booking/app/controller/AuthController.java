@@ -1,5 +1,7 @@
 package com.booking.app.controller;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,16 +18,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.JwtAuthenticationResponse;
 import com.booking.app.DTOs.LoginRequest;
 import com.booking.app.DTOs.RegistrationResponse;
+import com.booking.app.DTOs.RequestResetPassword;
 import com.booking.app.DTOs.SignUpRequest;
 import com.booking.app.model.Role;
 import com.booking.app.model.User;
 import com.booking.app.repository.UserRepository;
 import com.booking.app.security.JwtTokenProvider;
+import com.booking.app.service.impl.EmailServiceImpl;
 import com.booking.app.service.impl.RoleServiceImpl;
 
 @RestController
@@ -41,6 +47,9 @@ public class AuthController {
     @Autowired
     RoleServiceImpl roleService;
 
+    @Autowired
+    EmailServiceImpl emailService;
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -61,7 +70,19 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         
+        User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),loginRequest.getUsernameOrEmail());
+        
+        if (user == null || !user.isActive()) {
+        	return new ResponseEntity<>("User is not activated yet", HttpStatus.BAD_REQUEST);
+        }
+        
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
+    }
+    
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody RequestResetPassword email) {
+    	
+    	return null;
     }
     
     @GetMapping("/GetUser")
@@ -79,6 +100,17 @@ public class AuthController {
         return false;
     }
     
+    @RequestMapping(value="/confirmRegistration", method=RequestMethod.PUT)
+    public ResponseEntity<?> confirmRegistration(@RequestParam String token) {
+    	User user = userRepository.findByToken(token);
+    	if (user == null) {
+    		return new ResponseEntity<>("Wrong token!", HttpStatus.BAD_REQUEST);
+    	}
+    	user.setActive(true);
+    	userRepository.save(user);
+    	return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+    
 
     @PostMapping("/signup")
     public ResponseEntity<RegistrationResponse> registerUser(@RequestBody SignUpRequest signUpRequest) {
@@ -89,13 +121,20 @@ public class AuthController {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
         	return new ResponseEntity<>(new RegistrationResponse(false, "Email address is already in use!"), HttpStatus.BAD_REQUEST);
         }
-
+        
+        if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword())) {
+        	return new ResponseEntity<>(new RegistrationResponse(false, "Password doesn't match with confirm password"), HttpStatus.BAD_REQUEST);
+        }
         
         Role role = roleService.findByName("REGULAR");
         
         // Creating user's account
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword(), role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        String token = getToken(10);
+        user.setActive(false);
+        user.setToken(token);
 
         //Save in base
         User result = userRepository.save(user);
@@ -103,11 +142,29 @@ public class AuthController {
         if(result == null) {
         	return new ResponseEntity<>(new RegistrationResponse(false, "Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
+        String subject = "Registration";
+		String messageText = "Please click on the link to complete your registration. "
+				+ "http://localhost:3000/confirm/" + token;
+		if(!emailService.sendCustomEmail(user.getEmail(), subject, messageText)) {
+			return new ResponseEntity<>(new RegistrationResponse(false, "Failed to send email."), HttpStatus.BAD_REQUEST);
+		}
+        
 
         return new ResponseEntity<>(new RegistrationResponse(true, "Successfuly registrated."), HttpStatus.OK);
     }
     
     
+    private static final Random random = new Random();
+    private static final String CHARS = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890";
+
+    public static String getToken(int length) {
+        StringBuilder token = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            token.append(CHARS.charAt(random.nextInt(CHARS.length())));
+        }
+        return token.toString();
+    }
     
     private Authentication autoLogin(String username, String password) {
     	return authenticationManager.authenticate(
