@@ -19,5 +19,7 @@ public interface UserService {
 	void delete(Long id);
 	
 	List<User> findAllInactive();
+	
+	User findByToken(String token);
 
 }

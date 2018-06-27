@@ -54,12 +54,6 @@ class Reservation extends Component {
                     {this.props.reservation.facility.name}
                 </td>
                 <td>
-                    {this.formatDate(this.props.reservation.fromDate)}
-                </td>
-                <td>
-                    {this.formatDate(this.props.reservation.toDate)}
-                </td>
-                <td>
                     {this.props.reservation.facility.location.name}
                 </td>
                 <td>
@@ -154,7 +148,7 @@ class Reservation extends Component {
                                             className="btn btn-success confirmButton" 
                                             onClick={() => {
                                                 close(); 
-                                                this.props.sendMessage(this.props.reservation.facility.owner.id, this.state.message)
+                                                this.props.sendMessage( this.state.message, this.props.reservation.facility.owner.id)
                                             }}
                                         >
                                             Send

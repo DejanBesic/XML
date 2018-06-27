@@ -7,16 +7,29 @@ public class SignUpRequest {
 	private String email;
 	
 	private String password;
+	
+	private String confirmPassword;
 
 	public SignUpRequest() {
 		
 	}
 	
-	public SignUpRequest(String username, String email, String password) {
+	public SignUpRequest(String username, String email, String password, String confirmPassword) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.confirmPassword = confirmPassword;
+	}
+
+	
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getUsername() {

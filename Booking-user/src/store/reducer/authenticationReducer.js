@@ -2,6 +2,9 @@ import {
     AuthenticationStart,
     AuthenticationSuccess,
     AuthenticationFailure,
+    ConfirmRegistrationStart,
+    ConfirmRegistrationSuccess,
+    ConfirmRegistrationFailure,
     GetUserStart,
     GetUserSuccess,
     GetUserFailure,
@@ -12,7 +15,10 @@ import {
     RegistrationStart,
     RegistrationSuccess,
     RegistrationFailure,
-    ResetRegistrated
+    ResetRegistrated,
+    ResetPasswordStart,
+    ResetPasswordFailure,
+    ResetPasswordSuccess,
 } from '../actions/authentication';
 
 export const initialState = {
@@ -122,7 +128,39 @@ export default function(state = initialState, action) {
                 ...state,
                 error: action.payload,
             }
+        case ConfirmRegistrationStart:
+            return {
+                ...state,
+                error: "",
+            }
         
+        case ConfirmRegistrationSuccess:
+            return {
+                ...state,
+            }
+        
+        case ConfirmRegistrationFailure:
+            return {
+                ...state,
+                error: action.payload,
+            }
+
+        case ResetPasswordStart:
+            return {
+                ...state,
+                error: "",
+            }
+
+        case ResetPasswordSuccess:
+            return {
+                ...state,
+            }
+        
+        case ResetPasswordFailure:
+            return {
+                ...state,
+                error: action.payload,
+            }
         default: 
             return state;
     }

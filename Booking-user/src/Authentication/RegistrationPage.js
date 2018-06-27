@@ -13,7 +13,8 @@ class RegistrationPage extends Component {
           user: {
             email: "",
             password: "",
-            username: ""
+            username: "",
+            confirmPassword: "",
           }
         }
     }
@@ -41,6 +42,15 @@ class RegistrationPage extends Component {
             user: {
             ...this.state.user,
             password: evt.target.value,
+            }
+        });
+    }
+
+    confirmPasswordChange = (evt) => {
+        this.setState({
+            user: {
+            ...this.state.user,
+            confirmPassword: evt.target.value,
             }
         });
     }
@@ -99,6 +109,17 @@ class RegistrationPage extends Component {
                                 name="password"
                                 value={this.state.password}
                                 onChange={this.passwordChange}
+                            />
+                        </div>
+
+                        <div className="form-group" style={{textAlign: 'left'}}>
+                            <label  htmlFor="password">Confirm password</label>
+                            <input 
+                                type="password"
+                                className="form-control"
+                                name="confirmPassword"
+                                value={this.state.confirmPassword}
+                                onChange={this.confirmPasswordChange}
                             />
                         </div>
                         <button type="button" onClick={() => this.props.signUp(this.state.user)} className="btn btn-primary">

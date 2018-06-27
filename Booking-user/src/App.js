@@ -12,6 +12,8 @@ import ReservationsPage from './Reservations/ReservationsPage';
 import FacilityPage from './Main/FacilityPage';
 import Settings from './Settings/Settings';
 import MessagesPage from './Messages/MessagesPage';
+import ConfirmationPage from './Authentication/ConfirmationPage';
+import ForgottenPassword from './Authentication/ForgottenPassword';
 
 class App extends Component {  
   render() {
@@ -29,6 +31,8 @@ class App extends Component {
                 <Route path="/facility/:id" component={FacilityPage}/>
                 <Route path="/settings" component={Settings}/>
                 <Route path="/messages" component={MessagesPage}/>
+                <Route path="/confirm/:token" component={ConfirmationPage}/>
+                <Route path="/forgottenPassword" component={ForgottenPassword}/>
               </div>
             </Router>
           </PersistGate>

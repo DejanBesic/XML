@@ -26,6 +26,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByEmail(String email);
     
+    User findByToken(String token);
+    
     @Query("SELECT r FROM User r where r.active = false") 
     List<User> findAllInactive();
 }
