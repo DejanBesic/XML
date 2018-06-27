@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.booking.annotations.PermissionInterceptor;
+import com.booking.app.annotations.PermissionInterceptor;
 
 @SpringBootApplication
 public class WebApplication extends org.springframework.boot.web.support.SpringBootServletInitializer implements WebMvcConfigurer {

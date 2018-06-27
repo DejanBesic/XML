@@ -1,4 +1,4 @@
-package com.booking.annotations;
+package com.booking.app.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.booking.annotations;
+package com.booking.app.annotations;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;

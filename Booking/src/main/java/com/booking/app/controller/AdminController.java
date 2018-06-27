@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.booking.annotations.PermissionAnnotation;
 import com.booking.app.DTOs.RegistrationResponse;
+import com.booking.app.annotations.PermissionAnnotation;
 import com.booking.app.model.FacilityType;
 import com.booking.app.model.Rating;
 import com.booking.app.model.Role;
