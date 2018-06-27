@@ -1,5 +1,7 @@
 package com.agent.app.controller;
 
+import java.security.SecureRandom;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,12 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agent.app.DTOs.JwtAuthenticationResponse;
+import com.agent.app.DTOs.PasswordDTO;
+import com.agent.app.model.User;
 import com.agent.app.security.JwtTokenProvider;
+import com.agent.app.service.EmailService;
+import com.agent.app.service.UserService;
 import com.agent.app.wsdl.UserRequest;
 
 
@@ -35,6 +42,12 @@ public class AuthController {
 
     @Autowired
     JwtTokenProvider tokenProvider;
+    
+    @Autowired
+    UserService userService;
+    
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody UserRequest loginRequest) {
@@ -68,7 +81,54 @@ public class AuthController {
         return false;
     }
     
-
+    @PutMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody User user){
+    	
+    	User u = userService.findByEmail(user.getEmail());
+    	if(u==null || !u.getRole().getName().equals("AGENT")){
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	String newPassword = randomString(10);
+    	emailService.sendCustomEmail(u.getEmail(), "Password Reset", "Username: " + u.getUsername() + "\nYour new password is: " + newPassword);
+    	u.setPassword(passwordEncoder.encode(newPassword));
+    	
+    	userService.save(u);
+    	
+    	return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @PutMapping("/setNewPassword")
+    public ResponseEntity<?> setNewPassword(@RequestBody PasswordDTO dto){
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth==null)
+    		return new ResponseEntity<>("You are not allowed to perform this action", HttpStatus.BAD_REQUEST);
+    	
+    	if(!dto.getConfirmPassword().equals(dto.getNewPassword()))
+    		return new ResponseEntity<>("Please confirm your new password", HttpStatus.BAD_REQUEST);
+    	
+    	//^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$
+    	
+    	if(!dto.getNewPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{10,}$")){
+    		return new ResponseEntity<>("Password must be at least 10 characters long and contain at least one upper case letter, one lower case letter and a number", HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	User user = userService.findByUsername(auth.getName());
+    	if(user==null)
+    		return new ResponseEntity<>("You are not allowed to perform this action", HttpStatus.BAD_REQUEST);
+    	
+    	if(!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())){
+    		return new ResponseEntity<>("Wrong current password", HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+    	user = userService.save(user);
+    	if(user==null)
+    		return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+    	
+    	return new ResponseEntity<>(HttpStatus.OK);
+    	
+    }
    
     
     private Authentication autoLogin(String username, String password) {
@@ -79,4 +139,13 @@ public class AuthController {
                 )
         );
     }
+    
+    private String randomString( int len ){
+    	String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    	SecureRandom rnd = new SecureRandom();
+	    StringBuilder sb = new StringBuilder( len );
+	    for( int i = 0; i < len; i++ ) 
+	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	    return sb.toString();
+    	}
 }

@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.booking.app.model.User;
-import com.booking.app.repository.UserRepository;
-import com.booking.app.service.UserService;
+import com.agent.app.model.User;
+import com.agent.app.repository.UserRepository;
+import com.agent.app.service.UserService;
+
+
 
 @Service
 public class UserServiceImpl implements UserService{

@@ -18,6 +18,7 @@
 <body>
 	
 <div class="container">
+  <button type="button" class="btn btn-dark" id="logout">Logout</button>
   <h2>Booking App for Agents</h2>
   <ul class="nav nav-pills .flex-column" style="margin: 30px;">
     <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#facilitiesContainer">My Facilities</a></li>
@@ -25,6 +26,7 @@
     <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#reservations">Reservations</a></li>
     <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#messages">Messages</a></li>
     <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#availability">Availability</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#changePassword">Change Password</a></li>
   </ul>
   
   <div class="tab-content">
@@ -135,6 +137,23 @@
 			<select class="form-control" id="unavailableFacilitySelect"></select>
 	    </div>
 	    <button id="confirmBtn">Confirm</button>
+    </div>
+    
+    <div id="changePassword"  class="tab-pane container fade">
+    	<h3>Select dates to make your facility unavailable</h3>
+    	<div class="form-group">
+	      <label for="description">Current password:</label>
+			<input type="password" id="oldPassword">
+	    </div>
+	    <div class="form-group">
+	      <label for="description">New password:</label>
+			<input type="password" id="newPassword">
+	    </div>
+	    <div class="form-group">
+	      <label for="description">Confirm new password:</label>
+			<input type="password" id="confirmPassword">
+	    </div>
+	    <button id="confirmPasswordBtn">Confirm</button>
     </div>
   </div>
 </div>

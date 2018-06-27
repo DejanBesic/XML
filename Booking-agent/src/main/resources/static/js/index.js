@@ -9,6 +9,61 @@ $(document).ready(function(){
 		createFacility();
 	});
 	
+	document.getElementById("logout").onclick = function logout(){
+		$.ajax({
+			url: '../api/auth/signout',
+			headers:{
+				"authorization": localStorage.getItem("token")
+			},
+        	success: function(){
+        		localStorage.removeItem("token");
+        		window.location.href = "../login.html";
+        	}
+    	});
+	}
+	
+	document.getElementById("confirmPasswordBtn").onclick = function setNewPassword(){
+		
+		var oldPassword = document.getElementById("oldPassword").value;
+		var newPassword = document.getElementById("newPassword").value;
+		var confirmPassword = document.getElementById("confirmPassword").value;
+		
+		if(oldPassword.trim() === "" || newPassword.trim() === "" || confirmPassword.trim() === ""){
+			alert("Enter all fields");
+			return false;
+		}
+		
+		if(newPassword !== confirmPassword){
+			alert("New password was not confirmed!");
+			return false;
+		}
+		
+		var passwordDTO = new Object();
+		passwordDTO.newPassword = newPassword;
+		passwordDTO.confirmPassword = confirmPassword;
+		passwordDTO.oldPassword = oldPassword;
+		
+		
+		$.ajax({
+			url: '../api/auth/setNewPassword',
+			type: "PUT",
+	    	data: JSON.stringify(passwordDTO),
+			headers:{
+				"authorization": localStorage.getItem("token")
+			},
+			contentType: "application/json",
+        	success: function(){
+        		localStorage.removeItem("token");
+        		alert("Password successfuly changed");
+        		window.location.href = "../login.html";
+        	},
+        	error: function(data){
+        		alert(data);
+        	}
+    	});
+	}
+
+	
 	document.getElementById("confirmBtn").onclick = function setUnavailable(){
 		var reservation = new Object();
 		reservation.fromDateString = document.getElementById("fromUnavailable").value;
