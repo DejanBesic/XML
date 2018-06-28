@@ -2,6 +2,7 @@ package com.booking.app.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.DTOs.UserRequest;
 import com.booking.app.DTOs.UserResponse;
+import com.booking.app.logger.Logger;
 import com.booking.app.model.User;
 import com.booking.app.service.impl.EmailServiceImpl;
 import com.booking.app.service.impl.UserServiceImpl;
@@ -44,7 +46,7 @@ public class UserController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<?> editUser(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<?> editUser(@RequestBody UserRequest userRequest) throws IOException {
 		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -75,6 +77,7 @@ public class UserController {
 		
 		
 		userService.save(user);
+        Logger.getInstance().log("Changed password by username: "+SecurityContextHolder.getContext().getAuthentication().getName());
 		
 		String subject = "Password change";
 		String messageText = "You have successfully changed your password.";

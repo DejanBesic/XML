@@ -1,5 +1,6 @@
 package com.booking.app.controller;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +30,7 @@ import com.booking.app.DTOs.LoginRequest;
 import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.DTOs.RequestResetPassword;
 import com.booking.app.DTOs.SignUpRequest;
+import com.booking.app.logger.Logger;
 import com.booking.app.model.Role;
 import com.booking.app.model.User;
 import com.booking.app.repository.UserRepository;
@@ -62,13 +64,14 @@ public class AuthController {
     	    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws IOException {
     	Authentication authentication = null;
     	
     	try {
     		authentication = autoLogin(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
     	}catch(Exception e){
     		e.printStackTrace();
+    		Logger.getInstance().log("Unsuccessful login atempt with username: "+loginRequest.getUsernameOrEmail());
     		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
     	}
     	
@@ -78,17 +81,19 @@ public class AuthController {
         User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),loginRequest.getUsernameOrEmail());
         
         if (user == null || !user.isActive()) {
+    		Logger.getInstance().log("Unsuccessful login atempt with inactive username: "+loginRequest.getUsernameOrEmail());
         	return new ResponseEntity<>("User is not activated yet", HttpStatus.BAD_REQUEST);
         }
-        
+		Logger.getInstance().log("Successful login with username: "+loginRequest.getUsernameOrEmail());
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
     
     @PostMapping("/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestBody RequestResetPassword email) {
+    public ResponseEntity<?> resetPassword(@RequestBody RequestResetPassword email) throws IOException {
     	User user = userRepository.findByEmail(email.getEmail());
     	
     	if (user == null) {
+    		Logger.getInstance().log("Failed to reset password for email:  "+email);
     		return new ResponseEntity<>("Invalid email.", HttpStatus.BAD_REQUEST);
     	}
     	
@@ -100,11 +105,12 @@ public class AuthController {
  							 "\n\n Please change your password as soon as you log in.";
  		
  		if(!emailService.sendCustomEmail(user.getEmail(), subject, messageText)) {
+ 			Logger.getInstance().log("Failed to send email to:  "+email);
  			return new ResponseEntity<>("Failed to send email.", HttpStatus.INTERNAL_SERVER_ERROR);
  		}
     	
  		userRepository.save(user);
-    	
+ 		Logger.getInstance().log("Password reset from username: "+email);
     	return new ResponseEntity<>("Please check your email for new password.", HttpStatus.OK);
     }
     
@@ -114,10 +120,12 @@ public class AuthController {
     }
     
     @GetMapping("/signout")
-    public boolean logout (HttpServletRequest request, HttpServletResponse response) {
+    public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username= auth.getName();
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
+            Logger.getInstance().log("Successful logout from username: "+username);
             return true;
         }
         return false;
