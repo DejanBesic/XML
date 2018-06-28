@@ -173,6 +173,7 @@ public class AdminController {
 		
 		if(!emailService.sendEmail(result.getEmail(), pass)) {
 			userService.delete(result.getId());
+			return new ResponseEntity<>(new RegistrationResponse(false, "Email Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
         return new ResponseEntity<>(result, HttpStatus.OK);
 	}
