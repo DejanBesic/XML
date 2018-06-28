@@ -1,5 +1,7 @@
 package com.booking.app.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.ReservationRequest;
+import com.booking.app.logger.Logger;
 import com.booking.app.model.Facility;
 import com.booking.app.model.Reservation;
 import com.booking.app.model.User;
@@ -65,7 +68,7 @@ public class ReservationController {
 	  	}
 	  	
 	  	@RequestMapping(value= "/delete", method=RequestMethod.DELETE)
-	  	public ResponseEntity<?> delete(@RequestParam Long id){
+	  	public ResponseEntity<?> delete(@RequestParam Long id) throws IOException{
 	  		Reservation reservation = reservationService.findOne(id);
 	  		
 	  		if (reservation == null || !SecurityContextHolder.getContext().getAuthentication().getName().equals(reservation.getGuest().getUsername())) {
@@ -74,6 +77,7 @@ public class ReservationController {
 	  		}
 	  		
 	  		reservationService.delete(id);
+            Logger.getInstance().log("Deleted reservation id: "+id+" from username: "+SecurityContextHolder.getContext().getAuthentication().getName());
 	  		
 	  		return new ResponseEntity<>(reservation, HttpStatus.OK);
 	  	}
