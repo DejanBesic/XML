@@ -1,9 +1,12 @@
 package com.booking.app.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.annotations.PermissionAnnotation;
+import com.booking.app.logger.Logger;
 import com.booking.app.model.FacilityType;
 import com.booking.app.model.Rating;
 import com.booking.app.model.Role;
@@ -89,7 +93,7 @@ public class AdminController {
     @PermissionAnnotation(name = "APPROVE_COMMENT")
     @CrossOrigin
 	@RequestMapping(value= "/approve", method=RequestMethod.POST)
-	public ResponseEntity<?> approve(@RequestBody Rating rating) {
+	public ResponseEntity<?> approve(@RequestBody Rating rating) throws IOException {
 		Rating rat = ratingService.findById(rating.getId());
 		if (rat==null) {
 			return new ResponseEntity<>("Failed to approve.", HttpStatus.BAD_REQUEST);
@@ -97,26 +101,29 @@ public class AdminController {
 		rat.setReviewed(true);
 		rat.setApproved(true);
 		ratingService.save(rat);
+		Logger.getInstance().log("Approved comment id: "+rat.getId() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 	
     @PermissionAnnotation(name = "APPROVE_USER")
     @CrossOrigin
 	@RequestMapping(value= "/approveUser", method=RequestMethod.POST)
-	public ResponseEntity<?> approveUser(@RequestBody User user) {
+	public ResponseEntity<?> approveUser(@RequestBody User user) throws IOException {
 		User us = userService.findById(user.getId());
 		if (us==null) {
 			return new ResponseEntity<>("Failed to activate user.", HttpStatus.BAD_REQUEST);
 		}
 		us.setActive(true);
 		userService.save(us);
+		Logger.getInstance().log("Approved user id: "+us.getId() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
 		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
     @PermissionAnnotation(name = "BLOCK_USER")
     @CrossOrigin
 	@RequestMapping(value= "/blockUser", method=RequestMethod.POST)
-	public ResponseEntity<?> blockUser(@RequestBody User user) {
+	public ResponseEntity<?> blockUser(@RequestBody User user) throws IOException {
 		User us = userService.findById(user.getId());
 		if (us==null) {
 			return new ResponseEntity<>("Failed to block user.", HttpStatus.BAD_REQUEST);
@@ -130,13 +137,15 @@ public class AdminController {
 		}
 		us.setPassword("a");
 		userService.save(us);
+		Logger.getInstance().log("Blocked user id: "+us.getId() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
 		return new ResponseEntity<>(us, HttpStatus.OK); 
 	}
 	
     @PermissionAnnotation(name = "DELETE_COMMENT")
     @CrossOrigin
 	@RequestMapping(value= "/block", method=RequestMethod.POST)
-	public ResponseEntity<?> block(@RequestBody Rating rating) {
+	public ResponseEntity<?> block(@RequestBody Rating rating) throws IOException {
 		Rating rat = ratingService.findById(rating.getId());
 		if (rat==null) {
 			return new ResponseEntity<>("Failed to block.", HttpStatus.BAD_REQUEST);
@@ -144,13 +153,15 @@ public class AdminController {
 		rat.setReviewed(true);
 		rat.setApproved(false);
 		ratingService.save(rat);
+		Logger.getInstance().log("Deleted comment id: "+rat.getId() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
 		return new ResponseEntity<>(rat, HttpStatus.OK); 
 	}
 	
     @PermissionAnnotation(name = "ADD_AGENT")
     @CrossOrigin
 	@RequestMapping(value= "/addAgent", method=RequestMethod.POST)
-	public ResponseEntity<?> addAgent(@RequestBody User user) {
+	public ResponseEntity<?> addAgent(@RequestBody User user) throws IOException {
 		if(userService.findByEmail(user.getEmail())!=null) {
         	return new ResponseEntity<>(new RegistrationResponse(false, "Email address is already in use!"), HttpStatus.BAD_REQUEST);
         }
@@ -175,6 +186,8 @@ public class AdminController {
 			userService.delete(result.getId());
 			return new ResponseEntity<>(new RegistrationResponse(false, "Email Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		Logger.getInstance().log("Added agent id: "+result.getId() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
         return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -194,12 +207,14 @@ public class AdminController {
     @PermissionAnnotation(name = "DELETE_TYPE")
     @CrossOrigin
 	@RequestMapping(value= "/deleteType", method=RequestMethod.POST)
-	public ResponseEntity<?> deleteType(@RequestBody FacilityType fact) {
+	public ResponseEntity<?> deleteType(@RequestBody FacilityType fact) throws IOException {
 		FacilityType ft = facService.findById(fact.getId());
 		if(ft == null) {
 			return new ResponseEntity<>("Failed to delete.", HttpStatus.BAD_REQUEST);
 		}
 		facService.delete(ft.getId());
+		Logger.getInstance().log("Deleted type of facility name: "+ft.getName() +" , by admin: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
 		return new ResponseEntity<>(ft, HttpStatus.OK);
 
 	}

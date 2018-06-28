@@ -1,5 +1,7 @@
 package com.booking.app.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.JwtAuthenticationResponse;
 import com.booking.app.DTOs.LoginRequest;
+import com.booking.app.logger.Logger;
 import com.booking.app.security.JwtTokenProvider;
 
 @RestController
@@ -32,13 +35,14 @@ public class AdminLoginController {
     JwtTokenProvider tokenProvider;
     //lll
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws IOException {
     	Authentication authentication = null;
     	
     	try {
     		authentication = autoLogin(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
     	}catch(Exception e){
     		e.printStackTrace();
+    		Logger.getInstance().log("Unsuccessful login atempt with username: "+loginRequest.getUsernameOrEmail());
     		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
     	}
     	
@@ -50,21 +54,25 @@ public class AdminLoginController {
     		}
     	} 
     	if(!ad) {
+    		Logger.getInstance().log("Unsuccessful login atempt with username: "+loginRequest.getUsernameOrEmail());
     		return new ResponseEntity<>("Wrong username or password ", HttpStatus.BAD_REQUEST);
     	}
     	
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         
+        Logger.getInstance().log("Successful login with username: "+loginRequest.getUsernameOrEmail());
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     	
     }
     
     @GetMapping("/logout")
-    public boolean logout (HttpServletRequest request, HttpServletResponse response) {
+    public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username= auth.getName();
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
+            Logger.getInstance().log("Successful logout from username: "+username);
             return true;
         }
         return false;
