@@ -6,11 +6,10 @@ class LoginError extends Component {
         return(
             <div>
                 { this.props.errorMessage ? 
-                    <div className="alert alert-danger" style={{marginTop: 30}}>
+                    <div className="alert alert-danger" style={{marginTop: 30, textAlign: 'center'}}>
                         {this.props.errorMessage}    
                     </div>
                 : null }
-                >
             </div>
         );
     }

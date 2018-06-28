@@ -23,7 +23,6 @@ class App extends Component {
             <Router>
               <div style={{paddingLeft: 15, paddingRight: 15}}>
                 <Header />
-                <Route path="/" exact={true} component={MainPage}/>
                 <Route path="/main" component={MainPage}/>
                 <Route path="/login" component={LoginPage}/>
                 <Route path="/register" component={RegistrationPage}/>

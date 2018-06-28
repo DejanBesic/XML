@@ -167,10 +167,9 @@ export const onEditUserFailure = (error) =>
 export const editUser = (user) => (dispatch, getState) => {
     dispatch(onEditUserStart());
     const token = getState().authentication.token.accessToken;
-    debugger
     fetchEditUser(user, token)
-    .then(() => dispatch(onEditUserSuccess({email: user.email, name: user.name, lastName: user.lastName, address: user.address})))
-    .catch((error) => dispatch(onEditUserFailure()));
+    .then(() => dispatch(onLogout()))
+    .catch((error) => dispatch(onEditUserFailure(error)));
 
 }
 
@@ -189,7 +188,7 @@ export const onConfirmRegistrationFailure = (error) =>
 export const confirmRegistration = (token) =>  (dispatch, getState) => {
     dispatch(onConfirmRegistrationStart());
     fetchConfirmRegistration(token)
-    .then(() => alert('asd'))
+    .then(() => dispatch(onConfirmRegistrationSuccess()))
     .catch((error) => dispatch(onConfirmRegistrationFailure(error)));
 }
 
@@ -205,9 +204,15 @@ export const ResetPasswordFailure = "ResetPasswordFailure";
 export const onResetPasswordFailure = (error) =>
     ({ type: ResetPasswordFailure, payload: error })
 
+export const ResetSuccesfullyReseted = "ResetSuccesfullyReseted";
+export const onResetSuccesfullyReseted = () =>
+    ({ type: ResetSuccesfullyReseted })
+
 export const resetPassword = (email) => (dispatch, getState) => {
     dispatch(onResetPasswordStart());
     fetchResetPassword(email)
-    .then(() => dispatch(onResetPasswordSuccess()))
+    .then(() => { dispatch(onResetPasswordSuccess());
+                 dispatch(onResetSuccesfullyReseted())
+    })
     .catch((error) => dispatch(onResetPasswordFailure(error)));
 }

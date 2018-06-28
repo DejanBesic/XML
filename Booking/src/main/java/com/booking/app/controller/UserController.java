@@ -1,5 +1,8 @@
 package com.booking.app.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.DTOs.UserRequest;
 import com.booking.app.DTOs.UserResponse;
 import com.booking.app.model.User;
+import com.booking.app.service.impl.EmailServiceImpl;
 import com.booking.app.service.impl.UserServiceImpl;
 
 
@@ -23,6 +28,12 @@ public class UserController {
 
 	@Autowired
 	UserServiceImpl userService;
+	
+    @Autowired
+    EmailServiceImpl emailService;
+	
+	public static final Pattern pattern = 
+    	    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
 	@GetMapping()
 	public ResponseEntity<?> getUser() {
@@ -42,9 +53,20 @@ public class UserController {
 			return new ResponseEntity<>("Wrong password.", HttpStatus.BAD_REQUEST);
 		}
 		
+	    if (!userRequest.getNewPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")) {
+    		return new ResponseEntity<>("Password must be at least 10 characters long and contain at least one upper case letter, one lower case letter, a number and one special character(@!#?)", HttpStatus.BAD_REQUEST);
+    	}
+	    
+	    Matcher matcher = pattern.matcher(userRequest.getEmail());
+		
+	    if (!matcher.matches()) {
+	    	return new ResponseEntity<>("Email format is not valid.", HttpStatus.BAD_REQUEST);
+        }
+	   
 		if (!userRequest.getNewPassword().equals(userRequest.getConfirmPassword())) {
 			return new ResponseEntity<>("New password and confirm password are not the same.", HttpStatus.BAD_REQUEST);
 		}
+				
 		user.setAddress(userRequest.getAddress());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userRequest.getNewPassword()));
@@ -53,6 +75,12 @@ public class UserController {
 		
 		
 		userService.save(user);
+		
+		String subject = "Password change";
+		String messageText = "You have successfully changed your password.";
+		if(!emailService.sendCustomEmail(user.getEmail(), subject, messageText)) {
+			return new ResponseEntity<>(new RegistrationResponse(false, "Failed to send email."), HttpStatus.BAD_REQUEST);
+		}
 		
 		UserResponse userDTO = new UserResponse(user.getEmail(), user.getName(), user.getLastName(), user.getUsername(), user.getAddress());
 		return ResponseEntity.ok(userDTO);

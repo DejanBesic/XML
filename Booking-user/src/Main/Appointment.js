@@ -37,7 +37,9 @@ export class Appointment extends Component {
                 <div className="col-4">
 
                     <Popup 
-                        trigger={<a href="#">
+                        trigger={
+                            //eslint-disable-next-line 
+                            <a href="#">
                                     { this.props.images.length > 0 ?
                                     <img 
                                         className="imageLink"

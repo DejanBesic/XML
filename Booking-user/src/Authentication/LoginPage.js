@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { login, onLoginReset } from '../store/actions/authentication';
 import Form from '../Shared/Form';
 import LoginError from '../Errors/LoginError';
@@ -56,7 +56,7 @@ class LoginPage extends Component {
                         onSubmit={() => this.props.login(this.state.user)}
                         action={() => {}}
                     >
-                        <h2 >Sign up</h2>
+                        <h2 >Login</h2>
                         <div className="form-group" style={{textAlign: 'left'}}>
                             <label htmlFor="username">Username or email</label>
                             <input 
@@ -77,13 +77,16 @@ class LoginPage extends Component {
                                 onChange={this.passwordChange}
                             />
                         </div>
+                        <div style={{textAlign: 'right'}}>
+                            <Link to="/forgottenPassword">Forgot your password?</Link>
+                        </div>
                         <button type="button" onClick={() => this.props.login(this.state.user)} className="btn btn-primary">
                             Sign up
                         </button>
-                        {/* { this.props.authentication.error ? 
+                        { this.props.authentication.error ? 
                             <LoginError errorMessage={this.props.authentication.error} />
                         : null
-                        } */}
+                        }
                     </Form>
                 </div>
             </div>

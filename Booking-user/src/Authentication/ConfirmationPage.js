@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { confirmRegistration } from '../store/actions/authentication';
+import LoginError from '../Errors/LoginError';
 
 
 class ConfirmationPage extends Component {
@@ -18,12 +19,15 @@ class ConfirmationPage extends Component {
         }        
 
         return(
-            <div>
+            <div className="row">
+                <div className="col-4"></div>
+                <div className="col-4">
                 { this.props.authentication.error ? 
-                    <div>Error, wrong token!</div>
+                        <LoginError errorMessage={this.props.authentication.error} />
                     :
-                    <div>Successfully confirmed account. Please <Link to="/login">log in.</Link></div>
+                    <div style={{padding: 20}}>Successfully confirmed account. Please <Link to="/login">log in.</Link></div>
                 }
+                </div>
             </div>
         );
     }

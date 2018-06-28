@@ -4,10 +4,7 @@ import {
     GetMessagesSuccess,
     GetReciversFailure,
     GetReciversStart,
-    GetReciversSuccess,
-    SendMessageFailure,
-    SendMessageStart,
-    SendMessageSuccess,    
+    GetReciversSuccess, 
 } from '../actions/message';
 
 export const initialState = {

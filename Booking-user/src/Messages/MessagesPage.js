@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMessageRecivers, getMessages, sendMessage } from '../store/actions/message';
+import { Redirect } from 'react-router-dom';
 
 import '../Shared/SharedCSS/Message.css';
 
@@ -26,7 +27,6 @@ class MessagesPage extends Component {
 
     onSendMessage = () => {
         if (this.state.message !== "") {
-            debugger
             this.props.sendMessage( this.state.message, this.state.lastClicked);
             this.setState({message: ""});
         }
@@ -35,6 +35,9 @@ class MessagesPage extends Component {
     }
 
     render() {
+        if (!this.props.username) {
+            return( <Redirect to={"/login"} /> );
+        }
         return(
             <div className="row">
                 <div className="col-3">
@@ -48,8 +51,8 @@ class MessagesPage extends Component {
                                         
                                         this.props.getMessages(reciver.senderID);
                                         this.setState({lastClicked: reciver.senderID});
-                                    }
-                                } >
+                                        }
+                                    } >
                                         <span>
                                             {reciver.senderUsername} 
                                         </span>
@@ -116,7 +119,6 @@ const mapDispatch = (dispatch) => ({
 const mapState = (state) => ({
    chat: state.chat,
    username: state.authentication.user.username,
-   
 });
 
 export default connect(mapState, mapDispatch)(MessagesPage);

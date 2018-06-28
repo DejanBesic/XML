@@ -28,7 +28,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		User ulogovani = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler; 
@@ -44,7 +44,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			} else {
 				return true;
 			}
-			
+			User ulogovani = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			if(ulogovani == null) {
 				return false;
 			}
@@ -61,6 +61,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		} else {
 			return true;
 		}
+		
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.MessageRequest;
 import com.booking.app.model.Message;
-import com.booking.app.model.Reservation;
 import com.booking.app.model.User;
 import com.booking.app.service.impl.MessageServiceImpl;
 import com.booking.app.service.impl.ReservationServiceImpl;

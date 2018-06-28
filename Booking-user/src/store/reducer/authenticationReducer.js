@@ -5,6 +5,9 @@ import {
     ConfirmRegistrationStart,
     ConfirmRegistrationSuccess,
     ConfirmRegistrationFailure,
+    EditUserStart,
+    EditUserSuccess,
+    EditUserFailure,
     GetUserStart,
     GetUserSuccess,
     GetUserFailure,
@@ -19,6 +22,7 @@ import {
     ResetPasswordStart,
     ResetPasswordFailure,
     ResetPasswordSuccess,
+    ResetSuccesfullyReseted,
 } from '../actions/authentication';
 
 export const initialState = {
@@ -30,6 +34,7 @@ export const initialState = {
     token: "",    
     user: "",
     registrationError: "",
+    successfullyReseted: false,
 };
 
 export default function(state = initialState, action) {
@@ -56,6 +61,23 @@ export default function(state = initialState, action) {
                 isAuthenticating: false,
                 error: action.payload,
                 token: "",
+            };
+
+        case EditUserStart:
+            return {
+                ...state,
+                error: "",
+            };
+
+        case EditUserFailure:
+            return {
+                ...state,
+                error: action.payload.response.data,
+            };
+        
+        case EditUserSuccess:
+            return {
+                ...state,
             };
 
         case LogoutStart: 
@@ -126,7 +148,7 @@ export default function(state = initialState, action) {
         case GetUserFailure:
             return {
                 ...state,
-                error: action.payload,
+                error: action.payload.response.data,
             }
         case ConfirmRegistrationStart:
             return {
@@ -142,25 +164,35 @@ export default function(state = initialState, action) {
         case ConfirmRegistrationFailure:
             return {
                 ...state,
-                error: action.payload,
+                error: action.payload.response.data,
             }
 
         case ResetPasswordStart:
             return {
                 ...state,
                 error: "",
+                successfullyReseted: false,
             }
 
         case ResetPasswordSuccess:
             return {
                 ...state,
+                successfullyReseted: true,
             }
         
         case ResetPasswordFailure:
             return {
                 ...state,
-                error: action.payload,
-            }
+                error: action.payload.response.data,
+                successfullyReseted: false,
+            };
+
+        case ResetSuccesfullyReseted:
+            return {
+                ...state,
+                successfullyReseted: false,
+            };
+
         default: 
             return state;
     }

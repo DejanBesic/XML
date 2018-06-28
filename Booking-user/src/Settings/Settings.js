@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editUser } from '../store/actions/authentication';
+import { Redirect } from 'react-router-dom';
 import Form from '../Shared/Form';
+import LoginError from '../Errors/LoginError';
 
 class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: this.props.user.email,
-            name: this.props.user.name,
-            lastName: this.props.user.lastName,
-            address: this.props.user.address,
+            email: this.props.user.email ? this.props.user.email : "",
+            name: this.props.user.name ? this.props.user.name : "",
+            lastName: this.props.user.lastName ? this.props.user.lastName : "",
+            address: this.props.user.address ? this.props.user.address : "",
             oldPassword: "",
             newPassword: "",
             confirmPassword: "",
@@ -32,6 +34,9 @@ class Settings extends Component {
     confirmPasswordChange = (evt) => { this.setState({ confirmPassword: evt.target.value } ); }
 
     render() {
+        if (!this.props.user) {
+            return( <Redirect to={"/login"} /> );
+        }
         
         return(
             <div className="row" >
@@ -124,6 +129,10 @@ class Settings extends Component {
                         Edit
                     </button>
                 </Form>
+                { this.props.errorMessage ? 
+                    <LoginError errorMessage={this.props.errorMessage} />
+                : null
+                }
                 </div>
             </div>
         );
@@ -136,6 +145,7 @@ const mapDispatch = dispatch => ({
 
 const mapState = (state) => ({
     user: state.authentication.user,
+    errorMessage: state.authentication.error,
 });
 
 export default connect(mapState, mapDispatch)(Settings);

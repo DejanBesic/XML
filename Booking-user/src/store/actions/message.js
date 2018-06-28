@@ -17,7 +17,6 @@ export const sendMessage = (message, reciverId) => (dispatch, getState) => {
     dispatch(onSendMessageStart());
     const token = getState().authentication.token.accessToken;
     const messageAndReciver = {message: message, reciverId: reciverId};
-    debugger
     fetchSendMessage(messageAndReciver, token)
     .then(() => { 
         dispatch(onSendMessageSuccess()); 
