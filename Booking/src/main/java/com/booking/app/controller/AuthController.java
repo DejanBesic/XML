@@ -1,5 +1,6 @@
 package com.booking.app.controller;
 
+import java.io.IOException;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import com.booking.app.DTOs.LoginRequest;
 import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.DTOs.RequestResetPassword;
 import com.booking.app.DTOs.SignUpRequest;
+import com.booking.app.logger.Logger;
 import com.booking.app.model.Role;
 import com.booking.app.model.User;
 import com.booking.app.repository.UserRepository;
@@ -57,13 +59,14 @@ public class AuthController {
     JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws IOException {
     	Authentication authentication = null;
     	
     	try {
     		authentication = autoLogin(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
     	}catch(Exception e){
     		e.printStackTrace();
+    		Logger.getInstance().log("Unsuccessful login atempt with username: "+loginRequest.getUsernameOrEmail());
     		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
     	}
     	
@@ -73,15 +76,17 @@ public class AuthController {
         User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),loginRequest.getUsernameOrEmail());
         
         if (user == null || !user.isActive()) {
+    		Logger.getInstance().log("Unsuccessful login atempt with inactive username: "+loginRequest.getUsernameOrEmail());
         	return new ResponseEntity<>("User is not activated yet", HttpStatus.BAD_REQUEST);
         }
-        
+		Logger.getInstance().log("Successful login with username: "+loginRequest.getUsernameOrEmail());
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
     
     @PostMapping("/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestBody RequestResetPassword email) {
-    	
+    public ResponseEntity<?> resetPassword(@RequestBody RequestResetPassword email) throws IOException {
+    	//ovo doradi da lepo upise
+    	//Logger.getInstance().log("Password reset from username: "+email);
     	return null;
     }
     
@@ -91,10 +96,12 @@ public class AuthController {
     }
     
     @GetMapping("/signout")
-    public boolean logout (HttpServletRequest request, HttpServletResponse response) {
+    public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username= auth.getName();
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
+            Logger.getInstance().log("Successful logout from username: "+username);
             return true;
         }
         return false;
