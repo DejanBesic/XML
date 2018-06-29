@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.booking.app.DTOs.CertificateDTO;
 import com.booking.app.DTOs.NewCertificateDTO;
+import com.booking.app.annotations.PermissionAnnotation;
 import com.booking.app.certificates.KeyStoreReader;
 import com.booking.app.certificates.RegularCertificateGenerator;
 import com.booking.app.certificates.SelfSignedCertificateGenerator;
@@ -37,6 +39,8 @@ public class CertificateController {
 	@Autowired
     UserRepository userRepository;
 	
+    @PermissionAnnotation(name = "SELF_SIGNED_CERTIFICATE")
+    @CrossOrigin
 	@RequestMapping(value="/selfSignedCertificate", method = RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<?> generateSelfSignedCertificate(@RequestBody CertificateDTO cert) throws CertIOException{
 		
@@ -52,6 +56,8 @@ public class CertificateController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+    @PermissionAnnotation(name = "NEW_CERTIFICATE")
+    @CrossOrigin
 	@RequestMapping(value="/newCertificate", method = RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<?> generateNewCertificate(@RequestBody NewCertificateDTO cert) throws IOException{
 		
@@ -69,6 +75,8 @@ public class CertificateController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+    @PermissionAnnotation(name = "REVOKE_CERTIFICATE")
+    @CrossOrigin
 	@RequestMapping(value="/revoke", method = RequestMethod.POST)
 	public void revokeCertificate(@RequestBody String s) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
 		KeyStoreReader ksr = new KeyStoreReader();

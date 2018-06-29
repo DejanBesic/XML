@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/adminHome.css">
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+<script src="/stylesheets/bootstrap.min.js"></script>
+<script src="/scripts/isValid.js"></script>
+
+<meta charset="UTF-8">
+</head>
+<body>
+	<div style="padding-left: 15px; padding-right: 15px;"> 
+	<div class="row" style="text-align: center">
+		<h1 id="header"></h1>		
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+		New Certificate:
+			<form id="newAgent">
+				<span>
+					CN:
+					<input id="cn1" type="text" class="form-control" name="name"/>
+				</span>
+				<span>
+					New Certificate Alias:
+					<input id="alias1" type="text" class="form-control" name="lastName"/>
+				</span>
+				<span>
+					New Certificate Password:
+					<input id="newPassword1" type="password" class="form-control" name="email"/>
+				</span>
+				<span>
+					Start Date:
+					<input id="startDate1" type="text" class="form-control" name="address"/>
+				</span>
+				<span>
+					End Date:
+					<input id="endDate1" type="text" class="form-control" name="pmb"/>
+				</span>
+				<span>
+					Issuer Alias:
+					<input id="issuerAlias1" type="text" class="form-control" name="email"/>
+				</span>
+				<span>
+					Issuer Password:
+					<input id="issuerPass1" type="password" class="form-control" name="email"/>
+				</span>
+				<span>
+					Subject Username:
+					<input id="subjectName1" type="text" class="form-control" name="email"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="newCer()">Create</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+		<div class="col-sm-4" >
+		Self Signed Certificate:
+			<form id="newAgenta">
+				<span>
+					CN:
+					<input id="cn" type="text" class="form-control" name="name"/>
+				</span>
+				<span>
+					Alias:
+					<input id="alias" type="text" class="form-control" name="lastName"/>
+				</span>
+				<span>
+					Start Date:
+					<input id="startDate" type="text" class="form-control" name="address"/>
+				</span>
+				<span>
+					End Date:
+					<input id="endDate" type="text" class="form-control" name="pmb"/>
+				</span>
+				<span>
+					Subject:
+					<input id="subject" type="text" class="form-control" name="email"/>
+				</span>
+				<span>
+					Issuer:
+					<input id="issuer" type="text" class="form-control" name="email"/>
+				</span>
+				<span>
+					Password:
+					<input id="password" type="password" class="form-control" name="email"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="selfCer()">Sign</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+		<div class="col-sm-4">
+			<form id="newAgentw">
+				<span>
+					Revoke:
+					<input id="revoke" type="text" class="form-control" name="name"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="revokea()">Revoke</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+	</div>
+</div>
+	<script src="/scripts/certificates.js"></script> 
+</body>
+</html>
