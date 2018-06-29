@@ -31,6 +31,21 @@ import com.booking.app.annotations.PermissionInterceptor;
 @SpringBootApplication
 public class WebApplication extends org.springframework.boot.web.support.SpringBootServletInitializer implements WebMvcConfigurer {
 	
+//	static {
+//	    //for localhost testing only
+//	    javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+//	    new javax.net.ssl.HostnameVerifier(){
+//
+//	        public boolean verify(String hostname,
+//	                javax.net.ssl.SSLSession sslSession) {
+////	            if (hostname.equals("localhost")) {
+////	                return true;
+////	            }
+//	            return true;
+//	        }
+//	    });
+//	}
+	
 	@Bean
 	public PermissionInterceptor permissionInterceptor() {
 	    return new PermissionInterceptor();
