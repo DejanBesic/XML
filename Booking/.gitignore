@@ -8,3 +8,4 @@ out
 /bin/
 package-lock.json
 yarn.lock
+logs.txt
