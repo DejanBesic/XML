@@ -28,7 +28,9 @@ function defaultElements(){
 		}
 	});
 }
-
+function cert(){
+	window.location.href = "../Certificates.html";
+}
 function createTypeElement(data){
 	var str ="";
 

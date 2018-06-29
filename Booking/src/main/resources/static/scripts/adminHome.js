@@ -130,6 +130,11 @@ function manageCodebooks(){
 	window.location.href = "../CodeBooks.html";
 }
 
+function cert(){
+	window.location.href = "../Certificates.html";
+}
+
+
 function logout(){
 	$.ajax({
     	url: "../api/admin/logout",

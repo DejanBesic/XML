@@ -97,7 +97,9 @@ function addAgent(){
 function changePassword(){
 	window.location.href = "../ChangePassword.html";
 }
-
+function cert(){
+	window.location.href = "../Certificates.html";
+}
 function manageComments(){
 	window.location.href = "../AdminHome.html";
 }
