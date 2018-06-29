@@ -46,3 +46,215 @@ Current IP address : 192.168.0.15
 	Deleted comment id: 1 , by admin: mario Fri Jun 29 11:45:56 CEST 2018
 
 
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with inactive username: bei Fri Jun 29 12:52:57 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 12:53:14 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 12:53:19 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Password reset from username: com.booking.app.DTOs.RequestResetPassword@3e4c80ec Fri Jun 29 12:53:45 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 12:53:55 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 13:45:58 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 13:46:10 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 13:46:39 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 13:46:55 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 13:47:09 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: dejanbesic31@gmail.com Fri Jun 29 13:47:20 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: dejanbesic@yahoo.com Fri Jun 29 14:00:02 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: dejanbesic@yahoo.com Fri Jun 29 14:00:06 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: dejanbesic@yahoo.com Fri Jun 29 14:00:07 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with inactive username: dejanbesic@yahoo.com Fri Jun 29 14:10:40 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:11:27 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:11:31 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: anonymousUser Fri Jun 29 14:18:01 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:21:46 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with inactive username: bei Fri Jun 29 14:22:16 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:22:30 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:22:44 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:22:45 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:22:50 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:22:54 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:22:57 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:23:02 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:23:37 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:23:38 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: bei Fri Jun 29 14:23:42 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:23:46 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:23:54 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:24:04 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:24:38 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:24:40 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Password reset from username: com.booking.app.DTOs.RequestResetPassword@2ae8ed40 Fri Jun 29 14:24:51 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:25:09 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:25:31 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:25:33 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:25:45 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:26:32 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:27:08 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:27:34 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:27:36 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:28:16 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:29:03 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:29:05 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Unsuccessful login atempt with username: asd Fri Jun 29 14:29:20 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:29:40 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:30:10 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful logout from username: bei Fri Jun 29 14:30:12 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Successful login with username: bei Fri Jun 29 14:32:13 CEST 2018
+
+
+Current IP address : 192.168.65.223 
+	Changed password by username: bei Fri Jun 29 14:32:29 CEST 2018
+
+
