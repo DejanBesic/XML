@@ -93,7 +93,11 @@ function blockUser(id){
 function addAgent(){
 	window.location.href = "../AddAgent.html";
 }
- 
+
+function changePassword(){
+	window.location.href = "../ChangePassword.html";
+}
+
 function manageComments(){
 	window.location.href = "../AdminHome.html";
 }

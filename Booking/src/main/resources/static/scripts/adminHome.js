@@ -42,7 +42,9 @@ function createCommentElement(data){
 	
 	$('#centralPart').append(str);
 }
-
+function changePassword(){
+	window.location.href = "../ChangePassword.html";
+}
 function approve(id){
 	var data = new Object();
 	data.id = id;

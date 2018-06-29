@@ -136,7 +136,9 @@ function addAgent(){
 function home(){
 	window.location.href = "../AdminHome.html";
 }
-
+function changePassword(){
+	window.location.href = "../ChangePassword.html";
+}
 function manageUsers(){
 	window.location.href = "../ManageUsers.html";
 }

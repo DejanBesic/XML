@@ -22,3 +22,27 @@ Current IP address : 192.168.0.15
 	Blocked user id: 21 , by admin: mario Thu Jun 28 15:56:03 CEST 2018
 
 
+Current IP address : 192.168.0.15 
+	Successful logout from username: anonymousUser Fri Jun 29 11:10:21 CEST 2018
+
+
+Current IP address : 192.168.0.15 
+	Successful login with username: mario Fri Jun 29 11:10:32 CEST 2018
+
+
+Current IP address : 192.168.0.15 
+	Changed password by username: mario Fri Jun 29 11:44:47 CEST 2018
+
+
+Current IP address : 192.168.0.15 
+	Successful logout from username: anonymousUser Fri Jun 29 11:44:51 CEST 2018
+
+
+Current IP address : 192.168.0.15 
+	Successful login with username: mario Fri Jun 29 11:45:51 CEST 2018
+
+
+Current IP address : 192.168.0.15 
+	Deleted comment id: 1 , by admin: mario Fri Jun 29 11:45:56 CEST 2018
+
+
