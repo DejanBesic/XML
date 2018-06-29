@@ -41,6 +41,7 @@ import com.agent.app.wsdl.MessagesResponse;
 import com.agent.app.wsdl.NewFacilityRequest;
 import com.agent.app.wsdl.ReservationWS;
 import com.agent.app.wsdl.ReservationsResponse;
+import com.booking.app.logger.Logger;
 
 @RestController
 @RequestMapping("/api/facility")
@@ -191,12 +192,13 @@ public class FacilityController {
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<?> deleteFacility(@PathVariable Long id){
+	public ResponseEntity<?> deleteFacility(@PathVariable Long id) throws IOException{
 		boolean deleted = facilityWSService.deleteFacility(id);
 		
 		if(!deleted)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
+		Logger.getInstance().log("Facility id: "+id+" ,deleted by username: "+SecurityContextHolder.getContext().getAuthentication().getName());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

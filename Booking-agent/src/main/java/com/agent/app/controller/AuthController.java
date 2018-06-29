@@ -1,5 +1,6 @@
 package com.agent.app.controller;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,8 @@ import com.agent.app.security.JwtTokenProvider;
 import com.agent.app.service.EmailService;
 import com.agent.app.service.UserService;
 import com.agent.app.wsdl.UserRequest;
+import com.booking.app.logger.Logger;
+
 
 
 @RestController
@@ -50,19 +53,21 @@ public class AuthController {
     EmailService emailService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody UserRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody UserRequest loginRequest) throws IOException {
     	Authentication authentication = null;
     	
     	try {
     		authentication = autoLogin(loginRequest.getUsername(), loginRequest.getPassword());
     	}catch(Exception e){
     		e.printStackTrace();
+    		Logger.getInstance().log("Unsuccessful login atempt with username: "+loginRequest.getUsername());
     		return new ResponseEntity<>("Wrong username or password", HttpStatus.BAD_REQUEST);
     	}
     	
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         
+        Logger.getInstance().log("Successful login with username: "+loginRequest.getUsername());
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
     
@@ -72,20 +77,24 @@ public class AuthController {
     }
     
     @GetMapping("/signout")
-    public boolean logout (HttpServletRequest request, HttpServletResponse response) {
+    public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username= auth.getName();
+
         if (auth != null){    
             new SecurityContextLogoutHandler().logout(request, response, auth);
+            Logger.getInstance().log("Successful logout from username: "+username);
             return true;
         }
         return false;
     }
     
     @PutMapping("/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestBody User user){
+    public ResponseEntity<?> resetPassword(@RequestBody User user) throws IOException{
     	
     	User u = userService.findByEmail(user.getEmail());
     	if(u==null || !u.getRole().getName().equals("AGENT")){
+    		 Logger.getInstance().log("Unsuccessful password reset from username: "+SecurityContextHolder.getContext().getAuthentication().getName());
     		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
     	
@@ -94,12 +103,13 @@ public class AuthController {
     	u.setPassword(passwordEncoder.encode(newPassword));
     	
     	userService.save(u);
-    	
+		Logger.getInstance().log("Successful password reset from username: "+SecurityContextHolder.getContext().getAuthentication().getName());
+
     	return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @PutMapping("/setNewPassword")
-    public ResponseEntity<?> setNewPassword(@RequestBody PasswordDTO dto){
+    public ResponseEntity<?> setNewPassword(@RequestBody PasswordDTO dto) throws IOException{
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	if(auth==null)
     		return new ResponseEntity<>("You are not allowed to perform this action", HttpStatus.BAD_REQUEST);
@@ -126,6 +136,7 @@ public class AuthController {
     	if(user==null)
     		return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     	
+		Logger.getInstance().log("Successful password change from username: "+SecurityContextHolder.getContext().getAuthentication().getName());
     	return new ResponseEntity<>(HttpStatus.OK);
     	
     }
