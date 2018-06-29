@@ -50,8 +50,6 @@ export const LoginReset = "LoginReset";
 export const onLoginReset = () => 
     ({ type: LoginReset })
     
-
-
 /*      LOGOUT      */
 
 export const LogoutStart = "LogoutStart";
@@ -167,8 +165,16 @@ export const onEditUserFailure = (error) =>
 export const editUser = (user) => (dispatch, getState) => {
     dispatch(onEditUserStart());
     const token = getState().authentication.token.accessToken;
+    debugger
     fetchEditUser(user, token)
-    .then(() => dispatch(onLogout()))
+    .then(() => { 
+        debugger
+        if (user.newPassword !== "") {
+            dispatch(onLogout()) 
+        } else {
+            onEditUserSuccess(user);
+        }
+    })
     .catch((error) => dispatch(onEditUserFailure(error)));
 
 }

@@ -45,7 +45,7 @@ class Header extends Component {
                         </div>
 
                         <li style={li}>
-                            <Link to="/">Main page</Link>
+                            <Link to="/main">Main page</Link>
                         </li>
                     </div>
                     :

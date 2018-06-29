@@ -15,7 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +55,7 @@ public class AuthController {
     EmailServiceImpl emailService;
     
     @Autowired
-    PasswordEncoder passwordEncoder;
+    BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     JwtTokenProvider tokenProvider;
@@ -79,8 +79,8 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
         
         User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),loginRequest.getUsernameOrEmail());
-        
-        if (user == null || !user.isActive()) {
+        Role role = roleService.findByName("REGULAR");
+        if (user == null || !user.isActive() || !user.getRole().equals(role)) {
     		Logger.getInstance().log("Unsuccessful login atempt with inactive username: "+loginRequest.getUsernameOrEmail());
         	return new ResponseEntity<>("User is not activated yet", HttpStatus.BAD_REQUEST);
         }
@@ -122,10 +122,10 @@ public class AuthController {
     @GetMapping("/signout")
     public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username= auth.getName();
         if (auth != null){    
+        	String username= auth.getName();
             new SecurityContextLogoutHandler().logout(request, response, auth);
-            Logger.getInstance().log("Successful logout from username: "+username);
+            Logger.getInstance().log("Successful logout from username: " + username);
             return true;
         }
         return false;
@@ -150,16 +150,20 @@ public class AuthController {
         }        
       
         Matcher matcher = pattern.matcher(signUpRequest.getEmail());
-
+        Matcher matcherUsername = pattern.matcher(signUpRequest.getUsername());
         if (!matcher.matches()) {
         	return new ResponseEntity<>(new RegistrationResponse(false, "Email format is not valid."), HttpStatus.BAD_REQUEST);
         }
         
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
         	return new ResponseEntity<>(new RegistrationResponse(false, "Email address is already in use!"), HttpStatus.BAD_REQUEST);
         }
         
-        if(!signUpRequest.getPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")){
+        if (matcherUsername.matches()) {
+         	return new ResponseEntity<>(new RegistrationResponse(false, "You can't use email as username."), HttpStatus.BAD_REQUEST);
+        }
+        
+        if (!signUpRequest.getPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.!?^&@#$%]).{6,20})")){
     		return new ResponseEntity<>(new RegistrationResponse(true, "Password must be at least 10 characters long and contain at least one upper case letter, one lower case letter and a number"), HttpStatus.BAD_REQUEST);
     	}
         

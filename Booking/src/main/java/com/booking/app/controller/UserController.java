@@ -89,9 +89,13 @@ public class UserController {
 			return new ResponseEntity<>("Wrong password.", HttpStatus.BAD_REQUEST);
 		}
 		
-	    if (!userRequest.getNewPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*.!?^&@#$%]).{6,20})")) {
+	    if (!userRequest.getNewPassword().equals("") && !userRequest.getNewPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.!?^&@#$%]).{6,20})")) {
     		return new ResponseEntity<>("Password must be at least 10 characters long and contain at least one upper case letter, one lower case letter, a number and one special character(.!?^&@#$%)", HttpStatus.BAD_REQUEST);
     	}
+	    
+		if (!userRequest.getNewPassword().equals(userRequest.getConfirmPassword())) {
+			return new ResponseEntity<>("New password and confirm password are not the same.", HttpStatus.BAD_REQUEST);
+		}
 	    
 	    Matcher matcher = pattern.matcher(userRequest.getEmail());
 		
@@ -99,13 +103,22 @@ public class UserController {
 	    	return new ResponseEntity<>("Email format is not valid.", HttpStatus.BAD_REQUEST);
         }
 	   
-		if (!userRequest.getNewPassword().equals(userRequest.getConfirmPassword())) {
-			return new ResponseEntity<>("New password and confirm password are not the same.", HttpStatus.BAD_REQUEST);
-		}
+
 				
 		user.setAddress(userRequest.getAddress());
+		
+		if (!user.getEmail().equals(userRequest.getEmail()) && !userRequest.getEmail().equals("")) {
+			User testUser = userService.findByEmail(userRequest.getEmail());
+			if (testUser != null) {
+				return new ResponseEntity<>("User with this email already exists.", HttpStatus.BAD_REQUEST);
+			}
+		}
+		
 		user.setEmail(userRequest.getEmail());
-		user.setPassword(bCryptPasswordEncoder.encode(userRequest.getNewPassword()));
+		if (!userRequest.getNewPassword().equals("")) {
+			user.setPassword(bCryptPasswordEncoder.encode(userRequest.getNewPassword()));	
+		}
+		
 		user.setName(userRequest.getName());
 		user.setLastName(user.getLastName());
 		

@@ -92,6 +92,7 @@ export default function(state = initialState, action) {
                 isLoggingOut: false,
                 user: "",
                 token: "",
+                error: "",
             };
 
         case LogoutFailure: 
