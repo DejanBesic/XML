@@ -89,6 +89,7 @@ public class UserController {
 			return new ResponseEntity<>("Wrong password.", HttpStatus.BAD_REQUEST);
 		}
 		
+
 	    if (!userRequest.getNewPassword().equals("") && !userRequest.getNewPassword().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.!?^&@#$%]).{6,20})")) {
     		return new ResponseEntity<>("Password must be at least 10 characters long and contain at least one upper case letter, one lower case letter, a number and one special character(.!?^&@#$%)", HttpStatus.BAD_REQUEST);
     	}
