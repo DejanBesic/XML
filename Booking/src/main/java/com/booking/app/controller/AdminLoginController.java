@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.booking.app.DTOs.JwtAuthenticationResponse;
 import com.booking.app.DTOs.LoginRequest;
 import com.booking.app.logger.Logger;
+import com.booking.app.model.JwtBlocked;
 import com.booking.app.security.JwtTokenProvider;
+import com.booking.app.service.impl.JwtBlacklistServiceImpl;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -33,6 +36,9 @@ public class AdminLoginController {
     
     @Autowired
     JwtTokenProvider tokenProvider;
+    
+    @Autowired
+    JwtBlacklistServiceImpl jwtService;
     //lll
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws IOException {
@@ -60,7 +66,7 @@ public class AdminLoginController {
     	
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-        
+        jwtService.save(new JwtBlocked(jwt, true));
         Logger.getInstance().log("Successful login with username: "+loginRequest.getUsernameOrEmail());
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     	
@@ -69,8 +75,10 @@ public class AdminLoginController {
     @GetMapping("/logout")
     public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username= auth.getName();
         if (auth != null){    
+            String username= auth.getName();        	
+    
+        	
             new SecurityContextLogoutHandler().logout(request, response, auth);
             Logger.getInstance().log("Successful logout from username: "+username);
             return true;
@@ -85,5 +93,13 @@ public class AdminLoginController {
                         password
                 )
         );
+    }
+    
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
     }
 }
