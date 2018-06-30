@@ -51,6 +51,10 @@
 					Subject Username:
 					<input id="subjectName1" type="text" class="form-control" name="email"/>
 				</span>
+				<span>
+					CA:
+					<label><input type="checkbox" id="isCA" name="ca"> CA</label>
+				</span>
 				<div style=" padding-top: 10px; text-align: right;">
 				    <button type="button" style="margin-right: 10px;" onClick="newCer()">Create</button>
    				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
@@ -77,14 +81,6 @@
 					<input id="endDate" type="text" class="form-control" name="pmb"/>
 				</span>
 				<span>
-					Subject:
-					<input id="subject" type="text" class="form-control" name="email"/>
-				</span>
-				<span>
-					Issuer:
-					<input id="issuer" type="text" class="form-control" name="email"/>
-				</span>
-				<span>
 					Password:
 					<input id="password" type="password" class="form-control" name="email"/>
 				</span>
@@ -102,6 +98,32 @@
 				</span>
 				<div style=" padding-top: 10px; text-align: right;">
 				    <button type="button" style="margin-right: 10px;" onClick="revokea()">Revoke</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+		
+		<div class="col-sm-4">
+			<form id="isRevokedForm">
+				<span>
+					Enter SN to check if the certificate is revoked:
+					<input id="isRevoked" type="text" class="form-control" name="name"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="isRevoked()">Check</button>
+   				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
+			    </div>
+			</form>
+		</div>
+		
+		<div class="col-sm-4">
+			<form id="downloadForm">
+				<span>
+					Enter SN to download the certificate:
+					<input id="snDownload" type="text" class="form-control" name="name"/>
+				</span>
+				<div style=" padding-top: 10px; text-align: right;">
+				    <button type="button" style="margin-right: 10px;" onClick="downloadCert()">Download</button>
    				    <button type="button" class="return" style="margin-right: 10px;" onClick="returnt()">Cancel</button>
 			    </div>
 			</form>

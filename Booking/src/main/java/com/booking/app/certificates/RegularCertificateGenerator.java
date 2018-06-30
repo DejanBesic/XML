@@ -23,6 +23,8 @@ import com.booking.app.model.User;
 
 public class RegularCertificateGenerator {
 	
+	private X509Certificate newCert;
+	
 	public RegularCertificateGenerator( String cn, String pass3, String startDate, String endDate,
 			String alias, String pass2, String issuerAlias, User subject, User user, boolean ca) throws IOException{
 		
@@ -48,7 +50,7 @@ public class RegularCertificateGenerator {
 			//Korisnik user = korisnici.getKorisnici().get(subject);
 			
 			
-			X509Certificate newCert = cg.generateCertificate(subjectData, issuerData, ca);
+			newCert = cg.generateCertificate(subjectData, issuerData, ca);
 			KeyStoreWriter ksw = new KeyStoreWriter();
 			String pass = "123456";
 			String ks;
@@ -136,5 +138,13 @@ public class RegularCertificateGenerator {
 			e.printStackTrace();
 		}
         return null;
+	}
+
+	public X509Certificate getNewCert() {
+		return newCert;
+	}
+
+	public void setNewCert(X509Certificate newCert) {
+		this.newCert = newCert;
 	}
 }

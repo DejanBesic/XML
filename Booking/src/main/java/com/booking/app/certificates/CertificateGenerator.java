@@ -5,8 +5,21 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+import org.bouncycastle.asn1.ASN1EncodableVector;
+import org.bouncycastle.asn1.DEREncodableVector;
+import org.bouncycastle.asn1.DERIA5String;
+import org.bouncycastle.asn1.DERSequence;
+import org.bouncycastle.asn1.x509.AccessDescription;
+import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.CRLDistPoint;
+import org.bouncycastle.asn1.x509.DistributionPoint;
+import org.bouncycastle.asn1.x509.DistributionPointName;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.X509Extension;
+import org.bouncycastle.asn1.x509.X509Extensions;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
@@ -45,6 +58,30 @@ public class CertificateGenerator {
 		            X509Extension.basicConstraints,
 		            false,
 		            new BasicConstraints(ca));
+			
+			
+			
+			//AIA
+			AccessDescription ocsp = new AccessDescription(AccessDescription.id_ad_ocsp,
+			        new GeneralName(GeneralName.uniformResourceIdentifier, new DERIA5String("http://localhost:1312/revoked.txt")));
+			 
+			ASN1EncodableVector aia_ASN = new ASN1EncodableVector();
+			aia_ASN.add(ocsp);
+			certGen.addExtension(Extension.authorityInfoAccess, false, new DERSequence(aia_ASN));
+			
+			
+			//CRL Distribution Points
+			DistributionPointName distPointOne = new DistributionPointName(new GeneralNames(
+			        new GeneralName(GeneralName.uniformResourceIdentifier,"http://crl.somewebsite.com/master.crl")));
+			
+			DistributionPoint[] distPoints = new DistributionPoint[1];
+			distPoints[0] = new DistributionPoint(distPointOne, null, null);
+			
+			certGen.addExtension(Extension.cRLDistributionPoints, false, new CRLDistPoint(distPoints));
+			
+			
+			
+			
 			//Generise se sertifikat
 			X509CertificateHolder certHolder = certGen.build(contentSigner);
 

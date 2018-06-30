@@ -17,8 +17,6 @@ function selfCer(){
 	data.startDate = $("#startDate").val();
 	data.endDate = $("#endDate").val();
 	data.password = $("#password").val();
-	data.subject = $("#subject").val();
-	data.issuer = $("#issuer").val();
 	
 	$.ajax({
     	url: "../api/cert/selfSignedCertificate",
@@ -50,11 +48,58 @@ function newCer(){
 	data.issuerAlias = $("#issuerAlias1").val();
 	data.subjectUsername = $("#subjectName1").val();
 	
+	if($("#isCA").is(":checked")){
+		alert();
+		$.ajax({
+	    	url: "../api/cert/newCertificate",
+			data: JSON.stringify(data),
+			type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			headers: {
+				Authorization :"Bearer "+token
+			},
+	        success: function (data) {
+	        	window.location.href = "../Certificates.html";
+	        }, 
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr);
+
+			}
+		}); 
+	}else{
+		alert("a");
+		$.ajax({
+	    	url: "../api/cert/newUserCertificate",
+			data: JSON.stringify(data),
+			type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			headers: {
+				Authorization :"Bearer "+token
+			},
+	        success: function (data) {
+	        	window.location.href = "../Certificates.html";
+	        }, 
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr);
+
+			}
+		}); 
+	}
+	
+
+}
+
+function revokea(){
+	var data = new Object();
+	data.s = $("#revoke").val();
+	
 	$.ajax({
-    	url: "../api/cert/newCertificate",
-		data: JSON.stringify(data),
+    	url: "../api/cert/revoke",
+		data: data.s,
 		type: "POST",
-		contentType: "application/json",
+		contentType: "application/text",
 		dataType: "json",
 		headers: {
 			Authorization :"Bearer "+token
@@ -69,23 +114,53 @@ function newCer(){
 	}); 
 }
 
-function revokea(){
+function isRevoked(){
 	var data = new Object();
-	data.s = $("#revoke").val();
+	data.s = $("#isRevoked").val();
 	
 	$.ajax({
-    	url: "../api/cert/revoke",
-		data: JSON.stringify(data),
+    	url: "../api/cert/isRevoked",
+		data: data.s,
 		type: "POST",
-		contentType: "application/json",
+		contentType: "application/text",
 		dataType: "json",
 		headers: {
 			Authorization :"Bearer "+token
 		},
         success: function (data) {
+        	if(data==true){
+        		alert("Certificate is revoked");
+        	}
+        	if(data==false){
+        		alert("Certificate is not revoked");
+        	}
+        	
         	window.location.href = "../Certificates.html";
         }, 
 		error: function(xhr, ajaxOptions, thrownError){
+			alert("Certificate with entered SN does not exist");
+			console.log(xhr);
+
+		}
+	}); 
+}
+
+function downloadCert(){
+	var data = new Object();
+	data.s = $("#snDownload").val();
+	
+	$.ajax({
+    	url: "../api/cert/" + data.s,
+		type: "GET",
+		headers: {
+			Authorization :"Bearer "+token
+		},
+        success: function (data) {
+        	alert("Certificate downloaded");
+        	window.location.href = "../Certificates.html";
+        }, 
+		error: function(xhr, ajaxOptions, thrownError){
+        	alert("Certificate does not exist");
 			console.log(xhr);
 
 		}
