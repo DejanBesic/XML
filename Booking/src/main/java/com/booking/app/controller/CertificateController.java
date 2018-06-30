@@ -49,7 +49,6 @@ public class CertificateController {
     UserRepository userRepository;
 	
     @PermissionAnnotation(name = "SELF_SIGNED_CERTIFICATE")
-    @CrossOrigin
 	@RequestMapping(value="/selfSignedCertificate", method = RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<?> generateSelfSignedCertificate(@RequestBody CertificateDTO cert) throws CertIOException{
 		
@@ -66,7 +65,6 @@ public class CertificateController {
 	}
 	
     @PermissionAnnotation(name = "NEW_CERTIFICATE")
-    @CrossOrigin
 	@RequestMapping(value="/newCertificate", method = RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<?> generateNewCertificate(@RequestBody NewCertificateDTO cert) throws IOException{
 		
@@ -86,7 +84,6 @@ public class CertificateController {
 	}
 	
     @PermissionAnnotation(name = "REVOKE_CERTIFICATE")
-    @CrossOrigin
 	@RequestMapping(value="/revoke", method = RequestMethod.POST)
 	public void revokeCertificate(@RequestBody String s) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
 		KeyStoreReader ksr = new KeyStoreReader();

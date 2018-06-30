@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,11 +32,13 @@ import com.booking.app.DTOs.RegistrationResponse;
 import com.booking.app.DTOs.RequestResetPassword;
 import com.booking.app.DTOs.SignUpRequest;
 import com.booking.app.logger.Logger;
+import com.booking.app.model.JwtBlocked;
 import com.booking.app.model.Role;
 import com.booking.app.model.User;
 import com.booking.app.repository.UserRepository;
 import com.booking.app.security.JwtTokenProvider;
 import com.booking.app.service.impl.EmailServiceImpl;
+import com.booking.app.service.impl.JwtBlacklistServiceImpl;
 import com.booking.app.service.impl.RoleServiceImpl;
 
 @RestController
@@ -59,6 +62,9 @@ public class AuthController {
 
     @Autowired
     JwtTokenProvider tokenProvider;
+    
+    @Autowired
+    JwtBlacklistServiceImpl jwtService;
     
     public static final Pattern pattern = 
     	    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -84,7 +90,9 @@ public class AuthController {
     		Logger.getInstance().log("Unsuccessful login atempt with inactive username: "+loginRequest.getUsernameOrEmail());
         	return new ResponseEntity<>("User is not activated yet", HttpStatus.BAD_REQUEST);
         }
+        
 		Logger.getInstance().log("Successful login with username: "+loginRequest.getUsernameOrEmail());
+		jwtService.save(new JwtBlocked(jwt, true));
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);
     }
     
@@ -121,10 +129,16 @@ public class AuthController {
     
     @GetMapping("/signout")
     public boolean logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();        
         if (auth != null){    
         	String username= auth.getName();
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+        	String jwt = getJwtFromRequest(request);
+        	
+        	JwtBlocked jwtBlocked = jwtService.findByJwt(jwt);
+        	jwtBlocked.setActive(false);
+        	jwtService.save(jwtBlocked);
+        	
+            new SecurityContextLogoutHandler().logout(request, response, auth);            
             Logger.getInstance().log("Successful logout from username: " + username);
             return true;
         }
@@ -218,5 +232,13 @@ public class AuthController {
                         password
                 )
         );
+    }
+    
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
     }
 }

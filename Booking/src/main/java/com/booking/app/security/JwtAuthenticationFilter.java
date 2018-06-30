@@ -1,5 +1,12 @@
 package com.booking.app.security;
 
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +17,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.booking.app.model.JwtBlocked;
+import com.booking.app.service.impl.JwtBlacklistServiceImpl;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -23,6 +27,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    
+    @Autowired
+    private JwtBlacklistServiceImpl jwtService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -31,7 +38,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwtFromRequest(request);
 
-            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            JwtBlocked jwtBlocked = jwtService.findByJwt(jwt);
+            
+            
+            
+            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt) && jwtBlocked != null && jwtBlocked.isActive()) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
 
                 /*
