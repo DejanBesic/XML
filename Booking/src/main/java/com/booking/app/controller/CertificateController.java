@@ -131,8 +131,9 @@ public class CertificateController {
     
     
     @RequestMapping(value="/isRevoked", method = RequestMethod.POST)
-	public ResponseEntity<?> isRevoked(@RequestBody String s) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
+	public ResponseEntity<?> isRevoked(@RequestBody String ss) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
 		KeyStoreReader ksr = new KeyStoreReader();
+		String s = ss.substring(0, ss.length() - 1);
 		X509Certificate cert = ksr.getCertificateBySN(new BigInteger(s));
 		if(cert != null){
 //			ClassLoader classLoader = getClass().getClassLoader();

@@ -27,6 +27,9 @@ class Header extends Component {
             <li style={li}>
                 <Link to="/register">Register</Link>
             </li>
+            <li style={li}>
+                <Link to="/certificates">Certificates</Link>
+            </li>
         </ul>
     render() {
         return(
@@ -46,6 +49,9 @@ class Header extends Component {
 
                         <li style={li}>
                             <Link to="/main">Main page</Link>
+                        </li>
+                        <li style={li}>
+                            <Link to="/certificates">Certificates</Link>
                         </li>
                     </div>
                     :

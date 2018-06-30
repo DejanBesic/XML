@@ -14,6 +14,7 @@ import Settings from './Settings/Settings';
 import MessagesPage from './Messages/MessagesPage';
 import ConfirmationPage from './Authentication/ConfirmationPage';
 import ForgottenPassword from './Authentication/ForgottenPassword';
+import Certificates from './Certificates/Certificates';
 
 class App extends Component {  
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route path="/messages" component={MessagesPage}/>
                 <Route path="/confirm/:token" component={ConfirmationPage}/>
                 <Route path="/forgottenPassword" component={ForgottenPassword}/>
+                <Route path="/certificates" component={Certificates} />
               </div>
             </Router>
           </PersistGate>
